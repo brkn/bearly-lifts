@@ -35,36 +35,38 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
            "expected the newer session (JUN 12) to appear before the older session (JUN 8)"
   end
 
-  test "show renders the session heading, stats, and exercises grouped by primary muscle" do
+  test "show renders the session header, stats, worked muscles, and exercises in position order" do
     session = build_push_session
 
     get session_path(session)
 
     assert_response :success
-    assert_select "h1", /JUN 8/
+    assert_select ".greeting .when", /JUN 8/
 
-    assert_includes response.body, "48 min"
-    assert_includes response.body, "RPE 7"
-    assert_includes response.body, "2 lifts"
+    assert_select ".stats", /48 min/
+    assert_select ".stats", /RPE 7/
+    assert_select ".stats", /2 lifts/
 
     assert_select ".worked", /Chest/
     assert_select ".worked", /Side Delts/
 
-    assert_select ".muscle-group h2", "CHEST"
-    assert_select ".muscle-group h2", "SIDE DELTS"
-
     assert_includes response.body, "10x30 · 10x30 · 8x30 kg"
     assert_includes response.body, "12x7.5 · 12x7.5 · 12x7.5 · 12x7.5 kg"
     assert_includes response.body, "+1 rep on set 1 vs Jun 2"
+
+    assert_select ".muscle-group", false
+
+    assert response.body.index("Incline DB Press") < response.body.index("Cable Lateral Raise"),
+           "expected exercises to render in position order"
   end
 
-  test "show omits the duration badge when duration_minutes is blank" do
+  test "show omits the duration from the stats line when duration_minutes is blank" do
     session = build_push_session(duration_minutes: nil)
 
     get session_path(session)
 
     assert_response :success
-    assert_select ".badge", { text: /min/, count: 0 }
+    assert_select ".stats", { text: /min/, count: 0 }
   end
 
   private

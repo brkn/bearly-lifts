@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
   def show
     @session = Session
-               .includes(session_exercises: [:exercise_variation, :workout_sets, :primary_muscle])
+               .includes(:muscles, session_exercises: [:exercise_variation, :workout_sets])
                .find(params[:id])
   end
 end
