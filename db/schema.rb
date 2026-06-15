@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 20_260_614_174_607) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_15_042616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "exercise_muscles", primary_key: %w[session_exercise_id muscle_id], force: :cascade do |t|
+  create_table "exercise_muscles", primary_key: ["session_exercise_id", "muscle_id"], force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "is_primary", default: false, null: false
     t.uuid "muscle_id", null: false
@@ -34,8 +32,7 @@ ActiveRecord::Schema[8.1].define(version: 20_260_614_174_607) do
     t.string "weight_scheme"
     t.index ["exercise_id"], name: "index_exercise_variations_on_exercise_id"
     t.index ["exercise_id"], name: "unique_default_variation", unique: true, where: "is_default_variation"
-    t.check_constraint "weight_scheme::text = ANY (ARRAY['per_side'::character varying, 'bodyweight'::character varying, 'assisted'::character varying, 'machine'::character varying]::text[])",
-                       name: "weight_scheme_valid"
+    t.check_constraint "weight_scheme::text = ANY (ARRAY['per_side'::character varying, 'bodyweight'::character varying, 'assisted'::character varying, 'machine'::character varying]::text[])", name: "weight_scheme_valid"
   end
 
   create_table "exercises", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -53,8 +50,7 @@ ActiveRecord::Schema[8.1].define(version: 20_260_614_174_607) do
 
   create_table "session_exercises", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.uuid "exercise_variation_id"
-    t.string "name", null: false
+    t.uuid "exercise_variation_id", null: false
     t.text "notes"
     t.uuid "session_id", null: false
     t.datetime "updated_at", null: false

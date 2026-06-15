@@ -39,6 +39,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   def record_session(date, name:, muscles:)
     session = Session.create!(date: date, rpe: 7)
-    session.session_exercises.create!(name: name).muscles << muscles
+    variation = Exercise.create!(name: name).exercise_variations.create!(name: name)
+    session.session_exercises.create!(exercise_variation: variation).muscles << muscles
   end
 end
