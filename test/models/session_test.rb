@@ -23,7 +23,8 @@ class SessionTest < ActiveSupport::TestCase
 
   def add_exercise(session, name, primary_muscle)
     variation = Exercise.create!(name: name).exercise_variations.create!(name: name)
-    session_exercise = session.session_exercises.create!(exercise_variation: variation)
+    session_exercise = session.session_exercises.create!(exercise_variation: variation,
+                                                         position: session.session_exercises.count + 1,)
     session_exercise.exercise_muscles.create!(muscle: primary_muscle, is_primary: true)
     session_exercise
   end

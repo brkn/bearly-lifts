@@ -1,0 +1,191 @@
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --screen:#16130f; --card:#1f1b15; --raise:#2d2619;
+      --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+      --ink:#f3eee4; --sub:#9b9184; --faint:#6f665a;
+      --ember:#ff5a2c; --fresh:#46d6a4;
+      --disp:'Space Grotesk', system-ui, sans-serif;
+      --mono:'Space Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      background: #0c0a08;
+      font-family: var(--disp);
+      color: var(--ink);
+      padding: 40px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      max-width: 1180px;
+      min-height: 760px;
+      margin: 0 auto;
+      background: var(--screen);
+      border: 1px solid var(--line2);
+      border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* mono / shared atoms */
+    .mono { font-family: var(--mono); }
+    .eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sub); }
+    .diamond { width: 8px; height: 8px; background: var(--ember); transform: rotate(45deg); border-radius: 1px; flex-shrink: 0; display: inline-block; }
+    .diamond.fresh { background: var(--fresh); width: 7px; height: 7px; }
+
+    /* top bar */
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 11px; }
+    .brand .wordmark { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; font-weight: 700; }
+    .nav { display: flex; align-items: center; gap: 30px; }
+    .nav a { font-size: 14px; color: var(--sub); cursor: pointer; text-decoration: none; transition: color .12s; }
+    .nav a.active { color: var(--ink); }
+    .nav a:hover { color: var(--ink); }
+    .avatar { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line2); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--sub); margin-left: 6px; }
+
+    /* body */
+    .body { flex: 1; padding: 32px 40px 36px; display: flex; flex-direction: column; }
+    .greeting { display: flex; align-items: baseline; gap: 14px; margin-bottom: 26px; }
+    .greeting h1 { margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -.9px; line-height: 1; }
+    .greeting .when { font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; color: var(--sub); }
+
+    .grid { flex: 1; display: grid; grid-template-columns: 1.32fr 1fr; gap: 28px; min-height: 0; }
+
+    /* left column */
+    .left { display: flex; flex-direction: column; gap: 20px; }
+    .cadence { flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 26px 30px 30px; display: flex; flex-direction: column; }
+    .cadence .head { display: flex; align-items: center; justify-content: space-between; }
+    .cadence .head .label { display: flex; align-items: center; gap: 9px; }
+    .cadence .head .num { display: flex; align-items: baseline; gap: 8px; }
+    .cadence .head .num b { font-size: 22px; font-weight: 700; letter-spacing: -.5px; }
+    .cadence .head .num .unit { font-family: var(--mono); font-size: 11px; color: var(--sub); }
+    .cadence .head .num .delta { font-family: var(--mono); font-size: 11px; color: var(--fresh); }
+    .verdict { font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 1.12; margin-top: 22px; }
+    .lede { font-size: 14px; color: var(--faint); margin-top: 12px; line-height: 1.45; max-width: 380px; }
+    .spacer { flex: 1; min-height: 18px; }
+
+    /* baseline cadence chart (placeholder this iteration) */
+    .chart-wrap { max-width: 520px; }
+    .chart-placeholder { height: 150px; border: 1px dashed var(--line2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--faint); }
+    .axis { display: flex; justify-content: space-between; margin-top: 11px; }
+    .axis span { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; }
+    .axis .a-old { color: var(--faint); }
+    .axis .a-new { color: var(--ember); }
+
+    /* doors */
+    .doors { display: flex; gap: 14px; align-items: center; }
+    .btn { border-radius: 13px; font-family: var(--disp); font-weight: 600; letter-spacing: .2px; cursor: pointer; text-align: center; border: none; }
+    .btn.primary { flex: 1; font-size: 16px; padding: 17px 14px; background: var(--ember); color: #fff; box-shadow: 0 6px 16px rgba(255,90,44,.26); white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform .12s, box-shadow .12s; }
+    .btn.primary:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255,90,44,.34); }
+    .btn.primary .arrow { font-family: var(--mono); font-weight: 400; }
+    .btn.ghost { width: 210px; font-size: 15px; padding: 17px 14px; background: transparent; color: var(--ink); border: 1.5px solid var(--line2); transition: border-color .12s, color .12s; }
+    .btn.ghost:hover { border-color: rgba(255,255,255,.28); }
+
+    /* right column — recent sessions */
+    .sessions { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px 26px 14px; display: flex; flex-direction: column; min-height: 0; }
+    .sessions .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .sessions .seeall { font-family: var(--mono); font-size: 11px; color: var(--ember); cursor: pointer; text-decoration: none; }
+    .sessions .seeall:hover { text-decoration: underline; }
+    .slist { display: flex; flex-direction: column; }
+    .row { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid var(--line); cursor: pointer; transition: background .12s, padding-left .12s; }
+    .row:hover { background: rgba(255,255,255,.035); padding-left: 12px; }
+    .row .date { font-family: var(--mono); font-size: 11px; letter-spacing: .5px; color: var(--faint); width: 50px; flex-shrink: 0; }
+    .row .mid { flex: 1; min-width: 0; }
+    .row .muscles { font-size: 15px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .row .meta { font-family: var(--mono); font-size: 10.5px; color: var(--sub); margin-top: 4px; }
+    .row .chev { font-family: var(--mono); font-size: 15px; color: var(--faint); flex-shrink: 0; transition: color .12s, transform .12s; }
+    .row:hover .chev { color: var(--ember); transform: translateX(2px); }
+    .sessions .foot { display: flex; align-items: center; gap: 8px; padding: 12px 0 6px; border-top: 1px solid var(--line); margin-top: auto; }
+    .sessions .foot .stat { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+    .sessions .foot .stat b { color: var(--ink); font-weight: 700; }
+  </style>
+<% end %>
+
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="diamond"></span>
+      <span class="wordmark">IRON &amp; EMBER</span>
+    </div>
+    <nav class="nav">
+      <a class="active" href="#">Today</a>
+      <a href="#">History</a>
+      <a href="#">Progress</a>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="body">
+    <div class="greeting">
+      <h1><%= Date.current.strftime("%A") %></h1>
+      <span class="when"><%= Date.current.strftime("%b %-d").upcase %></span>
+    </div>
+
+    <div class="grid">
+      <section class="left">
+        <div class="cadence">
+          <div class="head">
+            <div class="label">
+              <span class="diamond fresh"></span>
+              <span class="eyebrow">Cadence</span>
+            </div>
+            <div class="num">
+              <b>2.7</b>
+              <span class="unit">/wk</span>
+              <span class="delta">↑ from 2.1</span>
+            </div>
+          </div>
+
+          <div class="verdict">Showing up more<br />over the last month</div>
+          <p class="lede">Your last 4 weeks are running ahead of your 8-week average — no streak to keep, just the trend.</p>
+
+          <div class="spacer"></div>
+
+          <div class="chart-wrap">
+            <div class="chart-placeholder">CADENCE CHART</div>
+            <div class="axis">
+              <span class="a-old">8-WK AVG</span>
+              <span class="a-new">LAST 4 WKS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="doors">
+          <button class="btn primary">Plan a session <span class="arrow">→</span></button>
+          <button class="btn ghost">Log a past session</button>
+        </div>
+      </section>
+
+      <aside class="sessions">
+        <div class="head">
+          <span class="eyebrow">Recent sessions</span>
+          <%= link_to "See all →", sessions_path, class: "seeall" %>
+        </div>
+        <div class="slist">
+          <% @sessions.each do |session| %>
+            <div class="row">
+              <span class="date"><%= session.date.strftime("%b %-d").upcase %></span>
+              <div class="mid">
+                <div class="muscles"><%= session.muscles.map(&:name).uniq.sort.join(" · ") %></div>
+                <div class="meta">
+                  <% if session.duration_minutes %><%= session.duration_minutes %> min · <% end %><%= pluralize(session.session_exercises.size, "lift") %>
+                </div>
+              </div>
+              <span class="chev">›</span>
+            </div>
+          <% end %>
+        </div>
+        <div class="foot">
+          <span class="stat"><b><%= @total_count %></b> sessions logged · <b><%= @month_count %></b> this month</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>

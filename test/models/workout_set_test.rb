@@ -14,7 +14,7 @@ class WorkoutSetTest < ActiveSupport::TestCase
   def build_set(reps:, weight:)
     session = Session.create!(date: Time.zone.local(2026, 6, 8, 12), rpe: 7)
     variation = Exercise.create!(name: "Incline DB Press").exercise_variations.create!(name: "Incline DB Press")
-    session_exercise = session.session_exercises.create!(exercise_variation: variation)
+    session_exercise = session.session_exercises.create!(exercise_variation: variation, position: 1)
     session_exercise.workout_sets.create!(reps: reps, weight: weight)
   end
 end

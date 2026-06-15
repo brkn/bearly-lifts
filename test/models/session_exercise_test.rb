@@ -26,6 +26,6 @@ class SessionExerciseTest < ActiveSupport::TestCase
   def build_session_exercise
     session = Session.create!(date: Time.zone.local(2026, 6, 8, 12), rpe: 7)
     variation = Exercise.create!(name: "Bench Press").exercise_variations.create!(name: "Bench Press")
-    session.session_exercises.create!(exercise_variation: variation)
+    session.session_exercises.create!(exercise_variation: variation, position: 1)
   end
 end

@@ -34,6 +34,9 @@ Metrics/MethodLength:
   Max: 15
   AllowedMethods: setup
 
+Metrics/AbcSize:
+  AllowedMethods: setup
+
 AllCops:
   NewCops: enable
   Exclude:

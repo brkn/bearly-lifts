@@ -72,7 +72,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   def record_session(date, name:, muscles:)
     session = Session.create!(date: date, rpe: 7)
     variation = Exercise.create!(name: name).exercise_variations.create!(name: name)
-    session.session_exercises.create!(exercise_variation: variation).muscles << muscles
+    session.session_exercises.create!(exercise_variation: variation, position: 1).muscles << muscles
   end
 
   def build_push_session(duration_minutes: 48)
@@ -93,7 +93,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   def add_exercise(session, name, primary_muscle, notes: nil)
     variation = Exercise.create!(name: name).exercise_variations.create!(name: name)
-    session_exercise = session.session_exercises.create!(exercise_variation: variation, notes: notes)
+    session_exercise = session.session_exercises.create!(exercise_variation: variation, notes: notes,
+                                                         position: session.session_exercises.count + 1,)
     session_exercise.exercise_muscles.create!(muscle: primary_muscle, is_primary: true)
     session_exercise
   end

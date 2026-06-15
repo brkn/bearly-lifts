@@ -13,6 +13,5 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:index, :show]
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
 end

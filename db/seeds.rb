@@ -52,14 +52,14 @@ def add_exercise(session, variation, sets:, muscles: [], notes: nil)
   session_exercise
 end
 
-may_10 = log_session(
+may10 = log_session(
   date: Date.new(2026, 5, 10),
   rpe: 7,
   duration_minutes: 40,
   notes: "Pull day. Seated rows hit a new 45kg ceiling.",
 )
 add_exercise(
-  may_10, lat_pulldown,
+  may10, lat_pulldown,
   muscles: [muscles["Back"], muscles["Arms"]],
   sets: [
     { reps: 12, weight: 35 },
@@ -68,7 +68,7 @@ add_exercise(
   ],
 )
 add_exercise(
-  may_10, seated_row,
+  may10, seated_row,
   muscles: [muscles["Back"], muscles["Arms"]],
   notes: "New 45kg ceiling — 13/11/12 at 0 RIR.",
   sets: [
@@ -78,7 +78,7 @@ add_exercise(
   ],
 )
 add_exercise(
-  may_10, rear_delt_fly,
+  may10, rear_delt_fly,
   muscles: [muscles["Shoulders"]],
   sets: [
     { reps: 12, weight: 6 },
@@ -86,14 +86,14 @@ add_exercise(
   ],
 )
 
-may_21 = log_session(
+may21 = log_session(
   date: Date.new(2026, 5, 21),
   rpe: 7,
   duration_minutes: 42,
   notes: "Push day. Tricep 27.5kg held, rear delt 8kg felt easy.",
 )
 add_exercise(
-  may_21, tricep_overhead,
+  may21, tricep_overhead,
   muscles: [muscles["Arms"]],
   notes: "3×12 at 27.5kg, set-3 shake. Holding the weight.",
   sets: [
@@ -103,7 +103,7 @@ add_exercise(
   ],
 )
 add_exercise(
-  may_21, rear_delt_fly,
+  may21, rear_delt_fly,
   muscles: [muscles["Shoulders"]],
   notes: "Tested 8kg, felt easy — predict ready to own it.",
   sets: [
@@ -113,7 +113,7 @@ add_exercise(
   ],
 )
 add_exercise(
-  may_21, lateral_raise,
+  may21, lateral_raise,
   muscles: [muscles["Shoulders"]],
   notes: "Working sets at 5kg/hand.",
   sets: [
@@ -123,14 +123,14 @@ add_exercise(
   ],
 )
 
-may_28 = log_session(
+may28 = log_session(
   date: Date.new(2026, 5, 28),
   rpe: 7,
   duration_minutes: 35,
   notes: "Pull skip streak broken. Lat pulldown 37.5kg opened. Sleep 8h, big meal 1h prior.",
 )
 add_exercise(
-  may_28, tricep_overhead,
+  may28, tricep_overhead,
   muscles: [muscles["Arms"]],
   notes: "Second straight 3×12 at 27.5kg. Matches May 21. Consolidated, not yet earned the bump.",
   sets: [
@@ -140,13 +140,13 @@ add_exercise(
   ],
 )
 add_exercise(
-  may_28, shoulder_press,
+  may28, shoulder_press,
   muscles: [muscles["Shoulders"], muscles["Arms"]],
   notes: "First time on this machine. 30kg (15kg/side) too heavy — baseline, drop load next time.",
   sets: [{ reps: 6, weight: 30, rir: 0, notes: "failed, 15kg/side" }],
 )
 add_exercise(
-  may_28, rear_delt_fly,
+  may28, rear_delt_fly,
   muscles: [muscles["Shoulders"]],
   notes: "Clean 3×12 with room to spare — ready to progress.",
   sets: [
@@ -156,7 +156,7 @@ add_exercise(
   ],
 )
 add_exercise(
-  may_28, lat_pulldown,
+  may28, lat_pulldown,
   muscles: [muscles["Back"], muscles["Arms"]],
   notes: "First 37.5kg via DB-on-stack workaround. Repeat before pushing to 40.",
   sets: [
@@ -166,7 +166,7 @@ add_exercise(
   ],
 )
 add_exercise(
-  may_28, seated_row,
+  may28, seated_row,
   muscles: [muscles["Back"], muscles["Arms"]],
   notes: "Consolidating 45kg ceiling from May 10. Two sets — session cut short.",
   sets: [
