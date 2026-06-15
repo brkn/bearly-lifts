@@ -1,0 +1,10 @@
+<h1>RECENT</h1>
+
+<ul>
+  <% @sessions.each do |session| %>
+    <li class="session">
+      <h2><%= session.date.strftime("%b %-d").upcase %></h2>
+      <p><%= session.muscles.map(&:name).uniq.sort.join(" · ") %></p>
+    </li>
+  <% end %>
+</ul>
