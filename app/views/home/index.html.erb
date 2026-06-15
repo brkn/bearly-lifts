@@ -94,7 +94,7 @@
     .sessions .seeall { font-family: var(--mono); font-size: 11px; color: var(--ember); cursor: pointer; text-decoration: none; }
     .sessions .seeall:hover { text-decoration: underline; }
     .slist { display: flex; flex-direction: column; }
-    .row { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid var(--line); cursor: pointer; transition: background .12s, padding-left .12s; }
+    .row { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid var(--line); cursor: pointer; color: inherit; text-decoration: none; transition: background .12s, padding-left .12s; }
     .row:hover { background: rgba(255,255,255,.035); padding-left: 12px; }
     .row .date { font-family: var(--mono); font-size: 11px; letter-spacing: .5px; color: var(--faint); width: 50px; flex-shrink: 0; }
     .row .mid { flex: 1; min-width: 0; }
@@ -170,7 +170,7 @@
         </div>
         <div class="slist">
           <% @sessions.each do |session| %>
-            <div class="row">
+            <%= link_to session_path(session), class: "row" do %>
               <span class="date"><%= session.date.strftime("%b %-d").upcase %></span>
               <div class="mid">
                 <div class="muscles"><%= session.muscles.map(&:name).uniq.sort.join(" · ") %></div>
@@ -179,7 +179,7 @@
                 </div>
               </div>
               <span class="chev">›</span>
-            </div>
+            <% end %>
           <% end %>
         </div>
         <div class="foot">

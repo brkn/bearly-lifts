@@ -35,6 +35,14 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
            "expected the newer session (JUN 14) to appear before the older session (JUN 6)"
   end
 
+  test "index links each session row to its show page" do
+    get root_path
+
+    Session.order(date: :desc).limit(5).each do |session|
+      assert_select "a.row[href=?]", session_path(session)
+    end
+  end
+
   test "index shows muscles worked in recent sessions" do
     get root_path
 
