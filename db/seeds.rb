@@ -40,7 +40,11 @@ def log_session(date:, rpe:, duration_minutes:, notes:)
 end
 
 def add_exercise(session, variation, sets:, muscles: [], notes: nil)
-  session_exercise = session.session_exercises.create!(exercise_variation: variation, notes:)
+  session_exercise = session.session_exercises.create!(
+    exercise_variation: variation,
+    position: session.session_exercises.count + 1,
+    notes:,
+  )
   sets.each { |attributes| session_exercise.workout_sets.create!(**attributes) }
   muscles.each.with_index do |muscle, index|
     session_exercise.exercise_muscles.create!(muscle:, is_primary: index.zero?)

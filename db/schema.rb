@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_15_044420) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_15_123012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,7 +32,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_15_044420) do
     t.string "weight_scheme"
     t.index ["exercise_id"], name: "index_exercise_variations_on_exercise_id"
     t.index ["exercise_id"], name: "unique_default_variation", unique: true, where: "is_default_variation"
-    t.check_constraint "weight_scheme::text = ANY (ARRAY['per_side'::character varying, 'bodyweight'::character varying, 'assisted'::character varying, 'machine'::character varying]::text[])", name: "weight_scheme_valid"
+    t.check_constraint "weight_scheme::text = ANY (ARRAY['per_side'::character varying::text, 'bodyweight'::character varying::text, 'assisted'::character varying::text, 'machine'::character varying::text])", name: "weight_scheme_valid"
   end
 
   create_table "exercises", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -52,9 +52,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_15_044420) do
     t.datetime "created_at", null: false
     t.uuid "exercise_variation_id", null: false
     t.text "notes"
+    t.integer "position", null: false
     t.uuid "session_id", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_variation_id"], name: "index_session_exercises_on_exercise_variation_id"
+    t.index ["session_id", "position"], name: "index_session_exercises_on_session_id_and_position", unique: true
     t.index ["session_id"], name: "index_session_exercises_on_session_id"
   end
 
