@@ -1,6 +1,5 @@
 plugins:
   - rubocop-rails
-  - rubocop-rspec
   - rubocop-performance
 
 Style/Documentation:
@@ -19,25 +18,10 @@ Style/TrailingCommaInArguments:
 Style/SymbolArray:
   Enabled: false
 
-RSpec/MultipleMemoizedHelpers:
-  Enabled: false
-RSpec/NestedGroups:
-  Enabled: false
-RSpec/ImplicitBlockExpectation:
-  Enabled: false
-RSpec/MultipleExpectations:
-  Enabled: false
-
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"
     - "config/routes.rb"
-
-AllCops:
-  NewCops: enable
-  Exclude:
-    - 'bin/**/*'
-    - 'db/schema.rb'
 
 ## Rules I'm not sure about
 Rails/SkipsModelValidations:
@@ -49,3 +33,9 @@ Rails/HasManyOrHasOneDependent:
 Metrics/MethodLength:
   Max: 15
   AllowedMethods: setup
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
