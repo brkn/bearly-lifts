@@ -1,0 +1,28 @@
+<h1><%= link_to "←", sessions_path %> <%= @session.date.strftime("%b %-d").upcase %></h1>
+
+<div class="stats">
+  <% if @session.duration_minutes %>
+    <span class="badge"><%= @session.duration_minutes %> min</span>
+  <% end %>
+  <span class="badge">RPE <%= @session.rpe %></span>
+  <span class="badge"><%= pluralize(@session.session_exercises.size, "lift") %></span>
+</div>
+
+<% exercises_by_muscle = @session.exercises_by_primary_muscle %>
+
+<p class="worked">Worked: <%= exercises_by_muscle.keys.compact.map(&:name).join(", ") %></p>
+
+<% exercises_by_muscle.each do |muscle, exercises| %>
+  <section class="muscle-group">
+    <h2><%= muscle&.name.to_s.upcase %></h2>
+    <% exercises.each do |exercise| %>
+      <div class="session-exercise">
+        <h3><%= exercise.name %></h3>
+        <p class="sets"><%= exercise.workout_sets.sort_by(&:created_at).map(&:summary).join(" · ") %> kg</p>
+        <% if exercise.notes.present? %>
+          <p class="note"><%= exercise.notes %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </section>
+<% end %>
