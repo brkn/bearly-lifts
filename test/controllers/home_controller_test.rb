@@ -43,6 +43,12 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "index links the History nav item to the sessions page" do
+    get root_path
+
+    assert_select "nav.nav a[href=?]", sessions_path, text: "History"
+  end
+
   test "index shows muscles worked in recent sessions" do
     get root_path
 
