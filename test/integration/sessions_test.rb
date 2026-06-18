@@ -7,7 +7,7 @@ class SessionsTest < ActionDispatch::IntegrationTest
     get sessions_path
 
     assert_response :success
-    assert_select "h1", "RECENT"
-    assert_select ".session", 2
+    assert_select "h1", "History"
+    assert_select "a[href*='/sessions/']", 2
   end
 end

@@ -7,13 +7,13 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     get sessions_path
 
     assert_response :success
-    assert_select "h1", "RECENT"
+    assert_select "h1", "History"
   end
 
   test "index lists one row per session, newest first, with dates and muscles" do
     get sessions_path
 
-    assert_select ".session", 2
+    assert_select "a[href*='/sessions/']", 2
 
     assert_includes response.body, "MAY 10"
     assert_includes response.body, "MAY 28"
