@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_18_130100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -46,6 +46,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
   create_table "muscles", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plan_exercises", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.uuid "exercise_variation_id", null: false
+    t.uuid "plan_id", null: false
+    t.integer "position", null: false
+    t.integer "target_reps"
+    t.integer "target_sets"
+    t.decimal "target_weight"
+    t.datetime "updated_at", null: false
+    t.index ["exercise_variation_id"], name: "index_plan_exercises_on_exercise_variation_id"
+    t.index ["plan_id", "position"], name: "index_plan_exercises_on_plan_id_and_position", unique: true
+    t.index ["plan_id"], name: "index_plan_exercises_on_plan_id"
+  end
+
+  create_table "plans", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -86,6 +105,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
   add_foreign_key "exercise_muscles", "exercise_variations"
   add_foreign_key "exercise_muscles", "muscles"
   add_foreign_key "exercise_variations", "exercises"
+  add_foreign_key "plan_exercises", "exercise_variations"
+  add_foreign_key "plan_exercises", "plans"
   add_foreign_key "session_exercises", "exercise_variations"
   add_foreign_key "session_exercises", "sessions"
   add_foreign_key "workout_sets", "session_exercises"
