@@ -1,10 +1,35 @@
-<h1>RECENT</h1>
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+  </style>
+<% end %>
 
-<ul>
-  <% @sessions.each do |session| %>
-    <li class="session">
-      <h2><%= session.date.strftime("%b %-d").upcase %></h2>
-      <p><%= session.muscles.map(&:name).uniq.sort.join(" · ") %></p>
-    </li>
-  <% end %>
-</ul>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="diamond"></span>
+      <span class="wordmark">IRON &amp; EMBER</span>
+    </div>
+    <nav class="nav">
+      <a href="/">Today</a>
+      <a class="active" href="#">History</a>
+      <a href="#">Progress</a>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="body">
+    <h1>RECENT</h1>
+
+    <ul>
+      <% @sessions.each do |session| %>
+        <li class="session">
+          <h2><%= session.date.strftime("%b %-d").upcase %></h2>
+          <p><%= session.muscles.map(&:name).uniq.sort.join(" · ") %></p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</main>

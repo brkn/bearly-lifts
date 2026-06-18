@@ -1,54 +1,13 @@
 <% content_for :head do %>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --screen:#16130f; --card:#1f1b15; --raise:#2d2619;
-      --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
-      --ink:#f3eee4; --sub:#9b9184; --faint:#6f665a;
-      --ember:#ff5a2c; --fresh:#46d6a4;
-      --disp:'Space Grotesk', system-ui, sans-serif;
-      --mono:'Space Mono', monospace;
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; }
-    body {
-      background: #0c0a08;
-      font-family: var(--disp);
-      color: var(--ink);
-      padding: 40px;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .app {
-      max-width: 1180px;
-      min-height: 760px;
-      margin: 0 auto;
-      background: var(--screen);
-      border: 1px solid var(--line2);
-      border-radius: 22px;
-      box-shadow: 0 24px 60px rgba(0,0,0,.5);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
     /* mono / shared atoms */
     .mono { font-family: var(--mono); }
     .eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sub); }
     .diamond { width: 8px; height: 8px; background: var(--ember); transform: rotate(45deg); border-radius: 1px; flex-shrink: 0; display: inline-block; }
     .diamond.fresh { background: var(--fresh); width: 7px; height: 7px; }
-
-    /* top bar */
-    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; border-bottom: 1px solid var(--line); }
-    .brand { display: flex; align-items: center; gap: 11px; }
-    .brand .wordmark { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; font-weight: 700; }
-    .nav { display: flex; align-items: center; gap: 30px; }
-    .nav a { font-size: 14px; color: var(--sub); cursor: pointer; text-decoration: none; transition: color .12s; }
-    .nav a.active { color: var(--ink); }
-    .nav a:hover { color: var(--ink); }
-    .avatar { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line2); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--sub); margin-left: 6px; }
 
     /* body */
     .body { flex: 1; padding: 32px 40px 36px; display: flex; flex-direction: column; }
@@ -143,7 +102,7 @@
             </div>
           </div>
 
-          <div class="verdict">Showing up more<br />over the last month</div>
+          <div class="verdict">Showing up more<br>over the last month</div>
           <p class="lede">Your last 4 weeks are running ahead of your 8-week average — no streak to keep, just the trend.</p>
 
           <div class="spacer"></div>
