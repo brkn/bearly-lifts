@@ -39,6 +39,18 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "nav.nav a[href=?]", sessions_path, text: "History"
   end
 
+  test "index links the Today nav item to the plan page" do
+    get root_path
+
+    assert_select "nav.nav a[href=?]", new_plan_path, text: "Today"
+  end
+
+  test "index links the Plan a session button to the plan page" do
+    get root_path
+
+    assert_select "a.btn.primary[href=?]", new_plan_path
+  end
+
   test "index shows muscles worked in recent sessions" do
     get root_path
 
