@@ -59,7 +59,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   test "index footer shows total and month session counts" do
     get root_path
 
-    assert_select ".foot b", "7"
+    assert_select ".foot b", "9"
     assert_select ".foot b", "6"
   end
 

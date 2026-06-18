@@ -10,6 +10,6 @@ class SessionsTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", "RECENT"
-    assert_select ".session", 1
+    assert_select ".session", 3
   end
 end

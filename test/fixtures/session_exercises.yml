@@ -1,0 +1,21 @@
+may10_lat_pulldown:
+  session: may10
+  exercise_variation: lat_pulldown_default
+  position: 1
+
+may10_seated_row:
+  session: may10
+  exercise_variation: seated_row_default
+  position: 2
+
+may28_tricep:
+  session: may28
+  exercise_variation: tricep_overhead_default
+  position: 1
+  notes: Second straight 3×12 at 27.5kg. Matches May 21.
+
+may28_lat_pulldown:
+  session: may28
+  exercise_variation: lat_pulldown_default
+  position: 2
+  notes: First 37.5kg via DB-on-stack workaround.

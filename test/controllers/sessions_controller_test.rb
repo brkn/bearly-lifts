@@ -22,7 +22,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "index lists one row per session, newest first, with dates and muscles" do
     get sessions_path
 
-    assert_select ".session", 2
+    assert_select ".session", 4
 
     assert_includes response.body, "JUN 8"
     assert_includes response.body, "JUN 12"

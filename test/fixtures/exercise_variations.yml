@@ -1,0 +1,17 @@
+lat_pulldown_default:
+  exercise: lat_pulldown
+  name: Lat Pulldown (Close V-Grip)
+  weight_scheme: machine
+  is_default_variation: true
+
+seated_row_default:
+  exercise: seated_row
+  name: Seated Cable Rows
+  weight_scheme: machine
+  is_default_variation: true
+
+tricep_overhead_default:
+  exercise: tricep_overhead
+  name: Tricep Overhead Cable Extension
+  weight_scheme: machine
+  is_default_variation: true

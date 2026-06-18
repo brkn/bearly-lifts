@@ -1,0 +1,34 @@
+may10_lat_pulldown_back:
+  session_exercise: may10_lat_pulldown
+  muscle: back
+  is_primary: true
+
+may10_lat_pulldown_arms:
+  session_exercise: may10_lat_pulldown
+  muscle: arms
+  is_primary: false
+
+may10_seated_row_back:
+  session_exercise: may10_seated_row
+  muscle: back
+  is_primary: true
+
+may10_seated_row_arms:
+  session_exercise: may10_seated_row
+  muscle: arms
+  is_primary: false
+
+may28_tricep_arms:
+  session_exercise: may28_tricep
+  muscle: arms
+  is_primary: true
+
+may28_lat_pulldown_back:
+  session_exercise: may28_lat_pulldown
+  muscle: back
+  is_primary: true
+
+may28_lat_pulldown_arms:
+  session_exercise: may28_lat_pulldown
+  muscle: arms
+  is_primary: false
