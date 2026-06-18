@@ -6,3 +6,27 @@ seated_row:
 
 tricep_overhead:
   name: Tricep Overhead Cable Extension
+
+bench_press:
+  name: Bench Press
+
+pull_up:
+  name: Pull Up
+
+squat:
+  name: Squat
+
+deadlift:
+  name: Deadlift
+
+overhead_press:
+  name: Overhead Press
+
+row:
+  name: Row
+
+curl:
+  name: Curl
+
+incline_db_press:
+  name: Incline DB Press

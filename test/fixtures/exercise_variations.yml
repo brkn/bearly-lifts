@@ -15,3 +15,50 @@ tricep_overhead_default:
   name: Tricep Overhead Cable Extension
   weight_scheme: machine
   is_default_variation: true
+
+bench_press_default:
+  exercise: bench_press
+  name: Bench Press
+  is_default_variation: true
+
+pull_up_default:
+  exercise: pull_up
+  name: Pull Up
+  weight_scheme: bodyweight
+  is_default_variation: true
+
+squat_default:
+  exercise: squat
+  name: Squat
+  weight_scheme: per_side
+  is_default_variation: true
+
+deadlift_default:
+  exercise: deadlift
+  name: Deadlift
+  weight_scheme: per_side
+  is_default_variation: true
+
+overhead_press_default:
+  exercise: overhead_press
+  name: Overhead Press
+  weight_scheme: per_side
+  is_default_variation: true
+
+row_default:
+  exercise: row
+  name: Row
+  weight_scheme: per_side
+  is_default_variation: true
+
+curl_default:
+  exercise: curl
+  name: Curl
+  weight_scheme: per_side
+  is_default_variation: true
+
+incline_db_press_default:
+  exercise: incline_db_press
+  name: Incline DB Press
+  weight_scheme: per_side
+  is_default_variation: true
