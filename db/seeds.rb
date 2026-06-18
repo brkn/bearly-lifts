@@ -19,36 +19,42 @@ muscles = %w[
   Back
 ].index_with { |name| Muscle.find_or_create_by!(name:) }
 
-def default_variation(exercise_name, display_name, weight_scheme)
+def default_variation(exercise_name, display_name, weight_scheme, trains:)
   exercise = Exercise.find_or_create_by!(name: exercise_name)
-  exercise.exercise_variations.find_or_create_by!(name: display_name) do |variation|
-    variation.weight_scheme = weight_scheme
-    variation.is_default_variation = true
+  variation = exercise.exercise_variations.find_or_create_by!(name: display_name) do |v|
+    v.weight_scheme = weight_scheme
+    v.is_default_variation = true
   end
+  trains.each.with_index do |muscle, index|
+    variation.exercise_muscles.find_or_create_by!(muscle:) { |em| em.is_primary = index.zero? }
+  end
+  variation
 end
 
-lateral_raise   = default_variation("Lateral Dumbbell Raise", "Lateral Dumbbell Raise", :per_side)
-tricep_overhead = default_variation("Tricep Overhead Cable Extension", "Tricep Overhead Cable Extension", :machine)
-shoulder_press  = default_variation("Shoulder Press", "Machine Shoulder Press", :machine)
-rear_delt_fly   = default_variation("Rear Delt Fly", "Rear Delt Fly", :machine)
-lat_pulldown    = default_variation("Lat Pulldown", "Lat Pulldown (Close V-Grip)", :machine)
-seated_row      = default_variation("Seated Cable Rows", "Seated Cable Rows", :machine)
+lateral_raise = default_variation("Lateral Dumbbell Raise", "Lateral Dumbbell Raise", :per_side,
+                                  trains: [muscles["Shoulders"]],)
+tricep_overhead = default_variation("Tricep Overhead Cable Extension", "Tricep Overhead Cable Extension", :machine,
+                                    trains: [muscles["Arms"]],)
+shoulder_press = default_variation("Shoulder Press", "Machine Shoulder Press", :machine,
+                                   trains: [muscles["Shoulders"], muscles["Arms"]],)
+rear_delt_fly   = default_variation("Rear Delt Fly", "Rear Delt Fly", :machine, trains: [muscles["Shoulders"]])
+lat_pulldown    = default_variation("Lat Pulldown", "Lat Pulldown (Close V-Grip)", :machine,
+                                    trains: [muscles["Back"], muscles["Arms"]],)
+seated_row = default_variation("Seated Cable Rows", "Seated Cable Rows", :machine,
+                               trains: [muscles["Back"], muscles["Arms"]],)
 
 def log_session(date:, rpe:, duration_minutes:, notes:)
   Session.where(date: date.all_day).destroy_all
   Session.create!(date:, rpe:, duration_minutes:, notes:)
 end
 
-def add_exercise(session, variation, sets:, muscles: [], notes: nil)
+def add_exercise(session, variation, sets:, notes: nil)
   session_exercise = session.session_exercises.create!(
     exercise_variation: variation,
     position: session.session_exercises.count + 1,
     notes:,
   )
   sets.each { |attributes| session_exercise.workout_sets.create!(**attributes) }
-  muscles.each.with_index do |muscle, index|
-    session_exercise.exercise_muscles.create!(muscle:, is_primary: index.zero?)
-  end
   session_exercise
 end
 
@@ -60,7 +66,6 @@ may10 = log_session(
 )
 add_exercise(
   may10, lat_pulldown,
-  muscles: [muscles["Back"], muscles["Arms"]],
   sets: [
     { reps: 12, weight: 35 },
     { reps: 12, weight: 35 },
@@ -69,7 +74,6 @@ add_exercise(
 )
 add_exercise(
   may10, seated_row,
-  muscles: [muscles["Back"], muscles["Arms"]],
   notes: "New 45kg ceiling — 13/11/12 at 0 RIR.",
   sets: [
     { reps: 13, weight: 45, rir: 0 },
@@ -79,7 +83,6 @@ add_exercise(
 )
 add_exercise(
   may10, rear_delt_fly,
-  muscles: [muscles["Shoulders"]],
   sets: [
     { reps: 12, weight: 6 },
     { reps: 12, weight: 6 },
@@ -94,7 +97,6 @@ may21 = log_session(
 )
 add_exercise(
   may21, tricep_overhead,
-  muscles: [muscles["Arms"]],
   notes: "3×12 at 27.5kg, set-3 shake. Holding the weight.",
   sets: [
     { reps: 12, weight: 27.5 },
@@ -104,7 +106,6 @@ add_exercise(
 )
 add_exercise(
   may21, rear_delt_fly,
-  muscles: [muscles["Shoulders"]],
   notes: "Tested 8kg, felt easy — predict ready to own it.",
   sets: [
     { reps: 12, weight: 7 },
@@ -114,7 +115,6 @@ add_exercise(
 )
 add_exercise(
   may21, lateral_raise,
-  muscles: [muscles["Shoulders"]],
   notes: "Working sets at 5kg/hand.",
   sets: [
     { reps: 15, weight: 5 },
@@ -131,7 +131,6 @@ may28 = log_session(
 )
 add_exercise(
   may28, tricep_overhead,
-  muscles: [muscles["Arms"]],
   notes: "Second straight 3×12 at 27.5kg. Matches May 21. Consolidated, not yet earned the bump.",
   sets: [
     { reps: 12, weight: 27.5 },
@@ -141,13 +140,11 @@ add_exercise(
 )
 add_exercise(
   may28, shoulder_press,
-  muscles: [muscles["Shoulders"], muscles["Arms"]],
   notes: "First time on this machine. 30kg (15kg/side) too heavy — baseline, drop load next time.",
   sets: [{ reps: 6, weight: 30, rir: 0, notes: "failed, 15kg/side" }],
 )
 add_exercise(
   may28, rear_delt_fly,
-  muscles: [muscles["Shoulders"]],
   notes: "Clean 3×12 with room to spare — ready to progress.",
   sets: [
     { reps: 12, weight: 8, rir: 3 },
@@ -157,7 +154,6 @@ add_exercise(
 )
 add_exercise(
   may28, lat_pulldown,
-  muscles: [muscles["Back"], muscles["Arms"]],
   notes: "First 37.5kg via DB-on-stack workaround. Repeat before pushing to 40.",
   sets: [
     { reps: 12, weight: 35 },
@@ -167,7 +163,6 @@ add_exercise(
 )
 add_exercise(
   may28, seated_row,
-  muscles: [muscles["Back"], muscles["Arms"]],
   notes: "Consolidating 45kg ceiling from May 10. Two sets — session cut short.",
   sets: [
     { reps: 12, weight: 45 },

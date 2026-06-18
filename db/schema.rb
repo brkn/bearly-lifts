@@ -10,16 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_15_123012) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_18_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "exercise_muscles", primary_key: ["session_exercise_id", "muscle_id"], force: :cascade do |t|
+  create_table "exercise_muscles", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.uuid "exercise_variation_id", null: false
     t.boolean "is_primary", default: false, null: false
     t.uuid "muscle_id", null: false
-    t.uuid "session_exercise_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["exercise_variation_id", "muscle_id"], name: "index_exercise_muscles_on_variation_and_muscle", unique: true
     t.index ["muscle_id"], name: "index_exercise_muscles_on_muscle_id"
   end
 
@@ -82,8 +83,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_15_123012) do
     t.check_constraint "rir >= 0", name: "rir_non_negative"
   end
 
+  add_foreign_key "exercise_muscles", "exercise_variations"
   add_foreign_key "exercise_muscles", "muscles"
-  add_foreign_key "exercise_muscles", "session_exercises"
   add_foreign_key "exercise_variations", "exercises"
   add_foreign_key "session_exercises", "exercise_variations"
   add_foreign_key "session_exercises", "sessions"
