@@ -8,7 +8,7 @@ class PlanExerciseTest < ActiveSupport::TestCase
   end
 
   test "is valid with positive integer targets and a weight" do
-    assert_predicate plan_exercises(:bench_press), :valid?
+    assert plan_exercises(:bench_press).valid?
   end
 
   test "rejects a missing or non-positive target_sets" do
@@ -17,7 +17,7 @@ class PlanExerciseTest < ActiveSupport::TestCase
     [nil, 0, -1].each do |value|
       plan_exercise.target_sets = value
 
-      assert_predicate plan_exercise, :invalid?
+      assert plan_exercise.invalid?
     end
   end
 
@@ -27,7 +27,7 @@ class PlanExerciseTest < ActiveSupport::TestCase
     [nil, 0, -1].each do |value|
       plan_exercise.target_reps = value
 
-      assert_predicate plan_exercise, :invalid?
+      assert plan_exercise.invalid?
     end
   end
 
@@ -35,9 +35,9 @@ class PlanExerciseTest < ActiveSupport::TestCase
     plan_exercise = plan_exercises(:bench_press)
 
     plan_exercise.target_weight = nil
-    assert_predicate plan_exercise, :valid?
+    assert plan_exercise.valid?
 
     plan_exercise.target_weight = -1
-    assert_predicate plan_exercise, :invalid?
+    assert plan_exercise.invalid?
   end
 end
