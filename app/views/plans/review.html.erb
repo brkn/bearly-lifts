@@ -1,0 +1,64 @@
+<main class="app">
+  <header class="topbar">
+    <%= link_to root_path, class: "brand" do %>
+      <span class="diamond"></span>
+      <span class="wordmark">IRON &amp; EMBER</span>
+    <% end %>
+    <nav class="nav">
+      <a class="active" href="#">Today</a>
+      <%= link_to "History", sessions_path %>
+      <a href="#">Progress</a>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="wiz-head">
+    <div>
+      <div class="wiz-eyebrow">Plan today &middot; <%= Date.current.strftime("%a %b %-d") %></div>
+      <h1>Review your plan</h1>
+    </div>
+    <ol class="steps">
+      <li data-n="1" data-done>Muscles</li>
+      <li class="sep" aria-hidden="true"></li>
+      <li data-n="2" data-done>Exercises</li>
+      <li class="sep" aria-hidden="true"></li>
+      <li data-n="3" aria-current="step">Review</li>
+    </ol>
+  </div>
+
+  <%= form_with url: plan_path, method: :post do %>
+    <div class="wiz-body">
+      <div class="col">
+        <p class="lead">Adjust the targets if needed, then save.</p>
+
+        <% @variations.each do |variation| %>
+          <% suggestion = variation.suggestion %>
+          <%= hidden_field_tag "exercise_variation_ids[]", variation.id %>
+          <div class="review-row">
+            <span class="rname"><%= variation.name %></span>
+            <label>
+              sets
+              <input type="number" name="plan_exercises[<%= variation.id %>][target_sets]"
+                     value="<%= suggestion.sets || 3 %>" min="1" step="1">
+            </label>
+            <label>
+              reps
+              <input type="number" name="plan_exercises[<%= variation.id %>][target_reps]"
+                     value="<%= suggestion.reps || 8 %>" min="1" step="1">
+            </label>
+            <label>
+              kg
+              <input type="number" name="plan_exercises[<%= variation.id %>][target_weight]"
+                     value="<%= suggestion.weight %>" min="0" step="2.5">
+            </label>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <footer class="wiz-footer">
+      <%= button_tag "← Back", class: "ghost", type: "button", onclick: "history.back()" %>
+      <%= button_tag "Save Plan", class: "primary" %>
+    </footer>
+  <% end %>
+</main>

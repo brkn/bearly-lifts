@@ -13,5 +13,9 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:index, :show]
 
+  resource :plan, only: [:new, :show, :create]
+  post "plan/exercises", to: "plans#exercises"
+  post "plan/review",    to: "plans#review"
+
   root "home#index"
 end

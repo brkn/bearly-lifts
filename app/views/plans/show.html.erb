@@ -1,0 +1,40 @@
+<main class="app">
+  <header class="topbar">
+    <%= link_to root_path, class: "brand" do %>
+      <span class="diamond"></span>
+      <span class="wordmark">IRON &amp; EMBER</span>
+    <% end %>
+    <nav class="nav">
+      <a class="active" href="#">Today</a>
+      <%= link_to "History", sessions_path %>
+      <a href="#">Progress</a>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="wiz-body">
+    <div class="col">
+      <% if @plan %>
+        <div class="wiz-eyebrow" style="margin-bottom: 18px;">Your plan</div>
+
+        <% @plan.plan_exercises.each do |pe| %>
+          <div class="plan-row">
+            <span class="pos"><%= pe.position %></span>
+            <span class="pname"><%= pe.name %></span>
+            <span class="targets">
+              <%= pe.target_sets %> &times; <%= pe.target_reps %>
+              <% if pe.target_weight %>&middot; <%= pe.target_weight %>kg<% end %>
+            </span>
+          </div>
+        <% end %>
+
+        <footer class="wiz-footer" style="padding: 24px 0 0; border-top: 1px solid var(--line); margin-top: 8px;">
+          <%= link_to "← Replan", new_plan_path, class: "ghost", style: "display:inline-flex;align-items:center;padding:13px 22px;border-radius:13px;border:1.5px solid var(--line2);color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;" %>
+        </footer>
+      <% else %>
+        <p class="lead" style="margin-top: 32px;">No plan yet.</p>
+        <%= link_to "Plan today →", new_plan_path %>
+      <% end %>
+    </div>
+  </div>
+</main>

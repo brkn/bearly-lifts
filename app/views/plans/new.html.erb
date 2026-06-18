@@ -1,0 +1,58 @@
+<main class="app">
+  <header class="topbar">
+    <%= link_to root_path, class: "brand" do %>
+      <span class="diamond"></span>
+      <span class="wordmark">IRON &amp; EMBER</span>
+    <% end %>
+    <nav class="nav">
+      <a class="active" href="#">Today</a>
+      <%= link_to "History", sessions_path %>
+      <a href="#">Progress</a>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="wiz-head">
+    <div>
+      <div class="wiz-eyebrow">Plan today &middot; <%= Date.current.strftime("%a %b %-d") %></div>
+      <h1>Pick your muscles</h1>
+    </div>
+    <ol class="steps">
+      <li data-n="1" aria-current="step">Muscles</li>
+      <li class="sep" aria-hidden="true"></li>
+      <li data-n="2">Exercises</li>
+      <li class="sep" aria-hidden="true"></li>
+      <li data-n="3">Review</li>
+    </ol>
+  </div>
+
+  <%= form_with url: plan_exercises_path, method: :post do %>
+    <div class="wiz-body">
+      <div class="col">
+        <p class="lead">Select the muscles you want to train. Overdue ones are shown first.</p>
+        <div class="opts">
+          <% @muscles.each do |muscle| %>
+            <label class="opt">
+              <%= check_box_tag "muscle_ids[]", muscle.id, muscle.overdue? %>
+              <span class="grow">
+                <span class="name"><%= muscle.name %></span>
+                <div class="meta">
+                  <% if muscle.last_trained_on %>
+                    <%= muscle.days_since %>d ago
+                  <% else %>
+                    never trained
+                  <% end %>
+                </div>
+              </span>
+              <span class="tag<%= " hot" if muscle.overdue? %>"><%= muscle.overdue? ? "OVERDUE" : "OK" %></span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <footer class="wiz-footer">
+      <%= button_tag "Next: Exercises →", class: "primary" %>
+    </footer>
+  <% end %>
+</main>

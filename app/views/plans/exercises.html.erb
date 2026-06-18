@@ -1,0 +1,70 @@
+<main class="app">
+  <header class="topbar">
+    <%= link_to root_path, class: "brand" do %>
+      <span class="diamond"></span>
+      <span class="wordmark">IRON &amp; EMBER</span>
+    <% end %>
+    <nav class="nav">
+      <a class="active" href="#">Today</a>
+      <%= link_to "History", sessions_path %>
+      <a href="#">Progress</a>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="wiz-head">
+    <div>
+      <div class="wiz-eyebrow">Plan today &middot; <%= Date.current.strftime("%a %b %-d") %></div>
+      <h1>Pick your exercises</h1>
+    </div>
+    <ol class="steps">
+      <li data-n="1" data-done>Muscles</li>
+      <li class="sep" aria-hidden="true"></li>
+      <li data-n="2" aria-current="step">Exercises</li>
+      <li class="sep" aria-hidden="true"></li>
+      <li data-n="3">Review</li>
+    </ol>
+  </div>
+
+  <%= form_with url: plan_review_path, method: :post do %>
+    <div class="wiz-body">
+      <div class="col">
+        <p class="lead">Suggested from your history — swap any you don't feel.</p>
+
+        <% @muscle_groups.each do |muscle, variations| %>
+          <section class="group">
+            <div class="group-head">
+              <span class="dot<%= " hot" if muscle.overdue? %>"></span>
+              <h2><%= muscle.name %></h2>
+            </div>
+            <div class="opts">
+              <% variations.each_with_index do |variation, idx| %>
+                <% suggestion = variation.suggestion %>
+                <label class="opt">
+                  <%= check_box_tag "exercise_variation_ids[]", variation.id, idx < 2 %>
+                  <span class="grow">
+                    <span class="name"><%= variation.name %></span>
+                    <% if suggestion.sets %>
+                      <div class="meta"><%= suggestion.sets %> &times; <%= suggestion.reps %> &middot; <%= suggestion.weight %>kg</div>
+                    <% end %>
+                  </span>
+                  <span class="trend <%= suggestion.trend == :hold ? "hold" : (suggestion.trend == :rebase ? "rebase" : "") %>">
+                    <% if suggestion.trend == :progress %>&#x2191; +2.5kg
+                    <% elsif suggestion.trend == :hold %>hold
+                    <% else %>re-base
+                    <% end %>
+                  </span>
+                </label>
+              <% end %>
+            </div>
+          </section>
+        <% end %>
+      </div>
+    </div>
+
+    <footer class="wiz-footer">
+      <%= button_tag "← Back", class: "ghost", type: "button", onclick: "history.back()" %>
+      <%= button_tag "Review · #{@muscle_groups.sum { |_, vs| [vs.size, 2].min }} lifts →", class: "primary" %>
+    </footer>
+  <% end %>
+</main>
