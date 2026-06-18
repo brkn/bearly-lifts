@@ -2,7 +2,9 @@
 
 class SessionsController < ApplicationController
   def index
-    @sessions = Session.includes(:muscles).order(date: :desc)
+    @sessions = Session.includes(:muscles, :session_exercises).order(date: :desc)
+    @total_count = @sessions.size
+    @month_count = @sessions.count { |s| s.date >= Date.current.beginning_of_month }
   end
 
   def show

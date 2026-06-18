@@ -54,6 +54,36 @@ body {
   flex-direction: column;
 }
 
+/* mono / shared atoms */
+.mono {
+  font-family: var(--mono);
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--sub);
+}
+
+.diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--ember);
+  transform: rotate(45deg);
+  border-radius: 1px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.diamond.fresh {
+  background: var(--fresh);
+  width: 7px;
+  height: 7px;
+}
+
+
 /* top bar */
 .topbar {
   display: flex;
@@ -111,6 +141,7 @@ body {
   color: var(--sub);
   margin-left: 6px;
 }
+
 /* end top bar */
 
 /* wizard */
