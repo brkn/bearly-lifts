@@ -59,6 +59,16 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     assert_equal 15, suggestion.weight
   end
 
+  test "is invalid when a second default variation is added for the same exercise" do
+    duplicate = ExerciseVariation.new(
+      exercise: exercises(:bench_press),
+      name: "Incline Bench Press",
+      is_default_variation: true,
+    )
+
+    assert duplicate.invalid?
+  end
+
   test "suggestion re-bases with no target weight when the exercise has no history" do
     suggestion = exercise_variations(:overhead_press_default).suggestion
 
