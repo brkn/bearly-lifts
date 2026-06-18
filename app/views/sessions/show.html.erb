@@ -34,10 +34,11 @@
 
 <main class="app">
   <header class="topbar">
-    <div class="brand">
+    <%= link_to root_path , class: "brand" do %>
       <span class="diamond"></span>
       <span class="wordmark">IRON &amp; EMBER</span>
-    </div>
+    <% end %>
+
     <nav class="nav">
       <a href="#">Today</a>
       <a class="active" href="#">History</a>
