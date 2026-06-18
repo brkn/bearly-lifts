@@ -20,3 +20,5 @@
 /config/*.key
 
 /.claude/
+
+/coverage
