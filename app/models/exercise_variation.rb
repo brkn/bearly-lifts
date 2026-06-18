@@ -26,4 +26,18 @@ class ExerciseVariation < ApplicationRecord
   validates :exercise_id,
             uniqueness: { conditions: -> { where(is_default_variation: true) } },
             if: :is_default_variation
+
+  def suggestion(today: Date.current)
+    last_session_exercise = session_exercises.joins(:session).order("sessions.date DESC").first
+
+    if last_session_exercise.nil?
+      Suggestion.new_rebase_suggestion
+    else
+      Suggestion.from(
+        last_session_exercise.workout_sets.to_a,
+        performed_on: last_session_exercise.session.date.to_date,
+        today:,
+      )
+    end
+  end
 end

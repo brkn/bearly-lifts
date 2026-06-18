@@ -18,4 +18,51 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
     assert_nil variation.primary_muscle
   end
+
+  test "suggestion recommends +2.5kg when the last top sets were cleared with reps in reserve" do
+    variation = exercise_variations(:bench_press_default)
+    session = Session.create!(date: Date.new(2026, 6, 10), rpe: 7)
+    session_exercise = session.session_exercises.create!(exercise_variation: variation, position: 1)
+    session_exercise.workout_sets.create!(weight: 40, reps: 8, rir: 2)
+    session_exercise.workout_sets.create!(weight: 40, reps: 8, rir: 2)
+    session_exercise.workout_sets.create!(weight: 40, reps: 7, rir: 2)
+
+    suggestion = variation.suggestion(today: Date.new(2026, 6, 18))
+
+    assert_equal :progress, suggestion.trend
+    assert_equal 42.5, suggestion.weight
+    assert_equal 3, suggestion.sets
+    assert_equal 8, suggestion.reps
+  end
+
+  test "suggestion holds the weight when the last top set hit failure" do
+    variation = exercise_variations(:squat_default)
+    session = Session.create!(date: Date.new(2026, 6, 10), rpe: 7)
+    session_exercise = session.session_exercises.create!(exercise_variation: variation, position: 1)
+    session_exercise.workout_sets.create!(weight: 60, reps: 5, rir: 0)
+
+    suggestion = variation.suggestion(today: Date.new(2026, 6, 18))
+
+    assert_equal :hold, suggestion.trend
+    assert_equal 60, suggestion.weight
+  end
+
+  test "suggestion re-bases when the exercise is stale" do
+    variation = exercise_variations(:curl_default)
+    session = Session.create!(date: Date.new(2026, 5, 1), rpe: 7)
+    session_exercise = session.session_exercises.create!(exercise_variation: variation, position: 1)
+    session_exercise.workout_sets.create!(weight: 15, reps: 12, rir: 3)
+
+    suggestion = variation.suggestion(today: Date.new(2026, 6, 18))
+
+    assert_equal :rebase, suggestion.trend
+    assert_equal 15, suggestion.weight
+  end
+
+  test "suggestion re-bases with no target weight when the exercise has no history" do
+    suggestion = exercise_variations(:overhead_press_default).suggestion
+
+    assert_equal :rebase, suggestion.trend
+    assert_nil suggestion.weight
+  end
 end
