@@ -3,11 +3,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* mono / shared atoms */
-    .mono { font-family: var(--mono); }
-    .eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sub); }
-    .diamond { width: 8px; height: 8px; background: var(--ember); transform: rotate(45deg); border-radius: 1px; flex-shrink: 0; display: inline-block; }
-
     /* body */
     .body { flex: 1; padding: 32px 40px 36px; display: flex; flex-direction: column; }
     .greeting { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; }
@@ -41,7 +36,7 @@
 
     <nav class="nav">
       <%= link_to "Today", new_plan_path %>
-      <a class="active" href="#">History</a>
+      <%= link_to "History", sessions_path, class: "active" %>
       <a href="#">Progress</a>
       <span class="avatar">B</span>
     </nav>
