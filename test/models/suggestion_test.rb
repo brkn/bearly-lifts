@@ -48,7 +48,7 @@ class SuggestionTest < ActiveSupport::TestCase
     assert_equal 60, s.weight
   end
 
-  test "from rebases when the last session was more than 28 days ago" do
+  test "from rebases when the last workout was more than 28 days ago" do
     set = Struct.new(:weight, :reps, :rir)
 
     s = Suggestion.from([set.new(15, 12, 3)], performed_on: Date.new(2026, 5, 1), today: Date.new(2026, 6, 18))

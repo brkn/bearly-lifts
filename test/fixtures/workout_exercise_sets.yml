@@ -1,43 +1,43 @@
 may10_lat_pulldown_set1:
-  session_exercise: may10_lat_pulldown
+  workout_exercise: may10_lat_pulldown
   reps: 12
   weight: 35
 
 may10_lat_pulldown_set2:
-  session_exercise: may10_lat_pulldown
+  workout_exercise: may10_lat_pulldown
   reps: 12
   weight: 35
 
 may10_seated_row_set1:
-  session_exercise: may10_seated_row
+  workout_exercise: may10_seated_row
   reps: 13
   weight: 45
   rir: 0
 
 may10_seated_row_set2:
-  session_exercise: may10_seated_row
+  workout_exercise: may10_seated_row
   reps: 11
   weight: 45
   rir: 0
 
 may28_tricep_set1:
-  session_exercise: may28_tricep
+  workout_exercise: may28_tricep
   reps: 12
   weight: 27.5
 
 may28_tricep_set2:
-  session_exercise: may28_tricep
+  workout_exercise: may28_tricep
   reps: 12
   weight: 27.5
   notes: shaky
 
 may28_lat_pulldown_set1:
-  session_exercise: may28_lat_pulldown
+  workout_exercise: may28_lat_pulldown
   reps: 12
   weight: 35
 
 may28_lat_pulldown_set2:
-  session_exercise: may28_lat_pulldown
+  workout_exercise: may28_lat_pulldown
   reps: 12
   weight: 37.5
   notes: dumbbell-on-stack

@@ -3,7 +3,7 @@
 class ExerciseVariation < ApplicationRecord
   belongs_to :exercise
 
-  has_many :session_exercises, dependent: :restrict_with_exception
+  has_many :workout_exercises, dependent: :restrict_with_exception
   has_many :exercise_muscles, dependent: :destroy
   has_many :muscles, through: :exercise_muscles
 
@@ -28,14 +28,14 @@ class ExerciseVariation < ApplicationRecord
             if: :is_default_variation
 
   def suggestion(today: Date.current)
-    last_session_exercise = session_exercises.joins(:session).order("sessions.date DESC").first
+    last_workout_exercise = workout_exercises.joins(:workout).order("workouts.date DESC").first
 
-    if last_session_exercise.nil?
+    if last_workout_exercise.nil?
       Suggestion.new_rebase_suggestion
     else
       Suggestion.from(
-        last_session_exercise.workout_sets.to_a,
-        performed_on: last_session_exercise.session.date.to_date,
+        last_workout_exercise.workout_exercise_sets.to_a,
+        performed_on: last_workout_exercise.workout.date.to_date,
         today:,
       )
     end

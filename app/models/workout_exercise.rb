@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class SessionExercise < ApplicationRecord
-  belongs_to :session
+class WorkoutExercise < ApplicationRecord
+  belongs_to :workout
   belongs_to :exercise_variation
 
-  has_many :workout_sets, dependent: :destroy
+  has_many :workout_exercise_sets, dependent: :destroy
   has_many :muscles, through: :exercise_variation
   has_one :primary_muscle, through: :exercise_variation
 

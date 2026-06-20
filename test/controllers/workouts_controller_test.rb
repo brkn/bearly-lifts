@@ -2,18 +2,18 @@
 
 require "test_helper"
 
-class SessionsControllerTest < ActionDispatch::IntegrationTest
+class WorkoutsControllerTest < ActionDispatch::IntegrationTest
   test "index responds successfully under the RECENT heading" do
-    get sessions_path
+    get workouts_path
 
     assert_response :success
     assert_select "h1", "History"
   end
 
-  test "index lists one row per session, newest first, with dates and muscles" do
-    get sessions_path
+  test "index lists one row per workout, newest first, with dates and muscles" do
+    get workouts_path
 
-    assert_select "a[href*='/sessions/']", 2
+    assert_select "a[href*='/workouts/']", 2
 
     assert_includes response.body, "MAY 10"
     assert_includes response.body, "MAY 28"
@@ -22,11 +22,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "Back"
 
     assert response.body.index("MAY 28") < response.body.index("MAY 10"),
-           "expected the newer session (MAY 28) to appear before the older session (MAY 10)"
+           "expected the newer workout (MAY 28) to appear before the older workout (MAY 10)"
   end
 
-  test "show renders the session header, stats, worked muscles, and exercises in position order" do
-    get session_path(sessions(:may28))
+  test "show renders the workout header, stats, worked muscles, and exercises in position order" do
+    get workout_path(workouts(:may28))
 
     assert_response :success
     assert_select ".greeting .when", /MAY 28/
@@ -49,9 +49,9 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show omits the duration from the stats line when duration_minutes is blank" do
-    sessions(:may28).update!(duration_minutes: nil)
+    workouts(:may28).update!(duration_minutes: nil)
 
-    get session_path(sessions(:may28))
+    get workout_path(workouts(:may28))
 
     assert_response :success
     assert_select ".stats", { text: /min/, count: 0 }

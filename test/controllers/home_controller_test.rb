@@ -9,34 +9,34 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "index renders at most the five most recent sessions" do
-    3.times { Session.create!(rpe: 7) }
+  test "index renders at most the five most recent workouts" do
+    3.times { Workout.create!(rpe: 7) }
 
     get root_path
 
     assert_select ".row", 5
   end
 
-  test "index orders sessions newest first" do
+  test "index orders workouts newest first" do
     get root_path
 
     assert response.body.index("MAY 28") < response.body.index("MAY 10"),
-           "expected the newer session (MAY 28) to appear before the older session (MAY 10)"
+           "expected the newer workout (MAY 28) to appear before the older workout (MAY 10)"
   end
 
-  test "index links each session row to its show page" do
-    3.times { Session.create!(rpe: 7) }
+  test "index links each workout row to its show page" do
+    3.times { Workout.create!(rpe: 7) }
 
     get root_path
 
-    session_ids = Session.order(date: :desc).limit(5).pluck(:id)
-    session_ids.each { |id| assert_select "a.row[href=?]", session_path(id) }
+    workout_ids = Workout.order(date: :desc).limit(5).pluck(:id)
+    workout_ids.each { |id| assert_select "a.row[href=?]", workout_path(id) }
   end
 
-  test "index links the History nav item to the sessions page" do
+  test "index links the History nav item to the workouts page" do
     get root_path
 
-    assert_select "nav.nav a[href=?]", sessions_path, text: "History"
+    assert_select "nav.nav a[href=?]", workouts_path, text: "History"
   end
 
   test "index links the Today nav item to the plan page" do
@@ -45,21 +45,21 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "nav.nav a[href=?]", new_plan_path, text: "Today"
   end
 
-  test "index links the Plan a session button to the plan page" do
+  test "index links the Plan a workout button to the plan page" do
     get root_path
 
     assert_select "a.btn.primary[href=?]", new_plan_path
   end
 
-  test "index shows muscles worked in recent sessions" do
+  test "index shows muscles worked in recent workouts" do
     get root_path
 
     assert_includes response.body, "Arms"
     assert_includes response.body, "Back"
   end
 
-  test "index footer shows total and month session counts" do
-    Session.create!(date: Time.zone.local(2026, 6, 1, 12), rpe: 7)
+  test "index footer shows total and month workout counts" do
+    Workout.create!(date: Time.zone.local(2026, 6, 1, 12), rpe: 7)
 
     get root_path
 

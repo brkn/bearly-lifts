@@ -11,8 +11,8 @@ class Muscle < ApplicationRecord
   attr_accessor :last_trained_on, :days_since
 
   def self.gap_ranked(today: Date.current)
-    last_trained = Session
-                   .joins(session_exercises: { exercise_variation: :exercise_muscles })
+    last_trained = Workout
+                   .joins(workout_exercises: { exercise_variation: :exercise_muscles })
                    .group("exercise_muscles.muscle_id")
                    .maximum(:date)
 

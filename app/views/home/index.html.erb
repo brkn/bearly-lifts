@@ -41,11 +41,11 @@
     .btn.ghost { width: 210px; font-size: 15px; padding: 17px 14px; background: transparent; color: var(--ink); border: 1.5px solid var(--line2); transition: border-color .12s, color .12s; }
     .btn.ghost:hover { border-color: rgba(255,255,255,.28); }
 
-    /* right column — recent sessions */
-    .sessions { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px 26px 14px; display: flex; flex-direction: column; min-height: 0; }
-    .sessions .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-    .sessions .seeall { font-family: var(--mono); font-size: 11px; color: var(--ember); cursor: pointer; text-decoration: none; }
-    .sessions .seeall:hover { text-decoration: underline; }
+    /* right column — recent workouts */
+    .workouts { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px 26px 14px; display: flex; flex-direction: column; min-height: 0; }
+    .workouts .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .workouts .seeall { font-family: var(--mono); font-size: 11px; color: var(--ember); cursor: pointer; text-decoration: none; }
+    .workouts .seeall:hover { text-decoration: underline; }
     .slist { display: flex; flex-direction: column; }
     .row { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid var(--line); cursor: pointer; color: inherit; text-decoration: none; transition: background .12s, padding-left .12s; }
     .row:hover { background: rgba(255,255,255,.035); padding-left: 12px; }
@@ -55,9 +55,9 @@
     .row .meta { font-family: var(--mono); font-size: 10.5px; color: var(--sub); margin-top: 4px; }
     .row .chev { font-family: var(--mono); font-size: 15px; color: var(--faint); flex-shrink: 0; transition: color .12s, transform .12s; }
     .row:hover .chev { color: var(--ember); transform: translateX(2px); }
-    .sessions .foot { display: flex; align-items: center; gap: 8px; padding: 12px 0 6px; border-top: 1px solid var(--line); margin-top: auto; }
-    .sessions .foot .stat { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
-    .sessions .foot .stat b { color: var(--ink); font-weight: 700; }
+    .workouts .foot { display: flex; align-items: center; gap: 8px; padding: 12px 0 6px; border-top: 1px solid var(--line); margin-top: auto; }
+    .workouts .foot .stat { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+    .workouts .foot .stat b { color: var(--ink); font-weight: 700; }
   </style>
 <% end %>
 
@@ -70,7 +70,7 @@
 
     <nav class="nav">
       <%= link_to "Today", new_plan_path, class: "active" %>
-      <%= link_to "History", sessions_path %>
+      <%= link_to "History", workouts_path %>
       <a href="#">Progress</a>
       <span class="avatar">B</span>
     </nav>
@@ -112,24 +112,24 @@
         </div>
 
         <div class="doors">
-          <%= link_to new_plan_path, class: "btn primary" do %>Plan a session <span class="arrow">→</span><% end %>
-          <button class="btn ghost">Log a past session</button>
+          <%= link_to new_plan_path, class: "btn primary" do %>Plan a workout <span class="arrow">→</span><% end %>
+          <button class="btn ghost">Log a past workout</button>
         </div>
       </section>
 
-      <aside class="sessions">
+      <aside class="workouts">
         <div class="head">
-          <span class="eyebrow">Recent sessions</span>
-          <%= link_to "See all →", sessions_path, class: "seeall" %>
+          <span class="eyebrow">Recent workouts</span>
+          <%= link_to "See all →", workouts_path, class: "seeall" %>
         </div>
         <div class="slist">
-          <% @sessions.each do |session| %>
-            <%= link_to session_path(session), class: "row" do %>
-              <span class="date"><%= session.date.strftime("%b %-d").upcase %></span>
+          <% @workouts.each do |workout| %>
+            <%= link_to workout_path(workout), class: "row" do %>
+              <span class="date"><%= workout.date.strftime("%b %-d").upcase %></span>
               <div class="mid">
-                <div class="muscles"><%= session.muscles.map(&:name).uniq.sort.join(" · ") %></div>
+                <div class="muscles"><%= workout.muscles.map(&:name).uniq.sort.join(" · ") %></div>
                 <div class="meta">
-                  <% if session.duration_minutes %><%= session.duration_minutes %> min · <% end %><%= pluralize(session.session_exercises.size, "lift") %>
+                  <% if workout.duration_minutes %><%= workout.duration_minutes %> min · <% end %><%= pluralize(workout.workout_exercises.size, "lift") %>
                 </div>
               </div>
               <span class="chev">›</span>
@@ -137,7 +137,7 @@
           <% end %>
         </div>
         <div class="foot">
-          <span class="stat"><b><%= @total_count %></b> sessions logged · <b><%= @month_count %></b> this month</span>
+          <span class="stat"><b><%= @total_count %></b> workouts logged · <b><%= @month_count %></b> this month</span>
         </div>
       </aside>
     </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_18_130100) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_20_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -68,19 +68,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_130100) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "session_exercises", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+  create_table "workout_exercises", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.uuid "exercise_variation_id", null: false
     t.text "notes"
     t.integer "position", null: false
-    t.uuid "session_id", null: false
+    t.uuid "workout_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["exercise_variation_id"], name: "index_session_exercises_on_exercise_variation_id"
-    t.index ["session_id", "position"], name: "index_session_exercises_on_session_id_and_position", unique: true
-    t.index ["session_id"], name: "index_session_exercises_on_session_id"
+    t.index ["exercise_variation_id"], name: "index_workout_exercises_on_exercise_variation_id"
+    t.index ["workout_id", "position"], name: "index_workout_exercises_on_workout_id_and_position", unique: true
+    t.index ["workout_id"], name: "index_workout_exercises_on_workout_id"
   end
 
-  create_table "sessions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+  create_table "workouts", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "date", default: -> { "now()" }
     t.integer "duration_minutes"
@@ -90,15 +90,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_130100) do
     t.check_constraint "rpe >= 1 AND rpe <= 10", name: "rpe_between_1_and_10"
   end
 
-  create_table "workout_sets", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+  create_table "workout_exercise_sets", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "notes"
     t.integer "reps", null: false
     t.integer "rir"
-    t.uuid "session_exercise_id", null: false
+    t.uuid "workout_exercise_id", null: false
     t.datetime "updated_at", null: false
     t.decimal "weight", null: false
-    t.index ["session_exercise_id"], name: "index_workout_sets_on_session_exercise_id"
+    t.index ["workout_exercise_id"], name: "index_workout_exercise_sets_on_workout_exercise_id"
     t.check_constraint "rir >= 0", name: "rir_non_negative"
   end
 
@@ -107,7 +107,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_130100) do
   add_foreign_key "exercise_variations", "exercises"
   add_foreign_key "plan_exercises", "exercise_variations"
   add_foreign_key "plan_exercises", "plans"
-  add_foreign_key "session_exercises", "exercise_variations"
-  add_foreign_key "session_exercises", "sessions"
-  add_foreign_key "workout_sets", "session_exercises"
+  add_foreign_key "workout_exercises", "exercise_variations"
+  add_foreign_key "workout_exercises", "workouts"
+  add_foreign_key "workout_exercise_sets", "workout_exercises"
 end

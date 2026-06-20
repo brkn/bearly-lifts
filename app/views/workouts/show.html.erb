@@ -36,41 +36,41 @@
 
     <nav class="nav">
       <%= link_to "Today", new_plan_path %>
-      <%= link_to "History", sessions_path, class: "active" %>
+      <%= link_to "History", workouts_path, class: "active" %>
       <a href="#">Progress</a>
       <span class="avatar">B</span>
     </nav>
   </header>
 
   <div class="body">
-    <%= link_to "← Sessions", sessions_path, class: "back" %>
+    <%= link_to "← Workouts", workouts_path, class: "back" %>
 
     <div class="greeting">
-      <h1><%= @session.date.strftime("%A") %></h1>
-      <span class="when"><%= @session.date.strftime("%b %-d").upcase %></span>
+      <h1><%= @workout.date.strftime("%A") %></h1>
+      <span class="when"><%= @workout.date.strftime("%b %-d").upcase %></span>
     </div>
 
     <p class="stats">
       <%= [
-            (@session.duration_minutes && "#{@session.duration_minutes} min"),
-            "RPE #{@session.rpe}",
-            pluralize(@session.session_exercises.size, "lift"),
+            (@workout.duration_minutes && "#{@workout.duration_minutes} min"),
+            "RPE #{@workout.rpe}",
+            pluralize(@workout.workout_exercises.size, "lift"),
           ].compact.join(" · ") %>
     </p>
 
-    <p class="worked"><%= @session.muscles.map(&:name).uniq.sort.join(" · ") %></p>
+    <p class="worked"><%= @workout.muscles.map(&:name).uniq.sort.join(" · ") %></p>
 
-    <% if @session.notes.present? %>
-      <p class="lede"><%= @session.notes %></p>
+    <% if @workout.notes.present? %>
+      <p class="lede"><%= @workout.notes %></p>
     <% end %>
 
     <div class="exercises">
-      <% @session.session_exercises.sort_by(&:position).each_with_index do |exercise, i| %>
+      <% @workout.workout_exercises.sort_by(&:position).each_with_index do |exercise, i| %>
         <div class="exercise">
           <span class="idx"><%= format("%02d", i + 1) %></span>
           <div class="mid">
             <div class="name"><%= exercise.name %></div>
-            <div class="sets"><%= exercise.workout_sets.sort_by(&:created_at).map(&:summary).join(" · ") %> kg</div>
+            <div class="sets"><%= exercise.workout_exercise_sets.sort_by(&:created_at).map(&:summary).join(" · ") %> kg</div>
             <% if exercise.notes.present? %>
               <div class="note"><%= exercise.notes %></div>
             <% end %>

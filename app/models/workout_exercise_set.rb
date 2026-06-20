@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class WorkoutSet < ApplicationRecord
-  belongs_to :session_exercise
+class WorkoutExerciseSet < ApplicationRecord
+  belongs_to :workout_exercise
 
   validates :weight, presence: true
   validates :reps, presence: true, numericality: { only_integer: true }

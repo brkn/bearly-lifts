@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# Development seed data: three logged workout sessions (May 10, 21, 28 2026).
-# The May 28 session is the one captured in
+# Development seed data: three logged workouts (May 10, 21, 28 2026).
+# The May 28 workout is the one captured in
 # .claude/session-logs/workout-session-may-28-2026.md; the earlier two are the
-# sessions its notes cross-reference (tricep 27.5kg streak, rows 45kg ceiling).
+# workouts its notes cross-reference (tricep 27.5kg streak, rows 45kg ceiling).
 #
 # Catalog rows (exercises, variations, muscles) are found-or-created. The three
-# seeded sessions are rebuilt on every run so re-seeding stays idempotent.
+# seeded workouts are rebuilt on every run so re-seeding stays idempotent.
 
 unless Rails.env.development?
   warn "db/seeds.rb only seeds the development environment. Skipping."
@@ -43,22 +43,22 @@ lat_pulldown    = default_variation("Lat Pulldown", "Lat Pulldown (Close V-Grip)
 seated_row = default_variation("Seated Cable Rows", "Seated Cable Rows", :machine,
                                trains: [muscles["Back"], muscles["Arms"]],)
 
-def log_session(date:, rpe:, duration_minutes:, notes:)
-  Session.where(date: date.all_day).destroy_all
-  Session.create!(date:, rpe:, duration_minutes:, notes:)
+def log_workout(date:, rpe:, duration_minutes:, notes:)
+  Workout.where(date: date.all_day).destroy_all
+  Workout.create!(date:, rpe:, duration_minutes:, notes:)
 end
 
-def add_exercise(session, variation, sets:, notes: nil)
-  session_exercise = session.session_exercises.create!(
+def add_exercise(workout, variation, sets:, notes: nil)
+  workout_exercise = workout.workout_exercises.create!(
     exercise_variation: variation,
-    position: session.session_exercises.count + 1,
+    position: workout.workout_exercises.count + 1,
     notes:,
   )
-  sets.each { |attributes| session_exercise.workout_sets.create!(**attributes) }
-  session_exercise
+  sets.each { |attributes| workout_exercise.workout_exercise_sets.create!(**attributes) }
+  workout_exercise
 end
 
-may10 = log_session(
+may10 = log_workout(
   date: Date.new(2026, 5, 10),
   rpe: 7,
   duration_minutes: 40,
@@ -89,7 +89,7 @@ add_exercise(
   ],
 )
 
-may21 = log_session(
+may21 = log_workout(
   date: Date.new(2026, 5, 21),
   rpe: 7,
   duration_minutes: 42,
@@ -123,7 +123,7 @@ add_exercise(
   ],
 )
 
-may28 = log_session(
+may28 = log_workout(
   date: Date.new(2026, 5, 28),
   rpe: 7,
   duration_minutes: 35,
@@ -163,7 +163,7 @@ add_exercise(
 )
 add_exercise(
   may28, seated_row,
-  notes: "Consolidating 45kg ceiling from May 10. Two sets — session cut short.",
+  notes: "Consolidating 45kg ceiling from May 10. Two sets — workout cut short.",
   sets: [
     { reps: 12, weight: 45 },
     { reps: 12, weight: 45 },
@@ -171,6 +171,6 @@ add_exercise(
 )
 
 Rails.logger.debug do
-  "Seeded #{Session.count} sessions, #{SessionExercise.count} exercises, " \
-    "#{WorkoutSet.count} sets across #{Muscle.count} muscles."
+  "Seeded #{Workout.count} workouts, #{WorkoutExercise.count} exercises, " \
+    "#{WorkoutExerciseSet.count} sets across #{Muscle.count} muscles."
 end
