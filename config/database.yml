@@ -8,11 +8,11 @@ default: &default
 
 development:
   <<: *default
-  database: ft_rails_development
+  database: bearly_lift_development
 
 test:
   <<: *default
-  database: ft_rails_test
+  database: bearly_lift_test
 
 production:
   <<: *default

@@ -4,9 +4,9 @@ services:
     image: postgres:18
     ports:
       - "5432:5432"
-    container_name: ft_rails_postgres
+    container_name: bearly_lift_postgres
     volumes:
-      - ft_rails_postgres_data:/var/lib/postgresql
+      - bearly_lift_postgres_data:/var/lib/postgresql
     command: >
       postgres
       -c 'max_connections=500'
@@ -18,4 +18,4 @@ networks:
   default:
     name: myapp_default
 volumes:
-  ft_rails_postgres_data:
+  bearly_lift_postgres_data:
