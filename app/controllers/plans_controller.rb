@@ -13,9 +13,9 @@ class PlansController < ApplicationController
     muscle_ids = Array(params[:muscle_ids])
     ranked = Muscle.gap_ranked
     by_id  = ranked.index_by(&:id)
-    @muscle_groups = muscle_ids.filter_map { |id| by_id[id] }.map do |muscle|
-      [muscle, muscle.exercise_variations.to_a]
-    end
+
+    @muscle_groups = muscle_ids.filter_map { |id| by_id[id] }
+                               .map { |muscle| [muscle, muscle.exercise_variations.to_a] }
   end
 
   def review
@@ -26,11 +26,13 @@ class PlansController < ApplicationController
 
   def create
     variation_ids = Array(params[:exercise_variation_ids])
+
     Plan.transaction do
       Plan.destroy_all
       plan = Plan.create!
       variation_ids.each_with_index { |vid, idx| plan.plan_exercises.create!(exercise_attrs(vid, idx)) }
     end
+
     # TODO: reset/delete flow
     redirect_to plan_path
   end

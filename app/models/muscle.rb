@@ -27,6 +27,8 @@ class Muscle < ApplicationRecord
   end
 
   def overdue?
-    days_since.nil? || days_since > CADENCE_DAYS
+    return true if days_since.nil?
+
+    days_since > CADENCE_DAYS
   end
 end
