@@ -11,7 +11,7 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "exercises renders a section per selected muscle" do
-    post plan_exercises_path, params: { muscle_ids: [muscles(:back).id] }
+    post exercises_plan_path, params: { muscle_ids: [muscles(:back).id] }
 
     assert_response :success
     assert_select ".group", 1
@@ -19,7 +19,7 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "exercises renders exercise variation names" do
-    post plan_exercises_path, params: { muscle_ids: [muscles(:back).id] }
+    post exercises_plan_path, params: { muscle_ids: [muscles(:back).id] }
 
     assert_includes response.body, exercise_variations(:lat_pulldown_default).name
   end
@@ -27,7 +27,7 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
   test "review renders weight inputs for each variation" do
     lat_id = exercise_variations(:lat_pulldown_default).id
 
-    post plan_review_path, params: { exercise_variation_ids: [lat_id] }
+    post review_plan_path, params: { exercise_variation_ids: [lat_id] }
 
     assert_response :success
     assert_select "input[type=number][name=?]", "plan_exercises[#{lat_id}][target_weight]"

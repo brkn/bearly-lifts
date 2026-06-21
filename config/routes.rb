@@ -13,9 +13,12 @@ Rails.application.routes.draw do
 
   resources :workouts, only: [:index, :show]
 
-  resource :plan, only: [:new, :show, :create]
-  post "plan/exercises", to: "plans#exercises"
-  post "plan/review",    to: "plans#review"
+  resource :plan, only: [:new, :show, :create] do
+    collection do
+      post "exercises", to: "plans#exercises"
+      post "review",    to: "plans#review"
+    end
+  end
 
   root "home#index"
 end
