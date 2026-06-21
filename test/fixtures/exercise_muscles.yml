@@ -1,3 +1,78 @@
+goblet_squat_legs:
+  exercise_variation: goblet_squat_default
+  muscle: legs
+  is_primary: true
+
+bicep_curls_arms:
+  exercise_variation: bicep_curls_default
+  muscle: arms
+  is_primary: true
+
+skull_crushers_arms:
+  exercise_variation: skull_crushers_default
+  muscle: arms
+  is_primary: true
+
+tricep_pushdowns_arms:
+  exercise_variation: tricep_pushdowns_default
+  muscle: arms
+  is_primary: true
+
+tricep_overhead_arms:
+  exercise_variation: tricep_overhead_default
+  muscle: arms
+  is_primary: true
+
+lateral_raise_shoulders:
+  exercise_variation: lateral_raise_default
+  muscle: shoulders
+  is_primary: true
+
+shoulder_press_machine_shoulders:
+  exercise_variation: shoulder_press_machine
+  muscle: shoulders
+  is_primary: true
+
+shoulder_press_machine_arms:
+  exercise_variation: shoulder_press_machine
+  muscle: arms
+  is_primary: false
+
+shoulder_press_dumbbell_shoulders:
+  exercise_variation: shoulder_press_dumbbell
+  muscle: shoulders
+  is_primary: true
+
+shoulder_press_dumbbell_arms:
+  exercise_variation: shoulder_press_dumbbell
+  muscle: arms
+  is_primary: false
+
+rear_delt_machine_shoulders:
+  exercise_variation: rear_delt_machine
+  muscle: shoulders
+  is_primary: true
+
+rear_delt_cable_shoulders:
+  exercise_variation: rear_delt_cable
+  muscle: shoulders
+  is_primary: true
+
+rear_delt_dumbbell_shoulders:
+  exercise_variation: rear_delt_dumbbell
+  muscle: shoulders
+  is_primary: true
+
+dumbbell_rdls_posterior:
+  exercise_variation: dumbbell_rdls_default
+  muscle: posterior_chain
+  is_primary: true
+
+incline_press_chest:
+  exercise_variation: incline_press_default
+  muscle: chest
+  is_primary: true
+
 lat_pulldown_back:
   exercise_variation: lat_pulldown_default
   muscle: back
@@ -8,17 +83,12 @@ lat_pulldown_arms:
   muscle: arms
   is_primary: false
 
-seated_row_back:
-  exercise_variation: seated_row_default
+seated_cable_rows_back:
+  exercise_variation: seated_cable_rows_default
   muscle: back
   is_primary: true
 
-seated_row_arms:
-  exercise_variation: seated_row_default
+seated_cable_rows_arms:
+  exercise_variation: seated_cable_rows_default
   muscle: arms
   is_primary: false
-
-tricep_overhead_arms:
-  exercise_variation: tricep_overhead_default
-  muscle: arms
-  is_primary: true

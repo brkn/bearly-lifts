@@ -13,16 +13,16 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
   test "index lists one row per workout, newest first, with dates and muscles" do
     get workouts_path
 
-    assert_select "a[href*='/workouts/']", 2
+    assert_select "a[href*='/workouts/']", 4
 
-    assert_includes response.body, "MAY 10"
+    assert_includes response.body, "MAY 12"
     assert_includes response.body, "MAY 28"
 
     assert_includes response.body, "Arms"
     assert_includes response.body, "Back"
 
-    assert response.body.index("MAY 28") < response.body.index("MAY 10"),
-           "expected the newer workout (MAY 28) to appear before the older workout (MAY 10)"
+    assert response.body.index("MAY 28") < response.body.index("MAY 12"),
+           "expected the newer workout (MAY 28) to appear before the older workout (MAY 12)"
   end
 
   test "show renders the workout header, stats, worked muscles, and exercises in position order" do
@@ -33,13 +33,13 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
     assert_select ".stats", /35 min/
     assert_select ".stats", /RPE 7/
-    assert_select ".stats", /2 lifts/
+    assert_select ".stats", /5 lifts/
 
     assert_select ".worked", /Arms/
     assert_select ".worked", /Back/
 
-    assert_includes response.body, "12x27.5 · 12x27.5 kg"
-    assert_includes response.body, "12x35 · 12x37.5 kg"
+    assert_includes response.body, "12x27.5 · 12x27.5 · 12x27.5 kg"
+    assert_includes response.body, "12x35 · 12x37.5 · 8x37.5 kg"
     assert_includes response.body, "Second straight 3×12 at 27.5kg"
 
     assert_select ".muscle-group", false

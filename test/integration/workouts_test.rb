@@ -8,6 +8,6 @@ class WorkoutsTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", "History"
-    assert_select "a[href*='/workouts/']", 2
+    assert_select "a[href*='/workouts/']", 4
   end
 end

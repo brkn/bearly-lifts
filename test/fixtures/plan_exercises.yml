@@ -1,15 +1,15 @@
-bench_press:
+lat_pulldown:
   plan: current
-  exercise_variation: bench_press_default
+  exercise_variation: lat_pulldown_default
   position: 1
   target_sets: 3
-  target_reps: 8
-  target_weight: 40
+  target_reps: 10
+  target_weight: 37.5
 
-squat:
+seated_row:
   plan: current
-  exercise_variation: squat_default
+  exercise_variation: seated_cable_rows_default
   position: 2
   target_sets: 3
-  target_reps: 5
-  target_weight: 60
+  target_reps: 12
+  target_weight: 45

@@ -4,15 +4,15 @@ require "test_helper"
 
 class PlanExerciseTest < ActiveSupport::TestCase
   test "delegates name to its exercise variation" do
-    assert_equal exercise_variations(:bench_press_default).name, plan_exercises(:bench_press).name
+    assert_equal exercise_variations(:lat_pulldown_default).name, plan_exercises(:lat_pulldown).name
   end
 
   test "is valid with positive integer targets and a weight" do
-    assert plan_exercises(:bench_press).valid?
+    assert plan_exercises(:lat_pulldown).valid?
   end
 
   test "rejects a missing or non-positive target_sets" do
-    plan_exercise = plan_exercises(:bench_press)
+    plan_exercise = plan_exercises(:lat_pulldown)
 
     [nil, 0, -1].each do |value|
       plan_exercise.target_sets = value
@@ -22,7 +22,7 @@ class PlanExerciseTest < ActiveSupport::TestCase
   end
 
   test "rejects a missing or non-positive target_reps" do
-    plan_exercise = plan_exercises(:bench_press)
+    plan_exercise = plan_exercises(:lat_pulldown)
 
     [nil, 0, -1].each do |value|
       plan_exercise.target_reps = value
@@ -32,7 +32,7 @@ class PlanExerciseTest < ActiveSupport::TestCase
   end
 
   test "allows a nil target_weight but rejects a negative one" do
-    plan_exercise = plan_exercises(:bench_press)
+    plan_exercise = plan_exercises(:lat_pulldown)
 
     plan_exercise.target_weight = nil
     assert plan_exercise.valid?

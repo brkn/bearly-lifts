@@ -63,6 +63,6 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     get plan_path
 
     assert_response :success
-    assert_includes response.body, exercise_variations(:bench_press_default).name
+    assert_includes response.body, exercise_variations(:lat_pulldown_default).name
   end
 end

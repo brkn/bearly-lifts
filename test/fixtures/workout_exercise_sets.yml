@@ -1,35 +1,314 @@
-may10_lat_pulldown_set1:
-  workout_exercise: may10_lat_pulldown
+may12_goblet_squat_set1:
+  workout_exercise: may12_goblet_squat
+  reps: 15
+  weight: 14
+
+may12_goblet_squat_set2:
+  workout_exercise: may12_goblet_squat
+  reps: 15
+  weight: 14
+
+may12_goblet_squat_set3:
+  workout_exercise: may12_goblet_squat
+  reps: 15
+  weight: 14
+
+may12_bicep_curls_set1:
+  workout_exercise: may12_bicep_curls
   reps: 12
-  weight: 35
+  weight: 7
 
-may10_lat_pulldown_set2:
-  workout_exercise: may10_lat_pulldown
+may12_bicep_curls_set2:
+  workout_exercise: may12_bicep_curls
   reps: 12
-  weight: 35
+  weight: 7
 
-may10_seated_row_set1:
-  workout_exercise: may10_seated_row
-  reps: 13
-  weight: 45
-  rir: 0
+may12_bicep_curls_set3:
+  workout_exercise: may12_bicep_curls
+  reps: 12
+  weight: 7
 
-may10_seated_row_set2:
-  workout_exercise: may10_seated_row
+may12_shoulder_press_set1:
+  workout_exercise: may12_shoulder_press
+  reps: 15
+  weight: 7
+
+may12_shoulder_press_set2:
+  workout_exercise: may12_shoulder_press
+  reps: 15
+  weight: 7
+
+may12_shoulder_press_set3:
+  workout_exercise: may12_shoulder_press
+  reps: 17
+  weight: 7
+  rir: 2
+  notes: hard
+
+may12_rear_delt_set1:
+  workout_exercise: may12_rear_delt
   reps: 11
-  weight: 45
+  weight: 7
+  notes: very hard
+
+may12_rear_delt_set2:
+  workout_exercise: may12_rear_delt
+  reps: 12
+  weight: 7
+  notes: horrible form
+
+may12_rear_delt_set3:
+  workout_exercise: may12_rear_delt
+  reps: 11
+  weight: 7
+  notes: horrible form
+
+may12_skull_crushers_set1:
+  workout_exercise: may12_skull_crushers
+  reps: 13
+  weight: 7
+  rir: 2
+
+may12_skull_crushers_set2:
+  workout_exercise: may12_skull_crushers
+  reps: 9
+  weight: 7
   rir: 0
 
-may28_tricep_set1:
-  workout_exercise: may28_tricep
+may12_skull_crushers_set3:
+  workout_exercise: may12_skull_crushers
+  reps: 5
+  weight: 7
+  rir: 0
+
+may16_tricep_pushdowns_set1:
+  workout_exercise: may16_tricep_pushdowns
+  reps: 12
+  weight: 25
+  rir: 4
+
+may16_tricep_pushdowns_set2:
+  workout_exercise: may16_tricep_pushdowns
+  reps: 13
+  weight: 30
+  rir: 3
+
+may16_tricep_pushdowns_set3:
+  workout_exercise: may16_tricep_pushdowns
+  reps: 10
+  weight: 30
+  rir: 0
+
+may16_bicep_curls_set1:
+  workout_exercise: may16_bicep_curls
+  reps: 12
+  weight: 7.5
+  rir: 3
+
+may16_bicep_curls_set2:
+  workout_exercise: may16_bicep_curls
+  reps: 12
+  weight: 7.5
+  rir: 1
+
+may16_bicep_curls_set3:
+  workout_exercise: may16_bicep_curls
+  reps: 12
+  weight: 7.5
+  rir: 1
+
+may16_lateral_raise_set1:
+  workout_exercise: may16_lateral_raise
+  reps: 12
+  weight: 5
+
+may16_lateral_raise_set2:
+  workout_exercise: may16_lateral_raise
+  reps: 12
+  weight: 5
+
+may16_lateral_raise_set3:
+  workout_exercise: may16_lateral_raise
+  reps: 12
+  weight: 5
+
+may16_rdls_set1:
+  workout_exercise: may16_rdls
+  reps: 13
+  weight: 17.5
+
+may16_rdls_set2:
+  workout_exercise: may16_rdls
+  reps: 12
+  weight: 17.5
+
+may16_rdls_set3:
+  workout_exercise: may16_rdls
+  reps: 11
+  weight: 17.5
+
+may16_incline_press_set1:
+  workout_exercise: may16_incline_press
+  reps: 12
+  weight: 12.5
+  rir: 1
+
+may16_incline_press_set2:
+  workout_exercise: may16_incline_press
+  reps: 12
+  weight: 12.5
+  rir: 0
+
+may16_incline_press_set3:
+  workout_exercise: may16_incline_press
+  reps: 11
+  weight: 12.5
+  notes: failed
+
+may16_lat_pulldown_set1:
+  workout_exercise: may16_lat_pulldown
+  reps: 13
+  weight: 35
+
+may16_lat_pulldown_set2:
+  workout_exercise: may16_lat_pulldown
+  reps: 13
+  weight: 35
+
+may16_lat_pulldown_set3:
+  workout_exercise: may16_lat_pulldown
+  reps: 13
+  weight: 35
+  rir: 0
+
+may21_bicep_curls_set1:
+  workout_exercise: may21_bicep_curls
+  reps: 12
+  weight: 7.5
+
+may21_bicep_curls_set2:
+  workout_exercise: may21_bicep_curls
+  reps: 12
+  weight: 7.5
+
+may21_bicep_curls_set3:
+  workout_exercise: may21_bicep_curls
+  reps: 10
+  weight: 7.5
+  notes: failed; form held until the last 2 reps
+
+may21_tricep_overhead_set1:
+  workout_exercise: may21_tricep_overhead
   reps: 12
   weight: 27.5
 
-may28_tricep_set2:
-  workout_exercise: may28_tricep
+may21_tricep_overhead_set2:
+  workout_exercise: may21_tricep_overhead
+  reps: 12
+  weight: 27.5
+
+may21_tricep_overhead_set3:
+  workout_exercise: may21_tricep_overhead
+  reps: 12
+  weight: 27.5
+  notes: form broke
+
+may21_incline_press_set1:
+  workout_exercise: may21_incline_press
+  reps: 12
+  weight: 12.5
+
+may21_incline_press_set2:
+  workout_exercise: may21_incline_press
+  reps: 12
+  weight: 12.5
+
+may21_incline_press_set3:
+  workout_exercise: may21_incline_press
+  reps: 11
+  weight: 12.5
+  notes: near drop
+
+may21_lateral_raise_set1:
+  workout_exercise: may21_lateral_raise
+  reps: 12
+  weight: 5
+
+may21_lateral_raise_set2:
+  workout_exercise: may21_lateral_raise
+  reps: 12
+  weight: 5
+
+may21_lateral_raise_set3:
+  workout_exercise: may21_lateral_raise
+  reps: 12
+  weight: 5
+  notes: form broke
+
+may21_rear_delt_set1:
+  workout_exercise: may21_rear_delt
+  reps: 12
+  weight: 4
+  notes: test, too easy
+
+may21_rear_delt_set2:
+  workout_exercise: may21_rear_delt
+  reps: 11
+  weight: 12
+  notes: good burn, hard
+
+may21_rear_delt_set3:
+  workout_exercise: may21_rear_delt
+  reps: 10
+  weight: 12
+  notes: failed
+
+may21_rear_delt_set4:
+  workout_exercise: may21_rear_delt
+  reps: 8
+  weight: 12
+  notes: failed
+
+may28_tricep_overhead_set1:
+  workout_exercise: may28_tricep_overhead
+  reps: 12
+  weight: 27.5
+
+may28_tricep_overhead_set2:
+  workout_exercise: may28_tricep_overhead
+  reps: 12
+  weight: 27.5
+
+may28_tricep_overhead_set3:
+  workout_exercise: may28_tricep_overhead
   reps: 12
   weight: 27.5
   notes: shaky
+
+may28_shoulder_press_set1:
+  workout_exercise: may28_shoulder_press
+  reps: 6
+  weight: 30
+  rir: 0
+  notes: failed, plate-loaded 15kg/side
+
+may28_rear_delt_set1:
+  workout_exercise: may28_rear_delt
+  reps: 12
+  weight: 8
+  rir: 3
+
+may28_rear_delt_set2:
+  workout_exercise: may28_rear_delt
+  reps: 12
+  weight: 8
+  rir: 2
+
+may28_rear_delt_set3:
+  workout_exercise: may28_rear_delt
+  reps: 12
+  weight: 8
+  rir: 2
 
 may28_lat_pulldown_set1:
   workout_exercise: may28_lat_pulldown
@@ -41,3 +320,18 @@ may28_lat_pulldown_set2:
   reps: 12
   weight: 37.5
   notes: dumbbell-on-stack
+
+may28_lat_pulldown_set3:
+  workout_exercise: may28_lat_pulldown
+  reps: 8
+  weight: 37.5
+
+may28_seated_rows_set1:
+  workout_exercise: may28_seated_rows
+  reps: 12
+  weight: 45
+
+may28_seated_rows_set2:
+  workout_exercise: may28_seated_rows
+  reps: 12
+  weight: 45

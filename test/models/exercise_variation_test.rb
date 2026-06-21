@@ -13,14 +13,14 @@ class ExerciseVariationTest < ActiveSupport::TestCase
   end
 
   test "primary_muscle is nil when no muscle is flagged primary" do
-    variation = exercise_variations(:curl_default)
-    variation.exercise_muscles.create!(muscle: muscles(:arms), is_primary: false)
+    variation = ExerciseVariation.create!(exercise: exercises(:goblet_squat), name: "Paused Goblet Squat")
+    variation.exercise_muscles.create!(muscle: muscles(:legs), is_primary: false)
 
     assert_nil variation.primary_muscle
   end
 
   test "suggestion recommends +2.5kg when the last top sets were cleared with reps in reserve" do
-    variation = exercise_variations(:bench_press_default)
+    variation = exercise_variations(:incline_press_default)
     workout = Workout.create!(date: Date.new(2026, 6, 10), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(weight: 40, reps: 8, rir: 2)
@@ -36,7 +36,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
   end
 
   test "suggestion holds the weight when the last top set hit failure" do
-    variation = exercise_variations(:squat_default)
+    variation = exercise_variations(:goblet_squat_default)
     workout = Workout.create!(date: Date.new(2026, 6, 10), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(weight: 60, reps: 5, rir: 0)
@@ -48,7 +48,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
   end
 
   test "suggestion re-bases when the exercise is stale" do
-    variation = exercise_variations(:curl_default)
+    variation = ExerciseVariation.create!(exercise: exercises(:goblet_squat), name: "Tempo Goblet Squat")
     workout = Workout.create!(date: Date.new(2026, 5, 1), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(weight: 15, reps: 12, rir: 3)
@@ -61,8 +61,8 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
   test "is invalid when a second default variation is added for the same exercise" do
     duplicate = ExerciseVariation.new(
-      exercise: exercises(:bench_press),
-      name: "Incline Bench Press",
+      exercise: exercises(:goblet_squat),
+      name: "Front Squat",
       is_default_variation: true,
     )
 
@@ -70,7 +70,9 @@ class ExerciseVariationTest < ActiveSupport::TestCase
   end
 
   test "suggestion re-bases with no target weight when the exercise has no history" do
-    suggestion = exercise_variations(:overhead_press_default).suggestion
+    variation = ExerciseVariation.create!(exercise: exercises(:goblet_squat), name: "Heels-Elevated Goblet Squat")
+
+    suggestion = variation.suggestion
 
     assert_equal :rebase, suggestion.trend
     assert_nil suggestion.weight

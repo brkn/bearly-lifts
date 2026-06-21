@@ -1,12 +1,23 @@
-lat_pulldown_default:
-  exercise: lat_pulldown
-  name: Lat Pulldown (Close V-Grip)
-  weight_scheme: machine
+goblet_squat_default:
+  exercise: goblet_squat
+  name: Goblet Squat
   is_default_variation: true
 
-seated_row_default:
-  exercise: seated_row
-  name: Seated Cable Rows
+bicep_curls_default:
+  exercise: bicep_curls
+  name: Standing Dumbbell Bicep Curls
+  weight_scheme: per_side
+  is_default_variation: true
+
+skull_crushers_default:
+  exercise: skull_crushers
+  name: Skull Crushers
+  weight_scheme: per_side
+  is_default_variation: true
+
+tricep_pushdowns_default:
+  exercise: tricep_pushdowns
+  name: Tricep Pushdowns
   weight_scheme: machine
   is_default_variation: true
 
@@ -16,49 +27,62 @@ tricep_overhead_default:
   weight_scheme: machine
   is_default_variation: true
 
-bench_press_default:
-  exercise: bench_press
-  name: Bench Press
-  is_default_variation: true
-
-pull_up_default:
-  exercise: pull_up
-  name: Pull Up
-  weight_scheme: bodyweight
-  is_default_variation: true
-
-squat_default:
-  exercise: squat
-  name: Squat
+lateral_raise_default:
+  exercise: lateral_raise
+  name: Lateral Dumbbell Raise
   weight_scheme: per_side
   is_default_variation: true
 
-deadlift_default:
-  exercise: deadlift
-  name: Deadlift
+shoulder_press_machine:
+  exercise: shoulder_press
+  name: Machine Shoulder Press
+  weight_scheme: machine
+  is_default_variation: true
+
+shoulder_press_dumbbell:
+  exercise: shoulder_press
+  name: Dumbbell Shoulder Press
+  weight_scheme: per_side
+  is_default_variation: false
+
+rear_delt_machine:
+  exercise: rear_delt_fly
+  name: Rear Delt Fly (Machine)
+  weight_scheme: machine
+  is_default_variation: true
+
+rear_delt_cable:
+  exercise: rear_delt_fly
+  name: Rear Delt Fly (Cable)
+  weight_scheme: machine
+  is_default_variation: false
+
+rear_delt_dumbbell:
+  exercise: rear_delt_fly
+  name: Rear Delt Fly (Dumbbell)
+  weight_scheme: per_side
+  is_default_variation: false
+
+dumbbell_rdls_default:
+  exercise: dumbbell_rdls
+  name: Dumbbell RDLs
   weight_scheme: per_side
   is_default_variation: true
 
-overhead_press_default:
-  exercise: overhead_press
-  name: Overhead Press
+incline_press_default:
+  exercise: incline_press
+  name: Incline Dumbbell Press
   weight_scheme: per_side
   is_default_variation: true
 
-row_default:
-  exercise: row
-  name: Row
-  weight_scheme: per_side
+lat_pulldown_default:
+  exercise: lat_pulldown
+  name: Lat Pulldown (Close V-Grip)
+  weight_scheme: machine
   is_default_variation: true
 
-curl_default:
-  exercise: curl
-  name: Curl
-  weight_scheme: per_side
-  is_default_variation: true
-
-incline_db_press_default:
-  exercise: incline_db_press
-  name: Incline DB Press
-  weight_scheme: per_side
+seated_cable_rows_default:
+  exercise: seated_row
+  name: Seated Cable Rows
+  weight_scheme: machine
   is_default_variation: true

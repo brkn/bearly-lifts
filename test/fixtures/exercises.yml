@@ -1,32 +1,35 @@
+goblet_squat:
+  name: Goblet Squat
+
+bicep_curls:
+  name: Standing Dumbbell Bicep Curls
+
+skull_crushers:
+  name: Skull Crushers
+
+tricep_pushdowns:
+  name: Tricep Pushdowns
+
+tricep_overhead:
+  name: Tricep Overhead Cable Extension
+
+lateral_raise:
+  name: Lateral Dumbbell Raise
+
+shoulder_press:
+  name: Shoulder Press
+
+rear_delt_fly:
+  name: Rear Delt Fly
+
+dumbbell_rdls:
+  name: Dumbbell RDLs
+
+incline_press:
+  name: Incline Dumbbell Press
+
 lat_pulldown:
   name: Lat Pulldown
 
 seated_row:
   name: Seated Cable Rows
-
-tricep_overhead:
-  name: Tricep Overhead Cable Extension
-
-bench_press:
-  name: Bench Press
-
-pull_up:
-  name: Pull Up
-
-squat:
-  name: Squat
-
-deadlift:
-  name: Deadlift
-
-overhead_press:
-  name: Overhead Press
-
-row:
-  name: Row
-
-curl:
-  name: Curl
-
-incline_db_press:
-  name: Incline DB Press

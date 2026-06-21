@@ -1,21 +1,125 @@
-may10_lat_pulldown:
-  workout: may10
-  exercise_variation: lat_pulldown_default
+may12_goblet_squat:
+  workout: may12
+  exercise_variation: goblet_squat_default
   position: 1
+  notes: Both DBs at chest, ~14kg total. Activation-tier, not training.
 
-may10_seated_row:
-  workout: may10
-  exercise_variation: seated_row_default
+may12_bicep_curls:
+  workout: may12
+  exercise_variation: bicep_curls_default
   position: 2
+  notes: Clean 3×12 at 7kg, no failures. Post-comeback milestone.
 
-may28_tricep:
+may12_shoulder_press:
+  workout: may12
+  exercise_variation: shoulder_press_dumbbell
+  position: 3
+  notes: Superset with rear delt fly did not affect performance.
+
+may12_rear_delt:
+  workout: may12
+  exercise_variation: rear_delt_dumbbell
+  position: 4
+  notes: 7kg too heavy for rear delts. Form collapsed immediately.
+
+may12_skull_crushers:
+  workout: may12
+  exercise_variation: skull_crushers_default
+  position: 5
+  notes: Muscular failure. Fatigue cascade 13 to 9 to 5.
+
+may16_tricep_pushdowns:
+  workout: may16
+  exercise_variation: tricep_pushdowns_default
+  position: 1
+  notes: New working weight. First 30kg cable pushdown.
+
+may16_bicep_curls:
+  workout: may16
+  exercise_variation: bicep_curls_default
+  position: 2
+  notes: PR session. Clean 3×12 with RIR remaining throughout.
+
+may16_lateral_raise:
+  workout: may16
+  exercise_variation: lateral_raise_default
+  position: 3
+  notes: Feels easy now. 5kg consolidated, ready to test heavier.
+
+may16_rdls:
+  workout: may16
+  exercise_variation: dumbbell_rdls_default
+  position: 4
+  notes: Form and hinge issue, not load. Felt in upper back, not hips.
+
+may16_incline_press:
+  workout: may16
+  exercise_variation: incline_press_default
+  position: 5
+  notes: Consolidated 12.5kg. Ready to test higher next session.
+
+may16_lat_pulldown:
+  workout: may16
+  exercise_variation: lat_pulldown_default
+  position: 6
+  notes: Grip switch from wide. Clean 3×13, ready to progress.
+
+may21_bicep_curls:
+  workout: may21
+  exercise_variation: bicep_curls_default
+  position: 1
+  notes: Set 3 failed; form held until the last 2 reps.
+
+may21_tricep_overhead:
+  workout: may21
+  exercise_variation: tricep_overhead_default
+  position: 2
+  notes: 27.5kg PR. Form cost on set 3 acceptable at this load.
+
+may21_incline_press:
+  workout: may21
+  exercise_variation: incline_press_default
+  position: 3
+  notes: 12/12/11 under low energy qualifies as earned. Test 15kg next.
+
+may21_lateral_raise:
+  workout: may21
+  exercise_variation: lateral_raise_default
+  position: 4
+  notes: Hold 5kg, form priority.
+
+may21_rear_delt:
+  workout: may21
+  exercise_variation: rear_delt_cable
+  position: 5
+  notes: Performed on cable. 4kg trivial, 12kg too heavy. 8kg is the working weight.
+
+may28_tricep_overhead:
   workout: may28
   exercise_variation: tricep_overhead_default
   position: 1
-  notes: Second straight 3×12 at 27.5kg. Matches May 21.
+  notes: Second straight 3×12 at 27.5kg. Matches May 21. Consolidated, not yet earned the bump.
+
+may28_shoulder_press:
+  workout: may28
+  exercise_variation: shoulder_press_machine
+  position: 2
+  notes: First time on this machine. 30kg (15kg/side) too heavy. Baseline, drop load next time.
+
+may28_rear_delt:
+  workout: may28
+  exercise_variation: rear_delt_machine
+  position: 3
+  notes: Clean 3×12 with room to spare. Ready to progress.
 
 may28_lat_pulldown:
   workout: may28
   exercise_variation: lat_pulldown_default
-  position: 2
-  notes: First 37.5kg via DB-on-stack workaround.
+  position: 4
+  notes: First 37.5kg via DB-on-stack workaround. Repeat before pushing to 40.
+
+may28_seated_rows:
+  workout: may28
+  exercise_variation: seated_cable_rows_default
+  position: 5
+  notes: Consolidating 45kg ceiling from May 10. Two sets, session cut short.

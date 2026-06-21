@@ -1,8 +1,20 @@
-may10:
-  date: 2026-05-10 12:00:00
+may12:
+  date: 2026-05-12 12:00:00
+  rpe: 6
+  duration_minutes: 35
+  notes: Home session. Bicep curl 7kg breakthrough (clean 3×12). Rear delt 7kg too heavy, form collapsed.
+
+may16:
+  date: 2026-05-16 12:00:00
   rpe: 7
-  duration_minutes: 40
-  notes: Pull day. Seated rows hit a new 45kg ceiling.
+  duration_minutes: 55
+  notes: Tricep pushdown ceiling 30kg. Incline 12.5kg locked. Lat pulldown 35kg×13 consolidated.
+
+may21:
+  date: 2026-05-21 12:00:00
+  rpe: 7
+  duration_minutes: 45
+  notes: Low sleep (5h). Overhead extension 27.5kg PR. Pull skipped 2nd time.
 
 may28:
   date: 2026-05-28 12:00:00

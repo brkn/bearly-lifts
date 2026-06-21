@@ -6,3 +6,12 @@ arms:
 
 back:
   name: Back
+
+legs:
+  name: Legs
+
+chest:
+  name: Chest
+
+posterior_chain:
+  name: Posterior Chain
