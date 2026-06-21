@@ -13,10 +13,9 @@ Rails.application.routes.draw do
 
   resources :workouts, only: [:index, :show]
 
-  resource :plan, only: [:new, :show, :create] do
+  resource :plan, only: [:new, :create, :edit, :update] do
     collection do
-      post "exercises", to: "plans#exercises"
-      post "review",    to: "plans#review"
+      get "exercises", to: "plans#exercises"
     end
   end
 

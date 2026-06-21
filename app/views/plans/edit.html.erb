@@ -4,6 +4,7 @@
       <span class="diamond"></span>
       <span class="wordmark">Bearly Lifts</span>
     <% end %>
+
     <nav class="nav">
       <a class="active" href="#">Today</a>
       <%= link_to "History", workouts_path %>
@@ -14,9 +15,13 @@
 
   <div class="wiz-head">
     <div>
-      <div class="wiz-eyebrow">Plan today &middot; <%= Date.current.strftime("%a %b %-d") %></div>
+      <div class="wiz-eyebrow">
+        Plan today &middot; <%= Date.current.strftime("%a %b %-d") %>
+      </div>
+
       <h1>Review your plan</h1>
     </div>
+
     <ol class="steps">
       <li data-n="1" data-done>Muscles</li>
       <li class="sep" aria-hidden="true"></li>
@@ -26,30 +31,46 @@
     </ol>
   </div>
 
-  <%= form_with url: plan_path, method: :post do %>
+  <%= form_with url: plan_path, method: :patch do %>
     <div class="wiz-body">
       <div class="col">
         <p class="lead">Adjust the targets if needed, then save.</p>
 
-        <% @variations.each do |variation| %>
-          <% suggestion = variation.suggestion %>
-          <%= hidden_field_tag "exercise_variation_ids[]", variation.id %>
+        <% @plan.plan_exercises.each do |plan_exercise| %>
           <div class="review-row">
-            <span class="rname"><%= variation.name %></span>
+            <span class="rname"><%= plan_exercise.name %></span>
+
             <label>
               sets
-              <input type="number" name="plan_exercises[<%= variation.id %>][target_sets]"
-                     value="<%= suggestion.sets || 3 %>" min="1" step="1">
+              <input
+                type="number"
+                name="plan_exercises[<%= plan_exercise.exercise_variation_id %>][target_sets]"
+                value="<%= plan_exercise.target_sets %>"
+                min="1"
+                step="1"
+              >
             </label>
+
             <label>
               reps
-              <input type="number" name="plan_exercises[<%= variation.id %>][target_reps]"
-                     value="<%= suggestion.reps || 8 %>" min="1" step="1">
+              <input
+                type="number"
+                name="plan_exercises[<%= plan_exercise.exercise_variation_id %>][target_reps]"
+                value="<%= plan_exercise.target_reps %>"
+                min="1"
+                step="1"
+              >
             </label>
+
             <label>
               kg
-              <input type="number" name="plan_exercises[<%= variation.id %>][target_weight]"
-                     value="<%= suggestion.weight %>" min="0" step="2.5">
+              <input
+                type="number"
+                name="plan_exercises[<%= plan_exercise.exercise_variation_id %>][target_weight]"
+                value="<%= plan_exercise.target_weight %>"
+                min="0"
+                step="2.5"
+              >
             </label>
           </div>
         <% end %>

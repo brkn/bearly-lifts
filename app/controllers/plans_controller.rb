@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class PlansController < ApplicationController
-  def show
-    @plan = Plan.current
-  end
-
   def new
     @muscles = Muscle.gap_ranked
   end
@@ -18,35 +14,56 @@ class PlansController < ApplicationController
                                .map { |muscle| [muscle, muscle.exercise_variations.to_a] }
   end
 
-  def review
-    variation_ids = Array(params[:exercise_variation_ids])
-    by_id = ExerciseVariation.where(id: variation_ids).index_by(&:id)
-    @variations = variation_ids.filter_map { |id| by_id[id] }
+  def edit
+    @plan = Plan.current
+    redirect_to(new_plan_path) unless @plan
   end
 
   def create
-    variation_ids = Array(params[:exercise_variation_ids])
-
     Plan.transaction do
       Plan.destroy_all
       plan = Plan.create!
-      variation_ids.each_with_index { |vid, idx| plan.plan_exercises.create!(exercise_attrs(vid, idx)) }
+
+      submitted_exercise_variations.each_with_index do |variation, idx|
+        plan.plan_exercises.create!(
+          exercise_variation: variation,
+          position: idx + 1,
+          target_sets: variation.suggestion.sets || 3,
+          target_reps: variation.suggestion.reps || 8,
+          target_weight: variation.suggestion.weight,
+        )
+      end
     end
 
-    # TODO: reset/delete flow
-    redirect_to plan_path
+    redirect_to edit_plan_path
+  end
+
+  def update
+    plan = Plan.current
+
+    Plan.transaction do
+      plan.plan_exercises.each do |pe|
+        attrs = params.dig(:plan_exercises, pe.exercise_variation_id.to_s) || {}
+        pe.update!(
+          target_sets: attrs[:target_sets],
+          target_reps: attrs[:target_reps],
+          target_weight: attrs[:target_weight].presence,
+        )
+      end
+    end
+
+    redirect_to edit_plan_path
   end
 
   private
 
-  def exercise_attrs(vid, idx)
-    pe = params.dig(:plan_exercises, vid) || {}
-    {
-      exercise_variation_id: vid,
-      position: idx + 1,
-      target_sets: pe[:target_sets],
-      target_reps: pe[:target_reps],
-      target_weight: pe[:target_weight].presence,
-    }
+  # TODO: consider adding a method like this for the #exercises action
+  # def submitted_muscles
+
+  def submitted_exercise_variations
+    variation_ids = Array(params[:exercise_variation_ids])
+    by_id = ExerciseVariation.where(id: variation_ids).index_by(&:id)
+
+    variation_ids.filter_map { |id| by_id[id] }
   end
 end
