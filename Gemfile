@@ -29,6 +29,7 @@ gem "jbuilder"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+gem "irb",  ">= 1.18"
 gem "rack", ">= 3.2.6"
 gem "rack-session", ">= 2.1.2"
 
