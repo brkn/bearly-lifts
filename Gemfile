@@ -46,7 +46,7 @@ group :development, :test do
   gem "rubocop", "~> 1.88", require: false
   gem "rubocop-performance", "~> 1.25", require: false
   gem "rubocop-rails", "~> 2.31", require: false
-  gem "rubocop-rspec", "~> 3.5", require: false # TODO: replace with rubocop minitest
+  gem "rubocop-rspec", "~> 3.10", require: false # TODO: replace with rubocop minitest
 end
 
 group :test do
