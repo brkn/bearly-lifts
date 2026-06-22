@@ -40,5 +40,6 @@ Metrics/AbcSize:
 AllCops:
   NewCops: enable
   Exclude:
+    - '**/vendor/**/*'
     - 'bin/**/*'
     - 'db/schema.rb'
