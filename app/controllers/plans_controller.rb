@@ -15,7 +15,7 @@ class PlansController < ApplicationController
   def edit
     @plan = Plan.current
 
-    redirect_to(new_plan_path) unless @plan
+    redirect_to new_plan_path unless @plan
   end
 
   def create

@@ -69,7 +69,7 @@
     <% end %>
 
     <nav class="nav">
-      <%= link_to "Today", new_plan_path, class: "active" %>
+      <%= link_to "Plan", edit_plan_path, class: "active" %>
       <%= link_to "History", workouts_path %>
       <a href="#">Progress</a>
       <span class="avatar">B</span>
@@ -112,7 +112,7 @@
         </div>
 
         <div class="doors">
-          <%= link_to new_plan_path, class: "btn primary" do %>Plan a workout <span class="arrow">→</span><% end %>
+          <%= link_to edit_plan_path, class: "btn primary" do %>Plan a workout <span class="arrow">→</span><% end %>
           <button class="btn ghost">Log a past workout</button>
         </div>
       </section>
