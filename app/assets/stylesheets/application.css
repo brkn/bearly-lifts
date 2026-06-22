@@ -98,13 +98,13 @@ body {
   background: #0c0a08;
   font-family: var(--disp);
   color: var(--ink);
-  padding: 40px;
+  padding: 20px;
   -webkit-font-smoothing: antialiased;
 }
 
 .app {
   max-width: 1180px;
-  min-height: 760px;
+  min-height: 690px;
   margin: 0 auto;
   background: var(--screen);
   border: 1px solid var(--line2);

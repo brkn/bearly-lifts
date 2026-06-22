@@ -29,8 +29,8 @@ gem "jbuilder"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
-gem "rack", '>= 3.2.6'
-gem "rack-session", '>= 2.1.2'
+gem "rack", ">= 3.2.6"
+gem "rack-session", ">= 2.1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -42,7 +42,7 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
-  gem "rubocop", "~> 1.75", require: false
+  gem "rubocop", "~> 1.88", require: false
   gem "rubocop-performance", "~> 1.25", require: false
   gem "rubocop-rails", "~> 2.31", require: false
   gem "rubocop-rspec", "~> 3.5", require: false # TODO: replace with rubocop minitest

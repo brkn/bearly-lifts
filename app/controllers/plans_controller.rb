@@ -6,6 +6,7 @@ class PlansController < ApplicationController
   end
 
   def exercises
+    # TODO: use muscle names instead. Url bar is gnarly with many long uuidv7 strings.
     muscle_ids = Array(params[:muscle_ids])
 
     @muscle_groups = ordered_by_ids(muscle_ids, Muscle.gap_ranked)

@@ -10,6 +10,6 @@ class WorkoutsController < ApplicationController
   def show
     @workout = Workout
                .includes(:muscles, workout_exercises: [:exercise_variation, :workout_exercise_sets])
-               .find(params[:id])
+               .find(params.expect(:id))
   end
 end
