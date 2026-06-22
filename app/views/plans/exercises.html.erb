@@ -44,16 +44,12 @@
                   <%= check_box_tag "exercise_variation_ids[]", variation.id, idx < 2 %>
                   <span class="grow">
                     <span class="name"><%= variation.name %></span>
-                    <% if suggestion.sets %>
-                      <div class="meta"><%= suggestion.sets %> &times; <%= suggestion.reps %> &middot; <%= suggestion.weight %>kg</div>
-                    <% end %>
+                    <div class="meta">
+                      <%= suggestion.sets %> &times; <%= suggestion.reps %>
+                      <% if suggestion.weight %>&middot; <%= suggestion.weight %>kg<% end %>
+                    </div>
                   </span>
-                  <span class="trend <%= suggestion.trend == :hold ? "hold" : (suggestion.trend == :rebase ? "rebase" : "") %>">
-                    <% if suggestion.trend == :progress %>&#x2191; +2.5kg
-                    <% elsif suggestion.trend == :hold %>hold
-                    <% else %>re-base
-                    <% end %>
-                  </span>
+                  <span class="trend <%= suggestion.trend_class %>"><%= suggestion.trend_label %></span>
                 </label>
               <% end %>
             </div>

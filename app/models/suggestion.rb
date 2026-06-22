@@ -4,8 +4,10 @@ class Suggestion
   PROGRESSION_STEP = 2.5
   STALE_AFTER_DAYS = 28
   CLEARED_RIR = 2
+  DEFAULT_SETS = 3
+  DEFAULT_REPS = 8
 
-  def initialize(trend:, weight:, sets:, reps:)
+  def initialize(trend:, weight:, sets: DEFAULT_SETS, reps: DEFAULT_REPS)
     @trend = trend
     @weight = weight
     @sets = sets
@@ -13,6 +15,12 @@ class Suggestion
   end
 
   attr_reader :trend, :weight, :sets, :reps
+
+  delegate :trend_label, :trend_class, to: :presenter
+
+  def presenter
+    @presenter ||= SuggestionPresenter.new(self)
+  end
 
   def ==(other)
     other.is_a?(Suggestion) &&
@@ -33,7 +41,7 @@ class Suggestion
     end
 
     def new_rebase_suggestion
-      new(trend: :rebase, weight: nil, sets: nil, reps: nil)
+      new(trend: :rebase, weight: nil)
     end
 
     private

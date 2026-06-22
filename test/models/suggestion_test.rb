@@ -19,12 +19,12 @@ class SuggestionTest < ActiveSupport::TestCase
     assert_equal a, b
   end
 
-  test "weight and sets and reps may be nil for a rebase with no history" do
-    s = Suggestion.new(trend: :rebase, weight: nil, sets: nil, reps: nil)
+  test "a rebase with no history defaults sets and reps and leaves weight nil" do
+    s = Suggestion.new_rebase_suggestion
 
     assert_nil s.weight
-    assert_nil s.sets
-    assert_nil s.reps
+    assert_equal Suggestion::DEFAULT_SETS, s.sets
+    assert_equal Suggestion::DEFAULT_REPS, s.reps
   end
 
   test "from builds a progress suggestion when all top sets cleared with reps in reserve" do

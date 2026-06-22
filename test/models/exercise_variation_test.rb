@@ -27,7 +27,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     workout_exercise.workout_exercise_sets.create!(weight: 40, reps: 8, rir: 2)
     workout_exercise.workout_exercise_sets.create!(weight: 40, reps: 7, rir: 2)
 
-    suggestion = variation.suggestion(today: Date.new(2026, 6, 18))
+    suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion }
 
     assert_equal :progress, suggestion.trend
     assert_equal 42.5, suggestion.weight
@@ -41,7 +41,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(weight: 60, reps: 5, rir: 0)
 
-    suggestion = variation.suggestion(today: Date.new(2026, 6, 18))
+    suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion }
 
     assert_equal :hold, suggestion.trend
     assert_equal 60, suggestion.weight
@@ -53,7 +53,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(weight: 15, reps: 12, rir: 3)
 
-    suggestion = variation.suggestion(today: Date.new(2026, 6, 18))
+    suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion }
 
     assert_equal :rebase, suggestion.trend
     assert_equal 15, suggestion.weight

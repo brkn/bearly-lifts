@@ -44,33 +44,30 @@
               sets
               <input
                 type="number"
-                name="plan_exercises[<%= plan_exercise.exercise_variation_id %>][target_sets]"
+                name="<%= plan_exercise.input_name(:target_sets) %>"
                 value="<%= plan_exercise.target_sets %>"
                 min="1"
-                step="1"
-              >
+                step="1">
             </label>
 
             <label>
               reps
               <input
                 type="number"
-                name="plan_exercises[<%= plan_exercise.exercise_variation_id %>][target_reps]"
+                name="<%= plan_exercise.input_name(:target_reps) %>"
                 value="<%= plan_exercise.target_reps %>"
                 min="1"
-                step="1"
-              >
+                step="1">
             </label>
 
             <label>
               kg
               <input
                 type="number"
-                name="plan_exercises[<%= plan_exercise.exercise_variation_id %>][target_weight]"
+                name="<%= plan_exercise.input_name(:target_weight) %>"
                 value="<%= plan_exercise.target_weight %>"
                 min="0"
-                step="2.5"
-              >
+                step="2.5">
             </label>
           </div>
         <% end %>

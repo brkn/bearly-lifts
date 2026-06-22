@@ -27,7 +27,13 @@ class ExerciseVariation < ApplicationRecord
             uniqueness: { conditions: -> { where(is_default_variation: true) } },
             if: :is_default_variation
 
-  def suggestion(today: Date.current)
+  def suggestion
+    @suggestion ||= assign_suggestion
+  end
+
+  private
+
+  def assign_suggestion
     last_workout_exercise = workout_exercises.joins(:workout).order("workouts.date DESC").first
 
     if last_workout_exercise.nil?
@@ -36,7 +42,7 @@ class ExerciseVariation < ApplicationRecord
       Suggestion.from(
         last_workout_exercise.workout_exercise_sets.to_a,
         performed_on: last_workout_exercise.workout.date.to_date,
-        today:,
+        today: Date.current,
       )
     end
   end
