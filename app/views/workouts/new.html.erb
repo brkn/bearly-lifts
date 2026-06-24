@@ -1,11 +1,158 @@
-<main class="app">
-  <h1>Log a workout</h1>
+<% content_for :title, "Log a workout" %>
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .head { display: flex; align-items: flex-end; justify-content: space-between; padding: 24px 40px 16px; border-bottom: 1px solid var(--line); }
+    .head .eyebrow { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ember); font-weight: 700; }
+    .head .diamond { width: 7px; height: 7px; }
+    .head .title { font-size: 27px; font-weight: 700; letter-spacing: -.6px; line-height: 1.05; margin-top: 7px; }
+    .head .sub { font-size: 13.5px; color: var(--faint); margin-top: 6px; max-width: 540px; line-height: 1.45; }
+    .head .right { font-family: var(--mono); font-size: 11px; color: var(--faint); }
 
-  <% if @workout.errors.any? %>
-    <ul class="errors">
-      <% @workout.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+    .body { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 16px 40px 6px; }
+
+    .errors { list-style: none; margin: 0 0 14px; padding: 11px 16px; background: rgba(255, 90, 44, .10); border: 1px solid rgba(255, 90, 44, .5); border-radius: 12px; font-family: var(--mono); font-size: 11px; color: var(--ember); flex-shrink: 0; }
+
+    .srcbar { flex-shrink: 0; margin-bottom: 14px; }
+    .srcbar .row { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 11px 16px; }
+    .badge-off { font-family: var(--mono); font-size: 9px; letter-spacing: .5px; text-transform: uppercase; color: var(--faint); border: 1px solid var(--line2); border-radius: 6px; padding: 2px 8px; }
+    .src-note { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+    .spacer { flex: 1; }
+    .pill { font-family: var(--mono); font-size: 10.5px; color: var(--sub); border: 1px solid var(--line2); border-radius: 999px; padding: 5px 12px; white-space: nowrap; }
+
+    .struct-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ember); margin-bottom: 10px; flex-shrink: 0; }
+    .tree { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 11px; overflow-y: auto; padding-bottom: 6px; }
+
+    .lift { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px 16px 15px; }
+    .lift-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .lift-name { font-size: 15px; font-weight: 600; color: var(--ink); }
+    .scheme { display: inline-flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 9.5px; letter-spacing: .5px; text-transform: uppercase; color: var(--sub); background: var(--screen); border: 1px solid var(--line2); border-radius: 6px; padding: 3px 7px; }
+    .x { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line2); color: var(--faint); display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; background: none; }
+    .x.sm { width: 20px; height: 20px; font-size: 12px; margin: 0 auto; }
+
+    .grid { display: grid; grid-template-columns: 22px 58px 82px 50px 1fr 22px; gap: 9px; align-items: center; }
+    .colhead { margin-bottom: 7px; }
+    .colhead span { font-family: var(--mono); font-size: 8.5px; letter-spacing: .5px; color: var(--faint); text-align: center; }
+    .colhead span.l { text-align: left; }
+    .sets { display: flex; flex-direction: column; gap: 7px; }
+    .idx { font-family: var(--mono); font-size: 9px; color: var(--faint); text-align: center; }
+
+    .fld { width: 100%; background: var(--screen); border: 1px solid var(--line2); border-radius: 8px; padding: 7px 8px; font-family: var(--mono); font-size: 12.5px; color: var(--ink); outline: none; }
+    .fld.c { text-align: center; }
+    .fld.note { font-style: italic; color: var(--faint); }
+    .fld::placeholder { color: var(--faint); }
+    .fld.rir { color: var(--amber); }
+    .fld.rir::placeholder { color: var(--amber); }
+
+    .addset { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--sub); border: 1px dashed var(--line2); border-radius: 9px; padding: 6px 14px; margin-top: 10px; cursor: pointer; background: none; }
+
+    .picker { flex-shrink: 0; margin-top: 12px; position: relative; }
+    .picker .lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+    .picker .input { display: flex; align-items: center; gap: 11px; background: var(--card); border: 1.5px solid var(--line2); border-radius: 12px; padding: 12px 14px; }
+    .picker .mag { color: var(--sub); font-size: 15px; }
+    .picker .ph { flex: 1; font-family: var(--disp); font-size: 14px; color: var(--faint); }
+    .picker .hint { font-family: var(--mono); font-size: 9.5px; color: var(--faint); }
+
+    .footer { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; border-top: 1px solid var(--line); flex-shrink: 0; }
+    .tally { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+    .tally b { color: var(--ink); font-weight: 400; }
+    .save { padding: 13px 22px; border-radius: 13px; font-weight: 600; font-size: 15px; background: var(--ember); color: #fff; border: none; cursor: pointer; display: flex; align-items: center; gap: 9px; font-family: var(--disp); }
+    .save .arr { font-family: var(--mono); font-weight: 400; }
+  </style>
+<% end %>
+
+<main class="app">
+  <header class="topbar">
+    <%= link_to root_path, class: "brand" do %>
+      <span class="diamond"></span>
+      <span class="wordmark">Bearly Lifts</span>
+    <% end %>
+    <nav class="nav">
+      <a class="active" href="#">Today</a>
+      <%= link_to "History", workouts_path %>
+      <a href="#">Progress</a>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="head">
+    <div>
+      <div class="eyebrow">
+        <span class="diamond"></span>
+        Log a session &middot; <%= Date.current.strftime("%a %b %-d") %>
+      </div>
+      <div class="title">Build your session</div>
+    </div>
+  </div>
+
+  <%= form_with url: workouts_path do %>
+    <div class="body">
+      <% if @workout.errors.any? %>
+        <ul class="errors">
+          <% @workout.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
       <% end %>
-    </ul>
+
+      <div class="srcbar">
+        <div class="row">
+          <span class="spacer"></span>
+          <span class="pill">Paste raw notes &#9660;</span>
+        </div>
+      </div>
+
+      <div class="struct-label">Structured</div>
+
+      <div class="tree">
+        <div class="lift">
+          <div class="lift-head">
+            <%= hidden_field_tag "workout[workout_exercises][][exercise_variation_id]", "", id: nil %>
+            <span class="lift-name">Seated Cable Row</span>
+            <span class="tag">BACK</span>
+            <span class="scheme">machine</span>
+            <span class="spacer"></span>
+            <button type="button" class="x" aria-label="Remove exercise">&times;</button>
+          </div>
+          <div class="grid colhead">
+            <span></span>
+            <span>REPS</span>
+            <span>WT&middot;KG</span>
+            <span>RIR</span>
+            <span class="l">NOTE</span>
+            <span></span>
+          </div>
+          <div class="sets">
+            <% 3.times do |i| %>
+              <div class="grid">
+                <span class="idx"><%= i + 1 %></span>
+                <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][reps]", nil, id: nil, class: "fld c", placeholder: "0" %>
+                <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][weight]", nil, id: nil, class: "fld c", placeholder: "0" %>
+                <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][rir]", nil, id: nil, class: "fld c rir", placeholder: "—" %>
+                <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][notes]", nil, id: nil, class: "fld note", placeholder: "note (optional)" %>
+                <button type="button" class="x sm" aria-label="Remove set">&times;</button>
+              </div>
+            <% end %>
+          </div>
+          <button type="button" class="addset">+ set</button>
+        </div>
+      </div>
+
+      <div class="picker">
+        <div class="lbl">Add a lift</div>
+        <div class="input">
+          <span class="mag">&#9907;</span>
+          <span class="ph">Search the registry &mdash; Bench, Row, Curl&hellip;</span>
+          <span class="hint">then fill the fields &rarr;</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="tally">writes <b>0</b> workout_sets across <b>0</b> exercises</div>
+      <button type="submit" class="save">Save session <span class="arr">&rarr;</span></button>
+    </footer>
   <% end %>
 </main>
