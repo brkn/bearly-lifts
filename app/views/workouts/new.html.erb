@@ -1,0 +1,11 @@
+<main class="app">
+  <h1>Log a workout</h1>
+
+  <% if @workout.errors.any? %>
+    <ul class="errors">
+      <% @workout.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</main>

@@ -9,4 +9,16 @@ class WorkoutExercise < ApplicationRecord
   has_one :primary_muscle, through: :exercise_variation
 
   delegate :name, to: :exercise_variation
+
+  normalizes :notes, with: ->(notes) { notes.presence }
+
+  # TODO: iterate with index, and add positon attr after the migration
+  # ... So replace with sets.each do |set_attrs, index|
+  def create_sets!(sets)
+    Array(sets).each do |set_attrs|
+      workout_exercise_sets.create!(
+        set_attrs.slice(:reps, :weight, :rir, :notes),
+      )
+    end
+  end
 end

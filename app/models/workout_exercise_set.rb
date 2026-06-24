@@ -7,6 +7,8 @@ class WorkoutExerciseSet < ApplicationRecord
   validates :reps, presence: true, numericality: { only_integer: true }
   validates :rir, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
 
+  normalizes :notes, with: ->(notes) { notes.presence }
+
   def summary
     "#{reps}x#{format('%g', weight.to_f)}"
   end

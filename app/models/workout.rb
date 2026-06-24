@@ -6,4 +6,6 @@ class Workout < ApplicationRecord
 
   validates :rpe, presence: true,
                   numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
+
+  normalizes :notes, with: ->(notes) { notes.presence }
 end
