@@ -29,15 +29,16 @@ class PlansController < ApplicationController
 
       # TODO: N+1 — variation.suggestion queries workouts/sets per variation.
       # Preload the workout associations so suggestion reads them in memory.
-      submitted_exercise_variations.each_with_index do |variation, idx|
-        plan.plan_exercises.create!(
-          exercise_variation: variation,
-          position: idx + 1,
-          target_sets: variation.suggestion.sets,
-          target_reps: variation.suggestion.reps,
-          target_weight: variation.suggestion.weight,
-        )
-      end
+      ExerciseVariation.in_order_of(:id, params[:exercise_variation_ids])
+                       .each_with_index do |variation, idx|
+                         plan.plan_exercises.create!(
+                           exercise_variation: variation,
+                           position: idx + 1,
+                           target_sets: variation.suggestion.sets,
+                           target_reps: variation.suggestion.reps,
+                           target_weight: variation.suggestion.weight,
+                         )
+                       end
     end
 
     redirect_to edit_plan_path
@@ -61,12 +62,6 @@ class PlansController < ApplicationController
   end
 
   private
-
-  def submitted_exercise_variations
-    variation_ids = Array(params[:exercise_variation_ids])
-
-    ordered_by_ids(variation_ids, ExerciseVariation.where(id: variation_ids))
-  end
 
   def ordered_by_ids(ids, records)
     by_id = records.index_by(&:id)

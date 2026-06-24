@@ -70,7 +70,7 @@
           <span class="idx"><%= format("%02d", i + 1) %></span>
           <div class="mid">
             <div class="name"><%= exercise.name %></div>
-            <div class="sets"><%= exercise.workout_exercise_sets.sort_by(&:created_at).map(&:summary).join(" · ") %> kg</div>
+            <div class="sets"><%= exercise.workout_exercise_sets.sort_by(&:position).map(&:summary).join(" · ") %> kg</div>
             <% if exercise.notes.present? %>
               <div class="note"><%= exercise.notes %></div>
             <% end %>

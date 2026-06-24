@@ -32,6 +32,14 @@ class WorkoutsControllerCreateTest < ActionDispatch::IntegrationTest
     assert_equal [[1, @incline.id], [2, @rows.id]], positions
   end
 
+  test "created sets are assigned a position by the array index order" do
+    post workouts_path, params: workout_payload
+
+    sets = Workout.last.workout_exercises.order(:position).first.workout_exercise_sets.order(:position)
+
+    assert_equal([[1, 10], [2, 8], [3, 7]], sets.map { |s| [s.position, s.reps] })
+  end
+
   test "create coerces a blank rir to nil but keeps an explicit zero" do
     post workouts_path, params: workout_payload
 
@@ -107,7 +115,7 @@ class WorkoutsControllerCreateTest < ActionDispatch::IntegrationTest
         workout_exercise_sets: [
           { reps: 10, weight: 20, rir: "", notes: "" },
           { reps: 8, weight: 22, rir: "0" },
-          { reps: 8, weight: 22, rir: 0 },
+          { reps: 7, weight: 25, rir: 0 },
         ],
       },
       {

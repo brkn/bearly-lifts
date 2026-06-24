@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_20_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -93,11 +93,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_20_000000) do
   create_table "workout_exercise_sets", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "notes"
+    t.integer "position", null: false
     t.integer "reps", null: false
     t.integer "rir"
     t.uuid "workout_exercise_id", null: false
     t.datetime "updated_at", null: false
     t.decimal "weight", null: false
+    t.index ["workout_exercise_id", "position"], name: "idx_on_workout_exercise_id_position_2341d32796", unique: true
     t.index ["workout_exercise_id"], name: "index_workout_exercise_sets_on_workout_exercise_id"
     t.check_constraint "rir >= 0", name: "rir_non_negative"
   end

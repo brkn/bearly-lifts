@@ -23,9 +23,9 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     variation = exercise_variations(:incline_press_default)
     workout = Workout.create!(date: Date.new(2026, 6, 10), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
-    workout_exercise.workout_exercise_sets.create!(weight: 40, reps: 8, rir: 2)
-    workout_exercise.workout_exercise_sets.create!(weight: 40, reps: 8, rir: 2)
-    workout_exercise.workout_exercise_sets.create!(weight: 40, reps: 7, rir: 2)
+    workout_exercise.workout_exercise_sets.create!(position: 1, weight: 40, reps: 8, rir: 2)
+    workout_exercise.workout_exercise_sets.create!(position: 2, weight: 40, reps: 8, rir: 2)
+    workout_exercise.workout_exercise_sets.create!(position: 3, weight: 40, reps: 7, rir: 2)
 
     suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion }
 
@@ -39,7 +39,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     variation = exercise_variations(:goblet_squat_default)
     workout = Workout.create!(date: Date.new(2026, 6, 10), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
-    workout_exercise.workout_exercise_sets.create!(weight: 60, reps: 5, rir: 0)
+    workout_exercise.workout_exercise_sets.create!(position: 1, weight: 60, reps: 5, rir: 0)
 
     suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion }
 
@@ -51,7 +51,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     variation = ExerciseVariation.create!(exercise: exercises(:goblet_squat), name: "Tempo Goblet Squat")
     workout = Workout.create!(date: Date.new(2026, 5, 1), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
-    workout_exercise.workout_exercise_sets.create!(weight: 15, reps: 12, rir: 3)
+    workout_exercise.workout_exercise_sets.create!(position: 1, weight: 15, reps: 12, rir: 3)
 
     suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion }
 

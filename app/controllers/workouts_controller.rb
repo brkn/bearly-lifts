@@ -25,8 +25,7 @@ class WorkoutsController < ApplicationController
 
       workout_params[:workout_exercises].each_with_index do |exercise_attrs, index|
         @workout.workout_exercises
-                .create!(position: index + 1,
-                         **exercise_attrs.slice(:exercise_variation_id, :notes),)
+                .create!(exercise_attrs.slice(:exercise_variation_id, :notes).merge(position: index + 1))
                 .create_sets!(exercise_attrs[:workout_exercise_sets])
       end
     end

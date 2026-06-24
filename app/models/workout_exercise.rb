@@ -12,13 +12,12 @@ class WorkoutExercise < ApplicationRecord
 
   normalizes :notes, with: ->(notes) { notes.presence }
 
-  # TODO: iterate with index, and add positon attr after the migration
-  # ... So replace with sets.each do |set_attrs, index|
   def create_sets!(sets)
-    Array(sets).each do |set_attrs|
-      workout_exercise_sets.create!(
-        set_attrs.slice(:reps, :weight, :rir, :notes),
-      )
+    attributes_list = Array(sets).each_with_index.map do |set_attrs, index|
+      set_attrs.slice(:reps, :weight, :rir, :notes)
+               .merge(position: index + 1)
     end
+
+    workout_exercise_sets.create!(attributes_list)
   end
 end

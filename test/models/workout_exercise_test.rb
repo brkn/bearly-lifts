@@ -12,12 +12,15 @@ class WorkoutExerciseTest < ActiveSupport::TestCase
     assert_equal muscles(:back), workout_exercises(:may28_lat_pulldown).primary_muscle
   end
 
-  test "create_sets! builds a set per attributes hash" do
-    workout_exercise = workout_exercises(:may28_seated_rows)
+  test "create_sets! builds a set per attributes hash, numbering positions in order" do
+    workout_exercise = workouts(:may28).workout_exercises.create!(
+      exercise_variation: exercise_variations(:bicep_curls_default), position: 99,
+    )
 
-    assert_difference("WorkoutExerciseSet.count" => 2) do
-      workout_exercise.create_sets!([{ reps: 10, weight: 40 }, { reps: 8, weight: 45 }])
-    end
+    workout_exercise.create_sets!([{ reps: 10, weight: 40 }, { reps: 8, weight: 45 }])
+
+    assert_equal([[1, 10], [2, 8]],
+                 workout_exercise.workout_exercise_sets.order(:position).map { |s| [s.position, s.reps] },)
   end
 
   test "create_sets! treats nil as no sets" do
