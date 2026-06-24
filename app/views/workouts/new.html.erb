@@ -52,8 +52,13 @@
     .picker .lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
     .picker .input { display: flex; align-items: center; gap: 11px; background: var(--card); border: 1.5px solid var(--line2); border-radius: 12px; padding: 12px 14px; }
     .picker .mag { color: var(--sub); font-size: 15px; }
-    .picker .ph { flex: 1; font-family: var(--disp); font-size: 14px; color: var(--faint); }
-    .picker .hint { font-family: var(--mono); font-size: 9.5px; color: var(--faint); }
+    .picker .field { flex: 1; background: none; border: none; outline: none; font-family: var(--disp); font-size: 14px; color: var(--ink); }
+    .picker .field::placeholder { color: var(--faint); }
+    .picker .results { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 10; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 6px; max-height: 240px; overflow-y: auto; box-shadow: 0 12px 30px rgba(0, 0, 0, .25); }
+    .picker .result { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; width: 100%; text-align: left; background: none; border: none; border-radius: 8px; padding: 9px 11px; cursor: pointer; }
+    .picker .result:hover { background: var(--screen); }
+    .picker .result-name { font-family: var(--disp); font-size: 13.5px; color: var(--ink); }
+    .picker .result-muscle { font-family: var(--mono); font-size: 9.5px; letter-spacing: .5px; text-transform: uppercase; color: var(--faint); }
 
     .footer { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; border-top: 1px solid var(--line); flex-shrink: 0; }
     .tally { font-family: var(--mono); font-size: 11px; color: var(--faint); }
@@ -87,7 +92,7 @@
     </div>
   </div>
 
-  <%= form_with url: workouts_path, data: { controller: "workout-form" } do %>
+  <%= form_with url: workouts_path, data: { controller: "workout-form", "workout-form-url-value": exercise_variations_path } do %>
     <div class="body">
       <% if @workout.errors.any? %>
         <ul class="errors">
@@ -106,17 +111,18 @@
 
       <div class="struct-label">Structured</div>
 
-      <div class="tree" data-workout-form-target="tree">
-        <%= render "workouts/exercise_card", name: "Seated Cable Row", tag: "BACK", scheme: "machine", set_count: 3 %>
-      </div>
+      <div class="tree" data-workout-form-target="tree"></div>
 
       <div class="picker">
         <div class="lbl">Add a lift</div>
         <div class="input">
           <span class="mag">&#9907;</span>
-          <span class="ph">Search the registry &mdash; Bench, Row, Curl&hellip;</span>
-          <span class="hint">then fill the fields &rarr;</span>
+          <input type="text" class="field" autocomplete="off"
+                 placeholder="Search the registry: Bench, Row, Curl&hellip;"
+                 data-workout-form-target="query"
+                 data-action="input->workout-form#search keydown.enter->workout-form#pickFirst keydown.esc->workout-form#closeResults blur->workout-form#closeResults">
         </div>
+        <div class="results" data-workout-form-target="results" hidden></div>
       </div>
 
       <template data-workout-form-target="exerciseTemplate">
@@ -124,6 +130,12 @@
       </template>
       <template data-workout-form-target="setTemplate">
         <%= render "workouts/set_row" %>
+      </template>
+      <template data-workout-form-target="resultTemplate">
+        <button type="button" class="result" data-action="mousedown->workout-form#pick">
+          <span class="result-name"></span>
+          <span class="result-muscle"></span>
+        </button>
       </template>
     </div>
 

@@ -11,6 +11,7 @@ class ExerciseVariationsControllerTest < ActionDispatch::IntegrationTest
       id: exercise_variations(:seated_cable_rows_default).id,
       name: "Seated Cable Rows",
       muscle: "Back",
+      weight_scheme: "machine",
     }.stringify_keys
 
     assert_response :success

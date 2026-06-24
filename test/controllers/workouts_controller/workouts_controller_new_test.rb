@@ -21,15 +21,6 @@ class WorkoutsControllerNewTest < ActionDispatch::IntegrationTest
     assert_select ".tree[data-workout-form-target='tree']"
   end
 
-  test "new renders the seed exercise card with live add/remove controls" do
-    get new_workout_path
-
-    assert_select ".tree .lift .sets .grid", 3
-    assert_select ".tree button[data-action='workout-form#removeExercise']", 1
-    assert_select ".tree button[data-action='workout-form#addSet']", 1
-    assert_select ".tree button[data-action='workout-form#removeSet']", 3
-  end
-
   test "new provides clone templates for adding exercises and sets" do
     get new_workout_path
 

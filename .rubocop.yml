@@ -1,6 +1,7 @@
 plugins:
   - rubocop-rails
   - rubocop-performance
+  - rubocop-capybara
 
 Style/Documentation:
   Enabled: false
