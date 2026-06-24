@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   resources :workouts, only: [:index, :show, :new, :create]
 
+  resources :exercise_variations, only: [:index]
+
   resource :plan, only: [:new, :create, :edit, :update] do
     collection do
       get "exercises", to: "plans#exercises"

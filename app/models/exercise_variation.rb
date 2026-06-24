@@ -22,6 +22,10 @@ class ExerciseVariation < ApplicationRecord
     machine: "machine",
   }
 
+  scope :name_matching, lambda { |query|
+    query.blank? ? order(:name) : where("name ILIKE ?", "%#{sanitize_sql_like(query)}%").order(:name)
+  }
+
   validates :name, presence: true
   validates :exercise_id,
             uniqueness: { conditions: -> { where(is_default_variation: true) } },
