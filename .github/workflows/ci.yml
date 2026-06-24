@@ -68,7 +68,7 @@ jobs:
           bundler-cache: true
 
       - name: Set up database
-        run: bin/rails db:schema:load
+        run: bin/rails db:create db:schema:load
 
       - name: Run tests
         run: bin/rails t
@@ -105,7 +105,7 @@ jobs:
         uses: browser-actions/setup-chrome@v1
 
       - name: Set up database
-        run: bin/rails db:schema:load
+        run: bin/rails db:create db:schema:load
 
       - name: Run system tests
         run: bin/rails test:system
