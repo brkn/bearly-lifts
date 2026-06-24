@@ -52,4 +52,8 @@ end
 group :test do
   gem "simplecov", require: false
   gem "simplecov-console", require: false
+
+  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem "capybara"
+  gem "selenium-webdriver"
 end

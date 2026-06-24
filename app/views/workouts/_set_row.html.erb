@@ -1,0 +1,9 @@
+<%# locals: (index: 1) %>
+<div class="grid">
+  <span class="idx"><%= index %></span>
+  <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][reps]", nil, id: nil, class: "fld c", placeholder: "0" %>
+  <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][weight]", nil, id: nil, class: "fld c", placeholder: "0" %>
+  <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][rir]", nil, id: nil, class: "fld c rir", placeholder: "—" %>
+  <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][notes]", nil, id: nil, class: "fld note", placeholder: "note (optional)" %>
+  <button type="button" class="x sm" aria-label="Remove set" data-action="workout-form#removeSet">&times;</button>
+</div>

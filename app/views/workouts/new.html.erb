@@ -87,7 +87,7 @@
     </div>
   </div>
 
-  <%= form_with url: workouts_path do %>
+  <%= form_with url: workouts_path, data: { controller: "workout-form" } do %>
     <div class="body">
       <% if @workout.errors.any? %>
         <ul class="errors">
@@ -106,38 +106,8 @@
 
       <div class="struct-label">Structured</div>
 
-      <div class="tree">
-        <div class="lift">
-          <div class="lift-head">
-            <%= hidden_field_tag "workout[workout_exercises][][exercise_variation_id]", "", id: nil %>
-            <span class="lift-name">Seated Cable Row</span>
-            <span class="tag">BACK</span>
-            <span class="scheme">machine</span>
-            <span class="spacer"></span>
-            <button type="button" class="x" aria-label="Remove exercise">&times;</button>
-          </div>
-          <div class="grid colhead">
-            <span></span>
-            <span>REPS</span>
-            <span>WT&middot;KG</span>
-            <span>RIR</span>
-            <span class="l">NOTE</span>
-            <span></span>
-          </div>
-          <div class="sets">
-            <% 3.times do |i| %>
-              <div class="grid">
-                <span class="idx"><%= i + 1 %></span>
-                <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][reps]", nil, id: nil, class: "fld c", placeholder: "0" %>
-                <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][weight]", nil, id: nil, class: "fld c", placeholder: "0" %>
-                <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][rir]", nil, id: nil, class: "fld c rir", placeholder: "—" %>
-                <%= text_field_tag "workout[workout_exercises][][workout_exercise_sets][][notes]", nil, id: nil, class: "fld note", placeholder: "note (optional)" %>
-                <button type="button" class="x sm" aria-label="Remove set">&times;</button>
-              </div>
-            <% end %>
-          </div>
-          <button type="button" class="addset">+ set</button>
-        </div>
+      <div class="tree" data-workout-form-target="tree">
+        <%= render "workouts/exercise_card", name: "Seated Cable Row", tag: "BACK", scheme: "machine", set_count: 3 %>
       </div>
 
       <div class="picker">
@@ -148,6 +118,13 @@
           <span class="hint">then fill the fields &rarr;</span>
         </div>
       </div>
+
+      <template data-workout-form-target="exerciseTemplate">
+        <%= render "workouts/exercise_card", name: "", tag: "", scheme: "", set_count: 1 %>
+      </template>
+      <template data-workout-form-target="setTemplate">
+        <%= render "workouts/set_row" %>
+      </template>
     </div>
 
     <footer class="footer">

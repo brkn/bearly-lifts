@@ -1,0 +1,25 @@
+<%# locals: (name:, tag:, scheme:, variation_id: "", set_count: 1) %>
+<div class="lift">
+  <div class="lift-head">
+    <%= hidden_field_tag "workout[workout_exercises][][exercise_variation_id]", variation_id, id: nil %>
+    <span class="lift-name"><%= name %></span>
+    <span class="tag"><%= tag %></span>
+    <span class="scheme"><%= scheme %></span>
+    <span class="spacer"></span>
+    <button type="button" class="x" aria-label="Remove exercise" data-action="workout-form#removeExercise">&times;</button>
+  </div>
+  <div class="grid colhead">
+    <span></span>
+    <span>REPS</span>
+    <span>WT&middot;KG</span>
+    <span>RIR</span>
+    <span class="l">NOTE</span>
+    <span></span>
+  </div>
+  <div class="sets">
+    <% set_count.times do |i| %>
+      <%= render "workouts/set_row", index: i + 1 %>
+    <% end %>
+  </div>
+  <button type="button" class="addset" data-action="workout-form#addSet">+ set</button>
+</div>
