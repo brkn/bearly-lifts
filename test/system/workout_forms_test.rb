@@ -69,6 +69,28 @@ class WorkoutFormsTest < ApplicationSystemTestCase
     assert_equal %w[1 2], all(".tree .sets .grid .idx").map(&:text)
   end
 
+  test "the footer tally tracks sets and exercises live" do
+    visit new_workout_path
+    assert_selector ".tally", text: "writes 0 sets across 0 exercises"
+
+    add_exercise "row"
+    assert_selector ".tally", text: "writes 1 sets across 1 exercises"
+
+    click_button "+ set"
+    assert_selector ".tally", text: "writes 2 sets across 1 exercises"
+
+    add_exercise "row"
+    assert_selector ".tally", text: "writes 3 sets across 2 exercises"
+
+    first(".tree .sets .grid button.x.sm").click
+    assert_selector ".tally", text: "writes 2 sets across 2 exercises"
+
+    within first(".tree .lift-head") do
+      click_button
+    end
+    assert_selector ".tally", text: "writes 1 sets across 1 exercises"
+  end
+
   # TODO: system test - an invalid submit re-renders :new in place via Turbo Drive (no full reload)
   # TODO: system test - a valid submit redirects to the created workout via Turbo Drive
 

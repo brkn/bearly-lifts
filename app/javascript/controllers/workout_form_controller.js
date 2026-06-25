@@ -1,12 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["tree", "exerciseTemplate", "setTemplate", "query", "results", "resultTemplate"]
+  static targets = ["tree", "exerciseTemplate", "setTemplate", "query", "results", "resultTemplate", "tallySets", "tallyExercises"]
   static values = { url: String }
 
   initialize() {
     this.searchToken = 0
     this.lastResults = []
+  }
+
+  connect() {
+    this.#updateTally()
   }
 
   disconnect() {
@@ -16,18 +20,21 @@ export default class extends Controller {
 
   removeExercise(event) {
     event.currentTarget.closest(".lift").remove()
+    this.#updateTally()
   }
 
   addSet(event) {
     const sets = event.currentTarget.closest(".lift").querySelector(".sets")
     sets.appendChild(this.setTemplateTarget.content.firstElementChild.cloneNode(true))
     this.#renumber(sets)
+    this.#updateTally()
   }
 
   removeSet(event) {
     const sets = event.currentTarget.closest(".sets")
     event.currentTarget.closest(".grid").remove()
     this.#renumber(sets)
+    this.#updateTally()
   }
 
   search() {
@@ -64,6 +71,7 @@ export default class extends Controller {
     card.querySelector(".scheme").textContent = variation.weight_scheme
     card.querySelector("input[name='workout[workout_exercises][][exercise_variation_id]']").value = variation.id
     this.treeTarget.appendChild(card)
+    this.#updateTally()
   }
 
   async #fetchResults() {
@@ -111,5 +119,10 @@ export default class extends Controller {
     sets.querySelectorAll(".idx").forEach((idx, i) => {
       idx.textContent = i + 1
     })
+  }
+
+  #updateTally() {
+    this.tallySetsTarget.textContent = this.treeTarget.querySelectorAll(".sets .grid").length
+    this.tallyExercisesTarget.textContent = this.treeTarget.querySelectorAll(".lift").length
   }
 }
