@@ -27,4 +27,20 @@ class WorkoutsControllerNewTest < ActionDispatch::IntegrationTest
     assert_select "template[data-workout-form-target='exerciseTemplate']", 1
     assert_select "template[data-workout-form-target='setTemplate']", 1
   end
+
+  test "new renders a 1 through 10 rpe radio group" do
+    get new_workout_path
+
+    assert_select "input[type=radio][name='workout[rpe]']", count: 10
+    (1..10).each do |value|
+      assert_select "input[type=radio][name='workout[rpe]'][value=?]", value.to_s
+    end
+  end
+
+  test "new pre-selects rpe 7 by default" do
+    get new_workout_path
+
+    assert_select "input[type=radio][name='workout[rpe]'][checked]", count: 1
+    assert_select "input[type=radio][name='workout[rpe]'][value='7'][checked]"
+  end
 end

@@ -102,6 +102,17 @@ class WorkoutFormsTest < ApplicationSystemTestCase
     assert_field "workout[notes]", with: notes
   end
 
+  test "the footer rpe gauge defaults to 7 and selection follows taps" do
+    visit new_workout_path
+
+    assert find("input[name='workout[rpe]'][value='7']", visible: false).checked?
+
+    choose "workout_rpe_9", allow_label_click: true
+
+    assert find("input[name='workout[rpe]'][value='9']", visible: false).checked?
+    assert_not find("input[name='workout[rpe]'][value='7']", visible: false).checked?
+  end
+
   # TODO: system test - an invalid submit re-renders :new in place via Turbo Drive (no full reload)
   # TODO: system test - a valid submit redirects to the created workout via Turbo Drive
 

@@ -11,6 +11,7 @@
     .head .sub { font-size: 13.5px; color: var(--faint); margin-top: 6px; max-width: 540px; line-height: 1.45; }
     .head .right { font-family: var(--mono); font-size: 11px; color: var(--faint); }
 
+    .log-form { flex: 1; min-height: 0; display: flex; flex-direction: column; }
     .body { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 16px 40px 6px; }
 
     .errors { list-style: none; margin: 0 0 14px; padding: 11px 16px; background: rgba(255, 90, 44, .10); border: 1px solid rgba(255, 90, 44, .5); border-radius: 12px; font-family: var(--mono); font-size: 11px; color: var(--ember); flex-shrink: 0; }
@@ -72,7 +73,32 @@
     .picker .result-name { font-family: var(--disp); font-size: 13.5px; color: var(--ink); }
     .picker .result-muscle { font-family: var(--mono); font-size: 9.5px; letter-spacing: .5px; text-transform: uppercase; color: var(--faint); }
 
-    .footer { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; border-top: 1px solid var(--line); flex-shrink: 0; }
+    .footer { display: flex; flex-direction: column; align-items: stretch; gap: 12px; padding: 6px 40px 18px; flex-shrink: 0; }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; }
+
+    .gauge { --pill: 34px; border: none; padding: 0; margin: 0; min-width: 0; }
+    .gauge .lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); padding: 0; margin-bottom: 6px; }
+    .gauge ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+    .gauge li { --g: var(--amber); flex: 0 0 auto; }
+    .gauge label { position: relative; display: flex; align-items: center; justify-content: center; min-width: var(--pill); height: var(--pill); padding: 0 5px; border-radius: 9px; cursor: pointer; font-family: var(--mono); font-size: 12.5px; font-weight: 700; color: color-mix(in srgb, var(--g) 78%, var(--faint)); background: color-mix(in srgb, var(--g) 8%, transparent); border: 1.5px solid color-mix(in srgb, var(--g) 26%, transparent); transition: background .12s, color .12s, border-color .12s, box-shadow .12s, transform .08s; }
+    .gauge input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+    .gauge label:hover { background: color-mix(in srgb, var(--g) 16%, transparent); border-color: color-mix(in srgb, var(--g) 45%, transparent); }
+    .gauge li:has(:checked) label { background: var(--g); border-color: var(--g); color: var(--screen); transform: translateY(-2px); box-shadow: 0 8px 20px color-mix(in srgb, var(--g) 40%, transparent); }
+    .gauge li:has(:focus-visible) label { outline: 2px solid var(--ink); outline-offset: 2px; }
+    .gauge li:nth-child(1) { --g: #46d6a4; }
+    .gauge li:nth-child(2) { --g: #6ace91; }
+    .gauge li:nth-child(3) { --g: #8dc77f; }
+    .gauge li:nth-child(4) { --g: #b1bf6c; }
+    .gauge li:nth-child(5) { --g: #d4b859; }
+    .gauge li:nth-child(6) { --g: #e9aa4c; }
+    .gauge li:nth-child(7) { --g: #ee9644; }
+    .gauge li:nth-child(8) { --g: #f4823c; }
+    .gauge li:nth-child(9) { --g: #f96e34; }
+    .gauge li:nth-child(10) { --g: #ff5a2c; }
+
+    @media (max-width: 560px) { .gauge li { flex: 1 1 calc(20% - 6px); } }
+    @media (prefers-reduced-motion: reduce) { .gauge label { transition: none; } .gauge li:has(:checked) label { transform: none; } }
+
     .tally { font-family: var(--mono); font-size: 11px; color: var(--faint); }
     .tally b { color: var(--ink); font-weight: 400; }
     .save { padding: 13px 22px; border-radius: 13px; font-weight: 600; font-size: 15px; background: var(--ember); color: #fff; border: none; cursor: pointer; display: flex; align-items: center; gap: 9px; font-family: var(--disp); }
@@ -104,7 +130,7 @@
     </div>
   </div>
 
-  <%= form_with url: workouts_path, data: { controller: "workout-form", "workout-form-url-value": exercise_variations_path } do %>
+  <%= form_with url: workouts_path, class: "log-form", data: { controller: "workout-form", "workout-form-url-value": exercise_variations_path } do %>
     <div class="body">
       <% if @workout.errors.any? %>
         <ul class="errors">
@@ -161,8 +187,24 @@
     </div>
 
     <footer class="footer">
-      <div class="tally">writes <b data-workout-form-target="tallySets">0</b> sets across <b data-workout-form-target="tallyExercises">0</b> exercises</div>
-      <button type="submit" class="save">Save session <span class="arr">&rarr;</span></button>
+      <fieldset class="gauge">
+        <legend class="lbl">RPE</legend>
+        <ul>
+          <% (1..10).each do |value| %>
+            <li>
+              <label>
+                <%= radio_button_tag "workout[rpe]", value, (@workout.rpe || 7) == value %>
+                <span><%= value %></span>
+              </label>
+            </li>
+          <% end %>
+        </ul>
+      </fieldset>
+
+      <div class="footer-row">
+        <div class="tally">writes <b data-workout-form-target="tallySets">0</b> sets across <b data-workout-form-target="tallyExercises">0</b> exercises</div>
+        <button type="submit" class="save">Save session <span class="arr">&rarr;</span></button>
+      </div>
     </footer>
   <% end %>
 </main>
