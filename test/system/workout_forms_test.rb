@@ -91,6 +91,17 @@ class WorkoutFormsTest < ApplicationSystemTestCase
     assert_selector ".tally", text: "writes 1 sets across 1 exercises"
   end
 
+  test "the source bar expands to a notes textarea for pasting raw notes" do
+    visit new_workout_path
+    assert_no_selector "textarea[name='workout[notes]']"
+
+    find("summary", text: "Paste raw notes").click
+
+    notes = "smith squat bar+17.5/side\nleg press 120  10 10 12"
+    fill_in "workout[notes]", with: notes
+    assert_field "workout[notes]", with: notes
+  end
+
   # TODO: system test - an invalid submit re-renders :new in place via Turbo Drive (no full reload)
   # TODO: system test - a valid submit redirects to the created workout via Turbo Drive
 

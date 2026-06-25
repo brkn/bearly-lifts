@@ -21,6 +21,18 @@
     .src-note { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
     .spacer { flex: 1; }
     .pill { font-family: var(--mono); font-size: 10.5px; color: var(--sub); border: 1px solid var(--line2); border-radius: 999px; padding: 5px 12px; white-space: nowrap; }
+    .srcbar > summary { list-style: none; cursor: pointer; }
+    .srcbar > summary::-webkit-details-marker { display: none; }
+    .srcbar[open] .row { border-radius: 12px 12px 0 0; }
+    .srcbar[open] .pill { color: var(--ink); }
+    .pill .arr { display: inline-block; }
+    .srcbar[open] .pill .arr { transform: rotate(180deg); }
+    .src-panel { background: var(--screen); border: 1px solid var(--line); border-top: none; border-radius: 0 0 12px 12px; padding: 12px 16px; }
+    .src-ta { width: 100%; height: 96px; resize: vertical; background: var(--card); border: 1px solid var(--line2); border-radius: 10px; padding: 10px 12px; font-family: var(--mono); font-size: 11.5px; line-height: 1.6; color: var(--ink); outline: none; }
+    .src-ta::placeholder { color: var(--faint); }
+    .src-hint { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-family: var(--mono); font-size: 10px; color: var(--faint); }
+    .src-hint .diamond { width: 5px; height: 5px; }
+    .src-hint .amber { color: var(--amber); }
 
     .struct-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ember); margin-bottom: 10px; flex-shrink: 0; }
     .tree { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 11px; overflow-y: auto; padding-bottom: 6px; }
@@ -102,12 +114,21 @@
         </ul>
       <% end %>
 
-      <div class="srcbar">
-        <div class="row">
+      <%= tag.details class: "srcbar", open: @workout.notes.present? do %>
+        <summary class="row">
+          <span class="src-note">every value is typed into a field &mdash; nothing is parsed</span>
           <span class="spacer"></span>
-          <span class="pill">Paste raw notes &#9660;</span>
+          <span class="pill">Paste raw notes <span class="arr">&#9660;</span></span>
+        </summary>
+        <div class="src-panel">
+          <%= text_area_tag "workout[notes]", @workout.notes, class: "src-ta",
+                            placeholder: "Paste your raw workout notes here…" %>
+          <div class="src-hint">
+            <span class="diamond"></span>
+            <span>stored verbatim on the session &middot; <span class="amber">turn AI on</span> to auto-fill these fields from it</span>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <div class="struct-label">Structured</div>
 
