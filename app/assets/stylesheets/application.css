@@ -548,3 +548,105 @@ button.primary {
   font-size: 11px;
   color: var(--sub);
 }
+
+/* progress — status badge, chart atoms, lift rows (shared by index + detail) */
+.st {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+.st.up {
+  color: var(--fresh);
+  border-color: rgba(70, 214, 164, .4);
+  background: rgba(70, 214, 164, .08);
+}
+
+.st.stall {
+  color: var(--amber);
+  border-color: rgba(230, 180, 80, .4);
+  background: rgba(230, 180, 80, .08);
+}
+
+.st.cold {
+  color: var(--faint);
+  border-color: var(--line2);
+}
+
+.chart-svg {
+  display: block;
+  overflow: visible;
+}
+
+.chart-axis {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: var(--faint);
+  letter-spacing: .3px;
+}
+
+.chart-svg.up { color: var(--fresh); }
+.chart-svg.stall { color: var(--amber); }
+.chart-svg.cold { color: var(--faint); }
+
+.chart-dot { fill: var(--screen); }
+
+.chart-cur {
+  fill: var(--ember);
+  stroke: var(--screen);
+}
+
+.chart-halo { fill: var(--ember); }
+
+.feed-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.feed-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--sub);
+}
+
+.feed-row.up::before { background: var(--fresh); }
+.feed-row.stall::before { background: var(--amber); }
+.feed-row.cold::before { background: var(--faint); }
+
+.fr-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.fr-nameline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fr-name {
+  font-weight: 600;
+  letter-spacing: -.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ink);
+}

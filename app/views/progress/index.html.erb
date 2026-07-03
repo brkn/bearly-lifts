@@ -1,0 +1,87 @@
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="view-transition" content="same-origin">
+  <style>
+    /* page-unique wrapper: Turbo Drive keeps old per-page <style> tags in the head,
+       so generic selectors like .body leak across pages */
+    .idx-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+
+    .idx-head { padding: 24px 38px 0; flex-shrink: 0; }
+    .idx-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 3px; }
+    .idx-h1 { font-size: 24px; font-weight: 700; letter-spacing: -.6px; }
+    .idx-sum { font-family: var(--mono); font-size: 11px; color: var(--sub); }
+    .idx-sum .u { color: var(--fresh); }
+    .idx-sum .s { color: var(--amber); }
+    .idx-verdict { font-size: 17px; font-weight: 500; letter-spacing: -.3px; line-height: 1.35; margin-top: 10px; max-width: 660px; }
+
+    .idx-body .rows-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 14px 0 24px; }
+    .idx-body .rows-scroll::-webkit-scrollbar { width: 4px; }
+    .idx-body .rows-scroll::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
+
+    .feed-row.card { padding: 15px 24px 15px 26px; margin: 0 24px 10px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+    .feed-row.card:hover { border-color: var(--line2); }
+    .feed-row.card .fr-name { font-size: 14.5px; }
+    .fr-muscle { font-family: var(--mono); font-size: 9.5px; letter-spacing: .5px; text-transform: uppercase; color: var(--faint); margin-top: 4px; }
+    .fr-verdict-text { font-size: 13px; color: var(--sub); margin-top: 6px; line-height: 1.4; }
+    .fr-spark-wrap { width: 200px; flex-shrink: 0; display: flex; justify-content: flex-end; line-height: 0; }
+    .fr-rec { width: 152px; flex-shrink: 0; text-align: right; }
+    .fr-rec-k { font-family: var(--mono); font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
+    .fr-rec-v { font-size: 14px; font-weight: 600; letter-spacing: -.3px; margin-top: 5px; white-space: nowrap; }
+    .fr-rec-v.up { color: var(--fresh); }
+    .fr-rec-v.stall { color: var(--amber); }
+    .fr-rec-v.cold { color: var(--ember); }
+
+    .empty-state { padding: 60px 38px; color: var(--sub); font-size: 15px; }
+    .empty-state a { color: var(--ember); }
+
+    @media (max-width: 760px) {
+      .fr-rec { display: none; }
+      .fr-spark-wrap { width: 120px; overflow: hidden; }
+      .idx-head { padding: 20px 20px 0; }
+      .feed-row.card { margin: 0 14px 10px; padding: 13px 16px 13px 20px; }
+    }
+  </style>
+<% end %>
+
+<main class="app">
+  <header class="topbar">
+    <%= link_to root_path, class: "brand" do %>
+      <span class="diamond"></span>
+      <span class="wordmark">Bearly Lifts</span>
+    <% end %>
+
+    <nav class="nav">
+      <%= link_to "Plan", edit_plan_path %>
+      <%= link_to "History", workouts_path %>
+      <%= link_to "Progress", progress_path, class: "active" %>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="idx-body">
+    <div class="idx-head">
+      <div class="idx-title">
+        <h1 class="idx-h1">Progress</h1>
+        <span class="idx-sum"><%= @lifts.size %> lifts ·
+          <b class="u"><%= @tone_counts.fetch("up", 0) %> climbing</b> ·
+          <b class="s"><%= @tone_counts.fetch("stall", 0) %> holding</b> ·
+          <b><%= @tone_counts.fetch("cold", 0) %> cold</b></span>
+      </div>
+      <%# TODO: LLM-generated headline verdict calling out the standout lifts. %>
+      <p class="idx-verdict">Every lift you log, and where it is heading.</p>
+    </div>
+
+    <% if @lifts.empty? %>
+      <p class="empty-state">
+        Nothing logged yet — progress shows up here after your
+        <%= link_to "first workout", new_workout_path %>.
+      </p>
+    <% else %>
+      <div class="rows-scroll">
+        <%= render partial: "lift_row", collection: @lifts, as: :lift, locals: { variant: :card } %>
+      </div>
+    <% end %>
+  </div>
+</main>
