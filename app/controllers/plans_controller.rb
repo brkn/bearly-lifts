@@ -25,20 +25,11 @@ class PlansController < ApplicationController
     # Defered until we introduce the user model
     Plan.transaction do
       Plan.destroy_all
-      plan = Plan.create!
-
       # TODO: N+1 — variation.suggestion queries workouts/sets per variation.
       # Preload the workout associations so suggestion reads them in memory.
-      ExerciseVariation.in_order_of(:id, params[:exercise_variation_ids])
-                       .each_with_index do |variation, idx|
-                         plan.plan_exercises.create!(
-                           exercise_variation: variation,
-                           position: idx + 1,
-                           target_sets: variation.suggestion.sets,
-                           target_reps: variation.suggestion.reps,
-                           target_weight: variation.suggestion.weight,
-                         )
-                       end
+      ordered_exercise_variations = ExerciseVariation.in_order_of(:id, params[:exercise_variation_ids])
+
+      Plan.create!.create_plan_exercises!(ordered_exercise_variations)
     end
 
     redirect_to edit_plan_path

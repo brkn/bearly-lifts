@@ -22,4 +22,19 @@ class PlanTest < ActiveSupport::TestCase
       plans(:current).destroy
     end
   end
+
+  test "create_plan_exercises! numbers positions from 1 in the given order" do
+    variations = [
+      exercise_variations(:seated_cable_rows_default),
+      exercise_variations(:lat_pulldown_default),
+    ]
+
+    Plan.current.plan_exercises.destroy_all
+    Plan.current.create_plan_exercises!(variations)
+
+    created_plan_exercise_positions = Plan.current.plan_exercises.map { |pe| [pe.exercise_variation_id, pe.position] }
+    expected_plan_positions = [[variations[0].id, 1], [variations[1].id, 2]]
+
+    assert_equal expected_plan_positions, created_plan_exercise_positions
+  end
 end
