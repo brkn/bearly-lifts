@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PlansController < ApplicationController
+  before_action :assign_plan, only: %i[edit update]
+
   def new
     @muscles = Current.user.gap_ranked_muscles
   end
@@ -13,11 +15,7 @@ class PlansController < ApplicationController
                      .map { |muscle| [muscle, muscle.exercise_variations.to_a] }
   end
 
-  def edit
-    @plan = Current.user.plans.current
-
-    redirect_to new_plan_path unless @plan
-  end
+  def edit; end
 
   def create
     # TODO: "only one plan exists" is enforced ad hoc here (destroy_all + create).
@@ -40,12 +38,10 @@ class PlansController < ApplicationController
   end
 
   def update
-    plan = Current.user.plans.current
-
     Plan.transaction do
-      plan.plan_exercises.each do |pe|
-        attrs = params.dig(:plan_exercises, pe.exercise_variation_id.to_s) || {}
-        pe.update!(
+      @plan.plan_exercises.each do |plan_exercise|
+        attrs = params.dig(:plan_exercises, plan_exercise.exercise_variation_id.to_s) || {}
+        plan_exercise.update!(
           target_sets: attrs[:target_sets],
           target_reps: attrs[:target_reps],
           target_weight: attrs[:target_weight].presence,
@@ -57,6 +53,12 @@ class PlansController < ApplicationController
   end
 
   private
+
+  def assign_plan
+    @plan = Current.user.plans.current
+
+    redirect_to new_plan_path unless @plan
+  end
 
   def ordered_by_ids(ids, records)
     by_id = records.index_by(&:id)
