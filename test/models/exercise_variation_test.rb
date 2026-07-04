@@ -6,6 +6,9 @@ class ExerciseVariationTest < ActiveSupport::TestCase
   setup do
     @main_user = users(:one)
     @other_user = users(:two)
+
+    @date1 = Date.new(2026, 6, 10)
+    @date2 = Date.new(2026, 6, 18)
   end
 
   test "muscles returns the muscles the variation trains" do
@@ -26,13 +29,13 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
   test "suggestion recommends +2.5kg when the last top sets were cleared with reps in reserve" do
     variation = exercise_variations(:incline_press_default)
-    workout = @main_user.workouts.create!(date: Date.new(2026, 6, 10), rpe: 7)
+    workout = @main_user.workouts.create!(date: @date1, rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(position: 1, weight: 40, reps: 8, rir: 2)
     workout_exercise.workout_exercise_sets.create!(position: 2, weight: 40, reps: 8, rir: 2)
     workout_exercise.workout_exercise_sets.create!(position: 3, weight: 40, reps: 7, rir: 2)
 
-    suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion(@main_user) }
+    suggestion = travel_to(@date2) { variation.suggestion(@main_user) }
 
     assert_equal :progress, suggestion.trend
     assert_equal 42.5, suggestion.weight
@@ -42,11 +45,11 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
   test "suggestion holds the weight when the last top set hit failure" do
     variation = exercise_variations(:goblet_squat_default)
-    workout = @main_user.workouts.create!(date: Date.new(2026, 6, 10), rpe: 7)
+    workout = @main_user.workouts.create!(date: @date1, rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(position: 1, weight: 60, reps: 5, rir: 0)
 
-    suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion(@main_user) }
+    suggestion = travel_to(@date2) { variation.suggestion(@main_user) }
 
     assert_equal :hold, suggestion.trend
     assert_equal 60, suggestion.weight
@@ -58,7 +61,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(position: 1, weight: 15, reps: 12, rir: 3)
 
-    suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion(@main_user) }
+    suggestion = travel_to(@date2) { variation.suggestion(@main_user) }
 
     assert_equal :rebase, suggestion.trend
     assert_equal 15, suggestion.weight
@@ -66,7 +69,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
   test "suggestion is scoped to the user, ignoring other users' history on the same variation" do
     variation = exercise_variations(:incline_press_default)
-    main_workout = @main_user.workouts.create!(date: Date.new(2026, 6, 10), rpe: 7)
+    main_workout = @main_user.workouts.create!(date: @date1, rpe: 7)
     main_workout_exercise = main_workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     main_workout_exercise.workout_exercise_sets.create!(position: 1, weight: 40, reps: 8, rir: 2)
 
@@ -74,7 +77,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     other_workout_exercise = other_workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     other_workout_exercise.workout_exercise_sets.create!(position: 1, weight: 100, reps: 5, rir: 0)
 
-    suggestion = travel_to(Date.new(2026, 6, 18)) { variation.suggestion(@main_user) }
+    suggestion = travel_to(@date2) { variation.suggestion(@main_user) }
 
     assert_equal 42.5, suggestion.weight
   end

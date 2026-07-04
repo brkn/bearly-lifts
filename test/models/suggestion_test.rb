@@ -3,6 +3,11 @@
 require "test_helper"
 
 class SuggestionTest < ActiveSupport::TestCase
+  setup do
+    @date1 = Date.new(2026, 6, 10)
+    @today = Date.new(2026, 6, 18)
+  end
+
   test "holds trend, weight, sets, and reps" do
     s = Suggestion.new(trend: :progress, weight: 42.5, sets: 3, reps: 8)
 
@@ -31,7 +36,7 @@ class SuggestionTest < ActiveSupport::TestCase
     set = Struct.new(:weight, :reps, :rir)
     sets = [set.new(40, 8, 2), set.new(40, 7, 2)]
 
-    s = Suggestion.from(sets, performed_on: Date.new(2026, 6, 10), today: Date.new(2026, 6, 18))
+    s = Suggestion.from(sets, performed_on: @date1, today: @today)
 
     assert_equal :progress, s.trend
     assert_equal 42.5, s.weight
@@ -42,7 +47,7 @@ class SuggestionTest < ActiveSupport::TestCase
   test "from holds the weight when a top set hit failure" do
     set = Struct.new(:weight, :reps, :rir)
 
-    s = Suggestion.from([set.new(60, 5, 0)], performed_on: Date.new(2026, 6, 10), today: Date.new(2026, 6, 18))
+    s = Suggestion.from([set.new(60, 5, 0)], performed_on: @date1, today: @today)
 
     assert_equal :hold, s.trend
     assert_equal 60, s.weight
@@ -51,7 +56,7 @@ class SuggestionTest < ActiveSupport::TestCase
   test "from rebases when the last workout was more than 28 days ago" do
     set = Struct.new(:weight, :reps, :rir)
 
-    s = Suggestion.from([set.new(15, 12, 3)], performed_on: Date.new(2026, 5, 1), today: Date.new(2026, 6, 18))
+    s = Suggestion.from([set.new(15, 12, 3)], performed_on: Date.new(2026, 5, 1), today: @today)
 
     assert_equal :rebase, s.trend
     assert_equal 15, s.weight
@@ -61,7 +66,7 @@ class SuggestionTest < ActiveSupport::TestCase
     set = Struct.new(:weight, :reps, :rir)
     sets = [set.new(50, 10, 1), set.new(40, 12, 4)]
 
-    s = Suggestion.from(sets, performed_on: Date.new(2026, 6, 10), today: Date.new(2026, 6, 18))
+    s = Suggestion.from(sets, performed_on: @date1, today: @today)
 
     assert_equal :hold, s.trend
     assert_equal 50, s.weight

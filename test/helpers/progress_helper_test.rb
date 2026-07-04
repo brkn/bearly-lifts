@@ -5,6 +5,11 @@ require "test_helper"
 class ProgressHelperTest < ActionView::TestCase
   FakeLift = Struct.new(:points, :tone, keyword_init: true)
 
+  setup do
+    @date1 = Date.new(2026, 6, 1)
+    @date2 = Date.new(2026, 6, 10)
+  end
+
   test "mini variant renders an area path, a line path and the current-point dot" do
     svg = parse(progress_chart(lift, variant: :mini))
 
@@ -36,7 +41,7 @@ class ProgressHelperTest < ActionView::TestCase
   end
 
   test "a single-point series renders centred without NaN coordinates" do
-    single = lift(points: [point(Date.new(2026, 6, 1), 30)])
+    single = lift(points: [point(@date1, 30)])
 
     html = progress_chart(single, variant: :mini)
 
@@ -45,7 +50,7 @@ class ProgressHelperTest < ActionView::TestCase
   end
 
   test "a flat series stays within the viewbox" do
-    flat = lift(points: [point(Date.new(2026, 6, 1), 30), point(Date.new(2026, 6, 8), 30)])
+    flat = lift(points: [point(@date1, 30), point(@date2, 30)])
 
     html = progress_chart(flat, variant: :mini)
 
@@ -61,8 +66,8 @@ class ProgressHelperTest < ActionView::TestCase
 
   def lift(points: nil, tone: "up")
     points ||= [
-      point(Date.new(2026, 6, 1), 15),
-      point(Date.new(2026, 6, 10), 20),
+      point(@date1, 15),
+      point(@date2, 20),
       point(Date.new(2026, 6, 21), 17.5),
     ]
     FakeLift.new(points: points, tone: tone)
