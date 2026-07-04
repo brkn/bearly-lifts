@@ -61,6 +61,14 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, Plan.count
   end
 
+  test "create with no exercises selected saves an empty plan and redirects to edit" do
+    post plan_path
+
+    assert_redirected_to edit_plan_path
+    assert_equal 1, Plan.count
+    assert_equal 0, Plan.current.plan_exercises.count
+  end
+
   test "edit renders adjustable inputs for the saved plan" do
     lat_id = exercise_variations(:lat_pulldown_default).id
 
