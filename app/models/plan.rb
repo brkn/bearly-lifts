@@ -11,12 +11,14 @@ class Plan < ApplicationRecord
 
   def create_plan_exercises!(ordered_exercise_variations)
     attributes_list = ordered_exercise_variations.each_with_index.map do |variation, index|
+      suggestion = variation.suggestion(user)
+
       {
         exercise_variation: variation,
         position: index + 1,
-        target_sets: variation.suggestion.sets,
-        target_reps: variation.suggestion.reps,
-        target_weight: variation.suggestion.weight,
+        target_sets: suggestion.sets,
+        target_reps: suggestion.reps,
+        target_weight: suggestion.weight,
       }
     end
 

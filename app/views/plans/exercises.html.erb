@@ -28,7 +28,7 @@
             </div>
             <div class="opts">
               <% variations.each_with_index do |variation, idx| %>
-                <% suggestion = variation.suggestion %>
+                <% suggestion = variation.suggestion(Current.user) %>
                 <label class="opt">
                   <%= check_box_tag "exercise_variation_ids[]", variation.id, idx < 2 %>
                   <span class="grow">

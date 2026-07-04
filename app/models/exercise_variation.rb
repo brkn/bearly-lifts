@@ -31,23 +31,18 @@ class ExerciseVariation < ApplicationRecord
             uniqueness: { conditions: -> { where(is_default_variation: true) } },
             if: :is_default_variation
 
-  def suggestion
-    @suggestion ||= assign_suggestion
-  end
+  def suggestion(user)
+    last_workout_exercise = user.workout_exercises
+                                .where(exercise_variation: self)
+                                .order("workouts.date DESC")
+                                .first
 
-  private
+    return Suggestion.new_rebase_suggestion if last_workout_exercise.nil?
 
-  def assign_suggestion
-    last_workout_exercise = workout_exercises.joins(:workout).order("workouts.date DESC").first
-
-    if last_workout_exercise.nil?
-      Suggestion.new_rebase_suggestion
-    else
-      Suggestion.from(
-        last_workout_exercise.workout_exercise_sets.to_a,
-        performed_on: last_workout_exercise.workout.date.to_date,
-        today: Date.current,
-      )
-    end
+    Suggestion.from(
+      last_workout_exercise.workout_exercise_sets.to_a,
+      performed_on: last_workout_exercise.workout.date.to_date,
+      today: Date.current,
+    )
   end
 end
