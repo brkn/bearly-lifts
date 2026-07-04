@@ -6,17 +6,19 @@ class MuscleTest < ActiveSupport::TestCase
   setup do
     @main_user = users(:one)
     @other_user = users(:two)
+
+    @today = Date.new(2026, 6, 18)
   end
 
   test "gap_ranked lists muscles by longest-since-trained first" do
-    ranked = Muscle.gap_ranked(@main_user, today: Date.new(2026, 6, 18))
+    ranked = Muscle.gap_ranked(@main_user, today: @today)
 
     assert_equal ["Legs", "Posterior Chain", "Chest", "Arms", "Back", "Shoulders"],
                  ranked.map(&:name)
   end
 
   test "gap_ranked annotates each muscle with last_trained_on and days_since" do
-    ranked = Muscle.gap_ranked(@main_user, today: Date.new(2026, 6, 18)).index_by(&:name)
+    ranked = Muscle.gap_ranked(@main_user, today: @today).index_by(&:name)
 
     assert_equal Date.new(2026, 5, 28), ranked["Back"].last_trained_on
     assert_equal 21, ranked["Back"].days_since
@@ -26,12 +28,12 @@ class MuscleTest < ActiveSupport::TestCase
   end
 
   test "a muscle is overdue once its gap exceeds the cadence, or it was never trained" do
-    ranked = Muscle.gap_ranked(@main_user, today: Date.new(2026, 6, 18)).index_by(&:name)
+    ranked = Muscle.gap_ranked(@main_user, today: @today).index_by(&:name)
 
     assert ranked["Back"].overdue?
 
     never_trained = Muscle.new
-    never_trained.record_gap(nil, Date.new(2026, 6, 18))
+    never_trained.record_gap(nil, @today)
 
     assert never_trained.overdue?
   end
@@ -41,7 +43,7 @@ class MuscleTest < ActiveSupport::TestCase
     main_workout = @main_user.workouts.create!(date: Date.new(2026, 6, 17), rpe: 7)
     main_workout.workout_exercises.create!(exercise_variation: variation, position: 1)
 
-    ranked = Muscle.gap_ranked(@other_user, today: Date.new(2026, 6, 18))
+    ranked = Muscle.gap_ranked(@other_user, today: @today)
     last_trained_dates = ranked.map(&:last_trained_on)
 
     assert_not_includes last_trained_dates, main_workout.date

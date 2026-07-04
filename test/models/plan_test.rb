@@ -3,6 +3,8 @@
 require "test_helper"
 
 class PlanTest < ActiveSupport::TestCase
+  setup { @main_user = users(:one) }
+
   test "current returns the singleton plan" do
     assert_equal plans(:current), Plan.current
   end
@@ -29,7 +31,7 @@ class PlanTest < ActiveSupport::TestCase
       exercise_variations(:lat_pulldown_default),
     ]
 
-    plan = users(:one).plans.create!
+    plan = @main_user.plans.create!
     plan.create_plan_exercises!(variations)
 
     created_plan_exercise_positions = plan.plan_exercises.map { |pe| [pe.exercise_variation_id, pe.position] }

@@ -3,7 +3,10 @@
 require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
-  setup { sign_in_as(users(:one)) }
+  setup do
+    @main_user = users(:one)
+    sign_in_as(@main_user)
+  end
 
   test "index responds successfully" do
     get root_path
@@ -12,7 +15,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index renders at most the five most recent workouts" do
-    3.times { users(:one).workouts.create!(rpe: 7) }
+    3.times { @main_user.workouts.create!(rpe: 7) }
 
     get root_path
 
@@ -27,7 +30,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index links each workout row to its show page" do
-    3.times { users(:one).workouts.create!(rpe: 7) }
+    3.times { @main_user.workouts.create!(rpe: 7) }
 
     get root_path
 
@@ -69,7 +72,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   test "index footer shows total and month workout counts" do
     # Frozen so the fixtures (May 2026) never drift into the current month.
     travel_to Time.zone.local(2026, 6, 15, 12) do
-      users(:one).workouts.create!(date: Time.zone.local(2026, 6, 1, 12), rpe: 7)
+      @main_user.workouts.create!(date: Time.zone.local(2026, 6, 1, 12), rpe: 7)
 
       get root_path
 

@@ -3,7 +3,11 @@
 require "test_helper"
 
 class PlansControllerTest < ActionDispatch::IntegrationTest
-  setup { sign_in_as(users(:one)) }
+  setup do
+    @main_user = users(:one)
+    @other_user = users(:two)
+    sign_in_as(@main_user)
+  end
 
   test "new responds successfully and renders muscles" do
     get new_plan_path
@@ -14,10 +18,10 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
 
   test "new does not leak another user's training recency" do
     variation = exercise_variations(:lat_pulldown_default)
-    other_workout = users(:one).workouts.create!(date: Date.new(2026, 6, 17), rpe: 7)
+    other_workout = @main_user.workouts.create!(date: Date.new(2026, 6, 17), rpe: 7)
     other_workout.workout_exercises.create!(exercise_variation: variation, position: 1)
 
-    sign_in_as(users(:two))
+    sign_in_as(@other_user)
     get new_plan_path
 
     assert_response :success
@@ -75,7 +79,7 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "edit ignores another user's plan and redirects to new" do
-    sign_in_as(users(:two))
+    sign_in_as(@other_user)
 
     get edit_plan_path
 
@@ -83,7 +87,7 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "update redirects to new when no plan exists" do
-    sign_in_as(users(:two))
+    sign_in_as(@other_user)
 
     patch plan_path
 
