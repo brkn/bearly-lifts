@@ -3,6 +3,8 @@
 require "application_system_test_case"
 
 class WorkoutFormsTest < ApplicationSystemTestCase
+  setup { sign_in_as(users(:one)) }
+
   test "selecting a typeahead result appends a populated exercise card" do
     visit new_workout_path
 

@@ -3,6 +3,8 @@
 require "test_helper"
 
 class WorkoutsTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "visiting the workouts index shows a recorded workout" do
     get workouts_path
 

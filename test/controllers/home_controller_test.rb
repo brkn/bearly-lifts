@@ -3,6 +3,8 @@
 require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "index responds successfully" do
     get root_path
 

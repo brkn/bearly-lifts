@@ -31,6 +31,16 @@ Rails/SkipsModelValidations:
 Rails/HasManyOrHasOneDependent:
   Enabled: false
 
+# App is english only for now.
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+# find_by_password_reset_token! is a real method from has_secure_password
+# (generates_token_for), not a dynamic finder; the cop's rewrite queries a
+# nonexistent column.
+Rails/DynamicFindBy:
+  AllowedMethods: ["find_by_password_reset_token!"]
+
 Metrics/MethodLength:
   Max: 15
   AllowedMethods: setup

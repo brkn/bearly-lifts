@@ -3,6 +3,8 @@
 require "test_helper"
 
 class PlansControllerTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "new responds successfully and renders muscles" do
     get new_plan_path
 
