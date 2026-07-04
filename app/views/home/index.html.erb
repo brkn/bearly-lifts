@@ -111,18 +111,8 @@
           <%= link_to "See all →", workouts_path, class: "seeall" %>
         </div>
         <div class="slist">
-          <% @workouts.each do |workout| %>
-            <%= link_to workout_path(workout), class: "row" do %>
-              <span class="date"><%= workout.date.strftime("%b %-d").upcase %></span>
-              <div class="mid">
-                <div class="muscles"><%= workout.muscles.map(&:name).uniq.sort.join(" · ") %></div>
-                <div class="meta">
-                  <% if workout.duration_minutes %><%= workout.duration_minutes %> min · <% end %><%= pluralize(workout.workout_exercises.size, "lift") %>
-                </div>
-              </div>
-              <span class="chev">›</span>
-            <% end %>
-          <% end %>
+          <%# TODO: empty state when there are no workouts yet %>
+          <%= render partial: "workouts/workout_row", collection: @workouts, as: :workout %>
         </div>
         <div class="foot">
           <span class="stat"><b><%= @total_count %></b> workouts logged · <b><%= @month_count %></b> this month</span>
