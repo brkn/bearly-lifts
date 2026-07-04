@@ -29,10 +29,10 @@ class PlanTest < ActiveSupport::TestCase
       exercise_variations(:lat_pulldown_default),
     ]
 
-    Plan.current.plan_exercises.destroy_all
-    Plan.current.create_plan_exercises!(variations)
+    plan = users(:one).plans.create!
+    plan.create_plan_exercises!(variations)
 
-    created_plan_exercise_positions = Plan.current.plan_exercises.map { |pe| [pe.exercise_variation_id, pe.position] }
+    created_plan_exercise_positions = plan.plan_exercises.map { |pe| [pe.exercise_variation_id, pe.position] }
     expected_plan_positions = [[variations[0].id, 1], [variations[1].id, 2]]
 
     assert_equal expected_plan_positions, created_plan_exercise_positions

@@ -14,7 +14,7 @@ class PlansController < ApplicationController
   end
 
   def edit
-    @plan = Plan.current
+    @plan = Current.user.plans.current
 
     redirect_to new_plan_path unless @plan
   end
@@ -24,19 +24,23 @@ class PlansController < ApplicationController
     # Move this invariant into the model (e.g. a Plan.replace! that owns the transaction).
     # Defered until we introduce the user model
     Plan.transaction do
-      Plan.destroy_all
+      Current.user.plans.destroy_all
+
       # TODO: N+1 — variation.suggestion queries workouts/sets per variation.
       # Preload the workout associations so suggestion reads them in memory.
       ordered_exercise_variations = ExerciseVariation.in_order_of(:id, params[:exercise_variation_ids])
 
-      Plan.create!.create_plan_exercises!(ordered_exercise_variations)
+      Current.user
+             .plans
+             .create!
+             .create_plan_exercises!(ordered_exercise_variations)
     end
 
     redirect_to edit_plan_path
   end
 
   def update
-    plan = Plan.current
+    plan = Current.user.plans.current
 
     Plan.transaction do
       plan.plan_exercises.each do |pe|

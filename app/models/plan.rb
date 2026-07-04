@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Plan < ApplicationRecord
+  belongs_to :user
+
   has_many :plan_exercises, -> { order(:position) }, inverse_of: :plan, dependent: :destroy
 
   def self.current

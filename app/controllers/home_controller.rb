@@ -2,8 +2,8 @@
 
 class HomeController < ApplicationController
   def index
-    @workouts = Workout.includes(:muscles, :workout_exercises).order(date: :desc).limit(5)
-    @total_count = Workout.count
-    @month_count = Workout.where(date: Date.current.beginning_of_month..).count
+    @workouts = Current.user.workouts.includes(:muscles, :workout_exercises).order(date: :desc).limit(5)
+    @total_count = Current.user.workouts.count
+    @month_count = Current.user.workouts.where(date: Date.current.beginning_of_month..).count
   end
 end

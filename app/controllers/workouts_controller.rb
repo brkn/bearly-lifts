@@ -2,23 +2,23 @@
 
 class WorkoutsController < ApplicationController
   def index
-    @workouts = Workout.includes(:muscles, :workout_exercises).order(date: :desc)
+    @workouts = Current.user.workouts.includes(:muscles, :workout_exercises).order(date: :desc)
     @total_count = @workouts.size
     @month_count = @workouts.count { |w| w.date >= Date.current.beginning_of_month }
   end
 
   def show
-    @workout = Workout
-               .includes(:muscles, workout_exercises: [:exercise_variation, :workout_exercise_sets])
-               .find(params.expect(:id))
+    @workout = Current.user.workouts
+                      .includes(:muscles, workout_exercises: [:exercise_variation, :workout_exercise_sets])
+                      .find(params.expect(:id))
   end
 
   def new
-    @workout = Workout.new
+    @workout = Current.user.workouts.new
   end
 
   def create
-    @workout = Workout.new(workout_params.slice(:rpe, :notes))
+    @workout = Current.user.workouts.new(workout_params.slice(:rpe, :notes))
 
     Workout.transaction do
       @workout.save!

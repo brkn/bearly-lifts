@@ -1,23 +1,34 @@
 may12:
+  user: one
   date: 2026-05-12 12:00:00
   rpe: 6
   duration_minutes: 35
   notes: Home session. Bicep curl 7kg breakthrough (clean 3×12). Rear delt 7kg too heavy, form collapsed.
 
 may16:
+  user: one
   date: 2026-05-16 12:00:00
   rpe: 7
   duration_minutes: 55
   notes: Tricep pushdown ceiling 30kg. Incline 12.5kg locked. Lat pulldown 35kg×13 consolidated.
 
 may21:
+  user: one
   date: 2026-05-21 12:00:00
   rpe: 7
   duration_minutes: 45
   notes: Low sleep (5h). Overhead extension 27.5kg PR. Pull skipped 2nd time.
 
 may28:
+  user: one
   date: 2026-05-28 12:00:00
   rpe: 7
   duration_minutes: 35
   notes: Pull skip streak broken. Lat pulldown 37.5kg opened. Sleep 8h, big meal 1h prior.
+
+two_solo:
+  user: two
+  date: 2026-01-10 12:00:00
+  rpe: 5
+  duration_minutes: 20
+  notes: Second account's only workout. Used to prove data never leaks across users.
