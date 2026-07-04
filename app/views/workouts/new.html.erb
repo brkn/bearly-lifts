@@ -113,9 +113,9 @@
     <div>
       <div class="eyebrow">
         <span class="diamond"></span>
-        Log a session &middot; <%= Date.current.strftime("%a %b %-d") %>
+        Log a workout &middot; <%= Date.current.strftime("%a %b %-d") %>
       </div>
-      <div class="title">Build your session</div>
+      <div class="title">Build your workout</div>
     </div>
   </div>
 
@@ -140,7 +140,7 @@
                             placeholder: "Paste your raw workout notes here…" %>
           <div class="src-hint">
             <span class="diamond"></span>
-            <span>stored verbatim on the session &middot; <span class="amber">turn AI on</span> to auto-fill these fields from it</span>
+            <span>stored verbatim on the workout &middot; <span class="amber">turn AI on</span> to auto-fill these fields from it</span>
           </div>
         </div>
       <% end %>
@@ -192,7 +192,7 @@
 
       <div class="footer-row">
         <div class="tally">writes <b data-workout-form-target="tallySets">0</b> sets across <b data-workout-form-target="tallyExercises">0</b> exercises</div>
-        <button type="submit" class="save">Save session <span class="arr">&rarr;</span></button>
+        <button type="submit" class="save">Save workout <span class="arr">&rarr;</span></button>
       </div>
     </footer>
   <% end %>

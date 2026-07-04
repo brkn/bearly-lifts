@@ -3,7 +3,7 @@
 require "test_helper"
 
 class WorkoutsControllerNewTest < ActionDispatch::IntegrationTest
-  test "new renders the log-session form scaffold" do
+  test "new renders the log-workout form scaffold" do
     get new_workout_path
 
     assert_response :success
@@ -11,7 +11,7 @@ class WorkoutsControllerNewTest < ActionDispatch::IntegrationTest
     assert_select "input[name='workout[workout_exercises][][workout_exercise_sets][][reps]']"
     assert_select "input[name='workout[workout_exercises][][workout_exercise_sets][][weight]']"
     assert_select "input[name='workout[workout_exercises][][workout_exercise_sets][][rir]']"
-    assert_select "button[type='submit']", /Save session/
+    assert_select "button[type='submit']", /Save workout/
   end
 
   test "new wires the form and its tree to the workout-form controller" do
