@@ -2,14 +2,14 @@
 
 class PlansController < ApplicationController
   def new
-    @muscles = Muscle.gap_ranked
+    @muscles = Current.user.gap_ranked_muscles
   end
 
   def exercises
     # TODO: use muscle names instead. Url bar is gnarly with many long uuidv7 strings.
     muscle_ids = Array(params[:muscle_ids])
 
-    @muscle_groups = ordered_by_ids(muscle_ids, Muscle.gap_ranked)
+    @muscle_groups = ordered_by_ids(muscle_ids, Current.user.gap_ranked_muscles)
                      .map { |muscle| [muscle, muscle.exercise_variations.to_a] }
   end
 

@@ -11,4 +11,6 @@ class User < ApplicationRecord
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   def lift_progress = LiftProgress.for_all(self)
+
+  def gap_ranked_muscles = Muscle.gap_ranked(self)
 end

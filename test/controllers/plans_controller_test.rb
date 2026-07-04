@@ -12,6 +12,18 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, muscles(:back).name
   end
 
+  test "new does not leak another user's training recency" do
+    variation = exercise_variations(:lat_pulldown_default)
+    other_workout = users(:one).workouts.create!(date: Date.new(2026, 6, 17), rpe: 7)
+    other_workout.workout_exercises.create!(exercise_variation: variation, position: 1)
+
+    sign_in_as(users(:two))
+    get new_plan_path
+
+    assert_response :success
+    assert_select ".meta", text: "never trained", count: 6
+  end
+
   test "exercises renders a section per selected muscle" do
     get exercises_plan_path, params: { muscle_ids: [muscles(:back).id] }
 
