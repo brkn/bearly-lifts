@@ -5,6 +5,8 @@ require "test_helper"
 class HomeControllerTest < ActionDispatch::IntegrationTest
   setup do
     @main_user = users(:one)
+    @other_user = users(:two)
+
     sign_in_as(@main_user)
   end
 
@@ -30,12 +32,16 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index links each workout row to its show page" do
-    3.times { @main_user.workouts.create!(rpe: 7) }
+    @other_user.workouts.create!(date: Time.zone.local(2026, 6, 1, 12), rpe: 7)
 
     get root_path
 
-    workout_ids = Workout.order(date: :desc).limit(5).pluck(:id)
-    workout_ids.each { |id| assert_select "a.row[href=?]", workout_path(id) }
+    workout_paths = [workouts(:may12), workouts(:may16), workouts(:may21), workouts(:may28)].map do |workout|
+      workout_path(workout)
+    end
+
+    assert_select ".row", 4
+    workout_paths.each { |workout_path| assert_select "a.row[href=?]", workout_path }
   end
 
   test "index links the History nav item to the workouts page" do
