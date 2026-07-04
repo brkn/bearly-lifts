@@ -32,19 +32,7 @@
 <% end %>
 
 <main class="app">
-  <header class="topbar">
-    <%= link_to root_path, class: "brand" do %>
-      <span class="diamond"></span>
-      <span class="wordmark">Bearly Lifts</span>
-    <% end %>
-
-    <nav class="nav">
-      <%= link_to "Plan", edit_plan_path %>
-      <a class="active" href="#">History</a>
-      <%= link_to "Progress", progress_path %>
-      <span class="avatar">B</span>
-    </nav>
-  </header>
+  <%= render "topbar", active: :history %>
 
   <div class="body">
     <div class="history-head">

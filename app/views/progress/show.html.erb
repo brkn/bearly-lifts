@@ -56,19 +56,7 @@
 <% end %>
 
 <main class="app">
-  <header class="topbar">
-    <%= link_to root_path, class: "brand" do %>
-      <span class="diamond"></span>
-      <span class="wordmark">Bearly Lifts</span>
-    <% end %>
-
-    <nav class="nav">
-      <%= link_to "Plan", edit_plan_path %>
-      <%= link_to "History", workouts_path %>
-      <%= link_to "Progress", progress_path, class: "active" %>
-      <span class="avatar">B</span>
-    </nav>
-  </header>
+  <%= render "topbar", active: :progress %>
 
   <div class="combo-body">
     <aside class="combo-rail">

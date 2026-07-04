@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   get "progress", to: "progress#index", as: :progress
   get "progress/:id", to: "progress#show", as: :progress_lift
 
+  # TODO: do
+  # resource :progress, only: [:index, :show]
+
   resource :plan, only: [:new, :create, :edit, :update] do
     collection do
       get "exercises", to: "plans#exercises"
