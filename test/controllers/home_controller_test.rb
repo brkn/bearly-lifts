@@ -45,6 +45,12 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "nav.nav a[href=?]", edit_plan_path, text: "Plan"
   end
 
+  test "index links the Progress nav item to the progress page" do
+    get root_path
+
+    assert_select "nav.nav a[href=?]", progress_path, text: "Progress"
+  end
+
   test "index links the Plan a workout button to the plan page" do
     get root_path
 
@@ -59,11 +65,14 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index footer shows total and month workout counts" do
-    Workout.create!(date: Time.zone.local(2026, 6, 1, 12), rpe: 7)
+    # Frozen so the fixtures (May 2026) never drift into the current month.
+    travel_to Time.zone.local(2026, 6, 15, 12) do
+      Workout.create!(date: Time.zone.local(2026, 6, 1, 12), rpe: 7)
 
-    get root_path
+      get root_path
 
-    assert_select ".foot b", "5"
-    assert_select ".foot b", "1"
+      assert_select ".foot b", "5"
+      assert_select ".foot b", "1"
+    end
   end
 end

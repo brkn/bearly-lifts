@@ -1,0 +1,126 @@
+<% presenter = @lift.presenter %>
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="view-transition" content="same-origin">
+  <style>
+    /* page-unique wrapper: Turbo Drive keeps old per-page <style> tags in the head,
+       so generic selectors like .body leak across pages */
+    .combo-body { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+
+    .combo-rail { flex: 0 0 316px; display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid var(--line); }
+    .rail-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--faint); padding: 16px 22px 8px; }
+    .combo-rail .rows-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; }
+    .combo-rail .rows-scroll::-webkit-scrollbar { width: 4px; }
+    .combo-rail .rows-scroll::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
+
+    .feed-row.slim { padding: 10px 16px 10px 22px; }
+    .feed-row.slim:hover { background: rgba(255,255,255,.03); }
+    .feed-row.slim .fr-name { font-size: 13px; color: var(--sub); }
+    .feed-row.slim.sel { background: var(--card); }
+    .feed-row.slim.sel::before { background: var(--ember); }
+    .feed-row.slim.sel .fr-name { color: var(--ink); }
+    .feed-row.slim .fr-spark-wrap { width: 88px; flex-shrink: 0; display: flex; justify-content: flex-end; line-height: 0; }
+
+    .combo-pane { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .cp-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 26px; height: 54px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .cp-back { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--sub); text-decoration: none; padding: 7px 13px; white-space: nowrap; background: var(--card); border: 1px solid var(--line2); border-radius: 8px; }
+    .cp-back:hover { color: var(--ink); border-color: rgba(255,255,255,.24); }
+    .cp-readout { display: flex; gap: 24px; }
+    .cp-readout .r .k { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
+    .cp-readout .r .val { font-family: var(--mono); font-size: 15px; font-weight: 700; margin-top: 2px; }
+    .cp-readout .r .val.em { color: var(--ember); }
+
+    .cp-inner { flex: 1; padding: 18px 26px; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+    .cp-name { font-size: 22px; font-weight: 700; letter-spacing: -.5px; }
+    .cp-sc { font-family: var(--mono); font-size: 10px; color: var(--faint); text-transform: uppercase; letter-spacing: .5px; margin: 4px 0 12px; }
+    .cp-chartwrap { flex-shrink: 0; margin-bottom: 14px; }
+
+    .cp-tbl { border-top: 1px solid var(--line); flex: 1; min-height: 0; overflow-y: auto; }
+    .cp-tbl::-webkit-scrollbar { width: 4px; }
+    .cp-tbl::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
+    .cp-trow { display: grid; grid-template-columns: 72px 1fr 52px 72px; align-items: center; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 11px; }
+    .cp-trow.h { color: var(--faint); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; }
+    .cp-trow .dt { color: var(--sub); }
+    .cp-trow .set { color: var(--ink); }
+    .cp-trow .rir { color: var(--amber); }
+    .cp-trow .n { text-align: right; font-weight: 700; }
+    .cp-trow.cur { background: rgba(255,90,44,.07); border-radius: 6px; }
+
+    @media (max-width: 900px) {
+      .combo-rail { display: none; }
+      .cp-readout { gap: 14px; }
+    }
+  </style>
+<% end %>
+
+<main class="app">
+  <header class="topbar">
+    <%= link_to root_path, class: "brand" do %>
+      <span class="diamond"></span>
+      <span class="wordmark">Bearly Lifts</span>
+    <% end %>
+
+    <nav class="nav">
+      <%= link_to "Plan", edit_plan_path %>
+      <%= link_to "History", workouts_path %>
+      <%= link_to "Progress", progress_path, class: "active" %>
+      <span class="avatar">B</span>
+    </nav>
+  </header>
+
+  <div class="combo-body">
+    <aside class="combo-rail">
+      <div class="rail-lbl">Lifts · <%= @lifts.size %></div>
+      <div class="rows-scroll">
+        <%= render partial: "lift_row",
+                   collection: @lifts, as: :lift,
+                   locals: { variant: :slim, selected_id: @lift.id } %>
+      </div>
+    </aside>
+
+    <section class="combo-pane">
+      <div class="cp-topbar">
+        <%= link_to "← All lifts", progress_path, class: "cp-back" %>
+        <div class="cp-readout">
+          <div class="r">
+            <div class="k">Working</div>
+            <div class="val"><%= presenter.working_set %></div>
+          </div>
+          <div class="r">
+            <div class="k">Top</div>
+            <div class="val em"><%= presenter.top_label %></div>
+          </div>
+          <div class="r">
+            <div class="k">Since <%= @lift.first_date.strftime("%b %-d") %></div>
+            <div class="val"><%= presenter.delta_label %></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-inner">
+        <div class="cp-name"><%= @lift.name %></div>
+        <div class="cp-sc"><%= presenter.subtitle %></div>
+        <div class="cp-chartwrap"><%= progress_chart(@lift, variant: :hero) %></div>
+
+        <div class="cp-tbl">
+          <div class="cp-trow h">
+            <span class="dt">Date</span>
+            <span class="set">Best set</span>
+            <span class="rir">RIR</span>
+            <span class="n">Sets</span>
+          </div>
+          <% @lift.points.each_with_index do |point, index| %>
+            <div class="<%= class_names("cp-trow", cur: index == @lift.points.size - 1) %>">
+              <span class="dt"><%= point.date.strftime("%b %-d") %></span>
+              <span class="set"><%= presenter.point_label(point) %></span>
+              <span class="rir"><%= point.rir || "—" %></span>
+              <span class="n"><%= point.sets_count %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
