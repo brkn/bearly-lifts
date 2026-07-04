@@ -49,7 +49,7 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to edit_plan_path
     assert_equal 1, Plan.count
-    assert_equal 1, Plan.current.plan_exercises.count
+    assert_equal 1, @main_user.plan.plan_exercises.count
   end
 
   test "create overwrites an existing plan" do
@@ -66,7 +66,7 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to edit_plan_path
     assert_equal 1, Plan.count
-    assert_equal 0, Plan.current.plan_exercises.count
+    assert_equal 0, @main_user.plan.plan_exercises.count
   end
 
   test "edit renders adjustable inputs for the saved plan" do

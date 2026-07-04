@@ -55,7 +55,7 @@ class PlansController < ApplicationController
   private
 
   def assign_plan
-    @plan = Current.user.plans.current
+    @plan = Current.user.plan
 
     redirect_to new_plan_path unless @plan
   end

@@ -7,4 +7,12 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(email_address: " DOWNCASED@EXAMPLE.COM ")
     assert_equal("downcased@example.com", user.email_address)
   end
+
+  test "plan returns the user's plan" do
+    assert_equal plans(:current), users(:one).plan
+  end
+
+  test "plan is nil for a user without a plan" do
+    assert_nil users(:two).plan
+  end
 end

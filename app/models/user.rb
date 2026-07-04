@@ -10,6 +10,10 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
+  def plan
+    plans.includes(plan_exercises: :exercise_variation).first
+  end
+
   def lift_progress = LiftProgress.for_all(self)
 
   def gap_ranked_muscles = Muscle.gap_ranked(self)

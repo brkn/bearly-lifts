@@ -5,10 +5,6 @@ class Plan < ApplicationRecord
 
   has_many :plan_exercises, -> { order(:position) }, inverse_of: :plan, dependent: :destroy
 
-  def self.current
-    includes(plan_exercises: :exercise_variation).first
-  end
-
   def create_plan_exercises!(ordered_exercise_variations)
     attributes_list = ordered_exercise_variations.each_with_index.map do |variation, index|
       suggestion = variation.suggestion(user)
