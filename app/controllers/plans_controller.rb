@@ -26,7 +26,7 @@ class PlansController < ApplicationController
 
       # TODO: N+1 — variation.suggestion queries workouts/sets per variation.
       # Preload the workout associations so suggestion reads them in memory.
-      ordered_exercise_variations = ExerciseVariation.in_order_of(:id, params[:exercise_variation_ids])
+      ordered_exercise_variations = ExerciseVariation.in_order_of(:id, exercise_variation_ids)
 
       Current.user
              .plans
@@ -63,5 +63,9 @@ class PlansController < ApplicationController
   def ordered_by_ids(ids, records)
     by_id = records.index_by(&:id)
     ids.filter_map { |id| by_id[id] }
+  end
+
+  def exercise_variation_ids
+    Array(params[:exercise_variation_ids])
   end
 end
