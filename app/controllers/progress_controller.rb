@@ -13,7 +13,7 @@ class ProgressController < ApplicationController
   private
 
   def assign_lifts
-    @lifts = LiftProgress.for_all
+    @lifts = Current.user.lift_progress
   end
 
   def assign_lift
