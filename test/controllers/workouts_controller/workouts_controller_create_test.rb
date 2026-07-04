@@ -4,6 +4,7 @@ require "test_helper"
 
 class WorkoutsControllerCreateTest < ActionDispatch::IntegrationTest
   def setup
+    sign_in_as(users(:one))
     @incline = exercise_variations(:incline_press_default)
     @rows = exercise_variations(:seated_cable_rows_default)
   end

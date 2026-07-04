@@ -3,6 +3,8 @@
 require "application_system_test_case"
 
 class NavigationTest < ApplicationSystemTestCase
+  setup { sign_in_as(users(:one)) }
+
   test "home shows the three nav items with none active" do
     visit root_path
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_24_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_04_105060) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -68,6 +68,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_24_120000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sessions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.uuid "user_id", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "users", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email_address", null: false
+    t.string "password_digest", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+  end
+
   create_table "workout_exercises", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.uuid "exercise_variation_id", null: false
@@ -109,6 +126,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_24_120000) do
   add_foreign_key "exercise_variations", "exercises"
   add_foreign_key "plan_exercises", "exercise_variations"
   add_foreign_key "plan_exercises", "plans"
+  add_foreign_key "sessions", "users"
   add_foreign_key "workout_exercises", "exercise_variations"
   add_foreign_key "workout_exercises", "workouts"
   add_foreign_key "workout_exercise_sets", "workout_exercises"

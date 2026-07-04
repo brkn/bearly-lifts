@@ -3,6 +3,8 @@
 require "test_helper"
 
 class WorkoutsControllerNewTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "new renders the log-workout form scaffold" do
     get new_workout_path
 

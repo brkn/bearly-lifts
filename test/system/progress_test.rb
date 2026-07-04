@@ -3,6 +3,8 @@
 require "application_system_test_case"
 
 class ProgressTest < ApplicationSystemTestCase
+  setup { sign_in_as(users(:one)) }
+
   test "index page loads" do
     visit progress_path
 

@@ -3,6 +3,8 @@
 require "test_helper"
 
 class ProgressControllerTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "index responds successfully with one row per logged lift" do
     get progress_path
 

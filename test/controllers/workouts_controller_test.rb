@@ -3,6 +3,8 @@
 require "test_helper"
 
 class WorkoutsControllerTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "index responds successfully under the RECENT heading" do
     get workouts_path
 

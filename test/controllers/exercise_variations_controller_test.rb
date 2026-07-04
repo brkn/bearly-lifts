@@ -3,6 +3,8 @@
 require "test_helper"
 
 class ExerciseVariationsControllerTest < ActionDispatch::IntegrationTest
+  setup { sign_in_as(users(:one)) }
+
   test "index returns matching variations as JSON with name and primary muscle" do
     get exercise_variations_path(q: "row")
 
