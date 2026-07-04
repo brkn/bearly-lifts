@@ -6,6 +6,9 @@ class User < ApplicationRecord
 
   has_many :workouts, dependent: :restrict_with_error
   has_many :plans, dependent: :restrict_with_error
+  has_many :workout_exercises, through: :workouts
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  def lift_progress = LiftProgress.for_all(self)
 end

@@ -5,19 +5,19 @@ class LiftProgress
 
   TONES = { progress: "up", hold: "stall", rebase: "cold" }.freeze
 
-  def self.for_all
+  def self.for_all(user)
     # TODO: No sorting/ordering applied atm.
     # # We should add worst-first ordering (rebase, then hold, then progress; most days idle first).
-    ExerciseVariation
-      .joins(:workout_exercises)
-      .distinct
-      .includes(:primary_muscle, workout_exercises: [:workout, :workout_exercise_sets])
-      .map { |variation| new(variation) }
-      .reject { |lift| lift.points.empty? }
+    user.workout_exercises
+        .includes(:workout, :workout_exercise_sets, exercise_variation: :primary_muscle)
+        .group_by(&:exercise_variation)
+        .map { |variation, workout_exercises| new(variation, workout_exercises) }
+        .reject { |lift| lift.points.empty? }
   end
 
-  def initialize(variation)
+  def initialize(variation, workout_exercises)
     @variation = variation
+    @workout_exercises = workout_exercises
   end
 
   attr_reader :variation
@@ -65,9 +65,9 @@ class LiftProgress
   private
 
   def logged_exercises
-    @logged_exercises ||= variation.workout_exercises
-                                   .reject { |workout_exercise| workout_exercise.workout_exercise_sets.empty? }
-                                   .sort_by { |workout_exercise| workout_exercise.workout.date }
+    @logged_exercises ||= @workout_exercises
+                          .reject { |workout_exercise| workout_exercise.workout_exercise_sets.empty? }
+                          .sort_by { |workout_exercise| workout_exercise.workout.date }
   end
 
   def best_point(workout_exercise)

@@ -76,10 +76,33 @@ class LiftProgressTest < ActiveSupport::TestCase
     log_workout(logged, on: TODAY - 2, sets: [[30, 10, 2]])
     unlogged = create_variation(name: "Unlogged")
 
-    ids = LiftProgress.for_all.map(&:id)
+    ids = LiftProgress.for_all(users(:one)).map(&:id)
 
     assert_includes ids, logged.id
     assert_not_includes ids, unlogged.id
+  end
+
+  test "for_all excludes variations logged only by another user" do
+    mine = create_variation(name: "Mine")
+    log_workout(mine, on: TODAY - 5, sets: [[40, 8, 2]])
+    theirs = create_variation(name: "Theirs")
+    log_workout(theirs, on: TODAY - 5, sets: [[50, 8, 2]], user: users(:two))
+
+    ids = LiftProgress.for_all(users(:one)).map(&:id)
+
+    assert_includes ids, mine.id
+    assert_not_includes ids, theirs.id
+  end
+
+  test "for_all reflects only the given user's sets for a shared variation" do
+    shared = create_variation(name: "Shared")
+    log_workout(shared, on: TODAY - 5, sets: [[40, 8, 2]])
+    log_workout(shared, on: TODAY - 2, sets: [[100, 8, 2]], user: users(:two))
+
+    lift = LiftProgress.for_all(users(:one)).find { |candidate| candidate.id == shared.id }
+
+    assert_equal [40], lift.points.map(&:weight)
+    assert_equal 1, lift.workouts_count
   end
 
   test "exposes the variation's name and primary muscle" do
@@ -98,8 +121,8 @@ class LiftProgressTest < ActiveSupport::TestCase
     exercise.exercise_variations.create!(name: "#{name} (Dumbbell)")
   end
 
-  def log_workout(variation, on:, sets:)
-    workout = users(:one).workouts.create!(date: on, rpe: 7)
+  def log_workout(variation, on:, sets:, user: users(:one))
+    workout = user.workouts.create!(date: on, rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     sets.each_with_index do |(weight, reps, rir), index|
       workout_exercise.workout_exercise_sets.create!(weight:, reps:, rir:, position: index + 1)
@@ -107,7 +130,7 @@ class LiftProgressTest < ActiveSupport::TestCase
   end
 
   def lift_for(variation)
-    LiftProgress.for_all.find { |lift| lift.id == variation.id } ||
+    LiftProgress.for_all(users(:one)).find { |lift| lift.id == variation.id } ||
       raise("expected #{variation.name} to appear in LiftProgress.for_all")
   end
 end
