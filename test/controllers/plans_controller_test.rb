@@ -62,6 +62,14 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_plan_path
   end
 
+  test "edit ignores another user's plan and redirects to new" do
+    sign_in_as(users(:two))
+
+    get edit_plan_path
+
+    assert_redirected_to new_plan_path
+  end
+
   test "update saves adjusted targets and redirects to edit" do
     lat_id = exercise_variations(:lat_pulldown_default).id
     row_id = exercise_variations(:seated_cable_rows_default).id

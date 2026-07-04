@@ -58,4 +58,21 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".stats", { text: /min/, count: 0 }
   end
+
+  test "index lists only the signed-in user's workouts" do
+    sign_in_as(users(:two))
+
+    get workouts_path
+
+    assert_response :success
+    assert_select "a[href*='/workouts/']", 1
+  end
+
+  test "show 404s for a workout owned by another user" do
+    sign_in_as(users(:two))
+
+    get workout_path(workouts(:may28))
+
+    assert_response :not_found
+  end
 end

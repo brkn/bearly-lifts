@@ -21,7 +21,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
   test "suggestion recommends +2.5kg when the last top sets were cleared with reps in reserve" do
     variation = exercise_variations(:incline_press_default)
-    workout = Workout.create!(date: Date.new(2026, 6, 10), rpe: 7)
+    workout = users(:one).workouts.create!(date: Date.new(2026, 6, 10), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(position: 1, weight: 40, reps: 8, rir: 2)
     workout_exercise.workout_exercise_sets.create!(position: 2, weight: 40, reps: 8, rir: 2)
@@ -37,7 +37,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
   test "suggestion holds the weight when the last top set hit failure" do
     variation = exercise_variations(:goblet_squat_default)
-    workout = Workout.create!(date: Date.new(2026, 6, 10), rpe: 7)
+    workout = users(:one).workouts.create!(date: Date.new(2026, 6, 10), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(position: 1, weight: 60, reps: 5, rir: 0)
 
@@ -49,7 +49,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
   test "suggestion re-bases when the exercise is stale" do
     variation = ExerciseVariation.create!(exercise: exercises(:goblet_squat), name: "Tempo Goblet Squat")
-    workout = Workout.create!(date: Date.new(2026, 5, 1), rpe: 7)
+    workout = users(:one).workouts.create!(date: Date.new(2026, 5, 1), rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     workout_exercise.workout_exercise_sets.create!(position: 1, weight: 15, reps: 12, rir: 3)
 

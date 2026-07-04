@@ -99,7 +99,7 @@ class LiftProgressTest < ActiveSupport::TestCase
   end
 
   def log_workout(variation, on:, sets:)
-    workout = Workout.create!(date: on, rpe: 7)
+    workout = users(:one).workouts.create!(date: on, rpe: 7)
     workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
     sets.each_with_index do |(weight, reps, rir), index|
       workout_exercise.workout_exercise_sets.create!(weight:, reps:, rir:, position: index + 1)

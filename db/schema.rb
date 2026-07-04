@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_04_105060) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_04_110000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -64,8 +64,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_04_105060) do
   end
 
   create_table "plans", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
   create_table "sessions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -98,12 +100,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_04_105060) do
   end
 
   create_table "workouts", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "date", default: -> { "now()" }
     t.integer "duration_minutes"
     t.text "notes"
     t.integer "rpe", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_workouts_on_user_id"
     t.check_constraint "rpe >= 1 AND rpe <= 10", name: "rpe_between_1_and_10"
   end
 
@@ -126,8 +130,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_04_105060) do
   add_foreign_key "exercise_variations", "exercises"
   add_foreign_key "plan_exercises", "exercise_variations"
   add_foreign_key "plan_exercises", "plans"
+  add_foreign_key "plans", "users", on_delete: :restrict
   add_foreign_key "sessions", "users"
   add_foreign_key "workout_exercises", "exercise_variations"
   add_foreign_key "workout_exercises", "workouts"
+  add_foreign_key "workouts", "users", on_delete: :restrict
   add_foreign_key "workout_exercise_sets", "workout_exercises"
 end
