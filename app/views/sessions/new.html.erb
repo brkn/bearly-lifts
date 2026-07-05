@@ -1,11 +1,45 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
-
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
+<% content_for :title, "Sign in" %>
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <% end %>
-<br>
 
-<%= link_to "Forgot password?", new_password_path %>
+<main class="screen">
+  <%= render "application/auth_topbar" %>
+
+  <section class="stage">
+    <p class="eyebrow"><span class="diamond"></span> Welcome back</p>
+    <h1>Sign in</h1>
+    <p class="lede">Pick up where you left off. Your cadence, plans and logged workouts are waiting.</p>
+
+    <% if flash[:notice] %>
+      <div class="alert notice" role="status">
+        <span class="dot"></span>
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    <% if flash[:alert] %>
+      <div class="alert" role="alert">
+        <span class="dot"></span>
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: session_path do |form| %>
+      <div class="field">
+        <%= form.label :email_address, "Email address" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "you@example.com", value: params[:email_address] %>
+      </div>
+      <div class="field">
+        <%= form.label :password, "Password" %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %>
+      </div>
+      <button type="submit" class="submit">Sign in <span class="arrow">→</span></button>
+    <% end %>
+  </section>
+
+  <footer class="foot">
+    <%= link_to new_password_path, class: "link" do %>Forgot password? <span class="back">→</span><% end %>
+  </footer>
+</main>
