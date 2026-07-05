@@ -1,9 +1,39 @@
-<h1>Update your password</h1>
-
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-
-<%= form_with url: password_path(params[:token]), method: :put do |form| %>
-  <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Enter new password", maxlength: 72 %><br>
-  <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repeat new password", maxlength: 72 %><br>
-  <%= form.submit "Save" %>
+<% content_for :title, "Reset password" %>
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <% end %>
+
+<main class="screen">
+  <%= render "application/auth_topbar" %>
+
+  <section class="stage">
+    <p class="eyebrow"><span class="diamond"></span> New password</p>
+    <h1>Set a new<br>password</h1>
+    <p class="lede">Choose a password you'll remember. You'll use it to sign in from here on.</p>
+
+    <% if flash[:alert] %>
+      <div class="alert" role="alert">
+        <span class="dot"></span>
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: password_path(params[:token]), method: :put do |form| %>
+      <div class="field">
+        <%= form.label :password, "New password" %>
+        <%= form.password_field :password, required: true, autofocus: true, autocomplete: "new-password", placeholder: "Enter new password", maxlength: 72 %>
+      </div>
+      <div class="field">
+        <%= form.label :password_confirmation, "Confirm password" %>
+        <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repeat new password", maxlength: 72 %>
+      </div>
+      <button type="submit" class="submit">Save new password <span class="arrow">→</span></button>
+    <% end %>
+  </section>
+
+  <footer class="foot">
+    <span class="hint">This link expires 15 minutes after it was sent.</span>
+  </footer>
+</main>

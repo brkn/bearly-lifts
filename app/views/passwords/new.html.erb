@@ -1,8 +1,35 @@
-<h1>Forgot your password?</h1>
-
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-
-<%= form_with url: passwords_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.submit "Email reset instructions" %>
+<% content_for :title, "Forgot password" %>
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <% end %>
+
+<main class="screen">
+  <%= render "application/auth_topbar" %>
+
+  <section class="stage">
+    <p class="eyebrow"><span class="diamond"></span> Reset password</p>
+    <h1>Forgot your<br>password?</h1>
+    <p class="lede">Enter the email tied to your account and we'll send a link to set a new one.</p>
+
+    <% if flash[:alert] %>
+      <div class="alert" role="alert">
+        <span class="dot"></span>
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: passwords_path do |form| %>
+      <div class="field">
+        <%= form.label :email_address, "Email address" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "you@example.com", value: params[:email_address] %>
+      </div>
+      <button type="submit" class="submit">Email reset instructions <span class="arrow">→</span></button>
+    <% end %>
+  </section>
+
+  <footer class="foot">
+    <%= link_to new_session_path, class: "link" do %><span class="back">←</span> Back to sign in<% end %>
+  </footer>
+</main>
