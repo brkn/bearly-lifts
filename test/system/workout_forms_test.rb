@@ -121,8 +121,9 @@ class WorkoutFormsTest < ApplicationSystemTestCase
   private
 
   def add_exercise(query)
-    find("[data-workout-form-target='query']").set(query)
+    field = find("[data-workout-form-target='query']")
+    field.set(query)
     assert_selector ".picker .results .result"
-    first(".picker .results .result").click
+    field.send_keys(:return)
   end
 end
