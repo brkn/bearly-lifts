@@ -10,6 +10,10 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
+  # TODO: add password validation, min length 6
+  # # TDD: add a test case for the create_password endpoint. It shall fail with an empty password.
+  # # # So http request should fail: `PUT /passwords/<token> with password=""`
+
   def plan
     plans.includes(plan_exercises: :exercise_variation).first
   end

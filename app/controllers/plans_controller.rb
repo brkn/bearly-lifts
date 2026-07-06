@@ -60,6 +60,8 @@ class PlansController < ApplicationController
     redirect_to new_plan_path unless @plan
   end
 
+  # TODO: delete this method infavor of using `#in_order_of` method.
+  # # `Current.user.gap_ranked_muscles.in_order_of(:id, muscle_ids)`
   def ordered_by_ids(ids, records)
     by_id = records.index_by(&:id)
     ids.filter_map { |id| by_id[id] }

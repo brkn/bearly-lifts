@@ -23,6 +23,7 @@ class WorkoutsController < ApplicationController
     Workout.transaction do
       @workout.save!
 
+      # TODO: Add test case for `:workout_exercises` param being nil.
       workout_params[:workout_exercises].each_with_index do |exercise_attrs, index|
         @workout.workout_exercises
                 .create!(exercise_attrs.slice(:exercise_variation_id, :notes).merge(position: index + 1))
