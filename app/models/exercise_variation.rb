@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO: consider if the default variation field in here adds anything
 class ExerciseVariation < ApplicationRecord
   belongs_to :exercise
 

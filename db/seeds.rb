@@ -5,12 +5,13 @@ unless Rails.env.development?
   return
 end
 
-fixtures_path = Rails.root.join("test/fixtures")
-fixture_names = fixtures_path.glob("**/*.yml").map do |file|
-  file.relative_path_from(fixtures_path).to_s.delete_suffix(".yml")
-end
+SeedMuscles.seed!
+SeedExercisesWithVariations.seed!
+SeedExerciseMuscles.seed!
 
-ActiveRecord::FixtureSet.create_fixtures(fixtures_path, fixture_names)
+Rails.root.glob("db/seed_fixtures/workouts/*.rb")
+     .sort_by { |file| Date.parse(file.basename(".rb").to_s.tr("_", " ")) }
+     .each { |file| "Workouts::#{file.basename('.rb').to_s.camelize}".constantize.seed! }
 
 Rails.logger.debug do
   "Seeded #{Workout.count} workouts, #{WorkoutExercise.count} exercises, " \

@@ -48,6 +48,13 @@ Rails/NotNullColumn:
 Metrics/MethodLength:
   Max: 15
   AllowedMethods: setup
+  Exclude:
+    - 'db/seed_fixtures/workouts/**/*'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'db/seed_fixtures/workouts/**/*'
+    - 'db/seed_fixtures/seed_exercises_with_variations.rb'
 
 Metrics/AbcSize:
   Max: 20

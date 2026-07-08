@@ -36,6 +36,9 @@ module BearlyLift
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+    config.autoload_paths << Rails.root.join("db/seed_fixtures")
+
+    # TODO: comment the following, only eagerloading it to check zeitwerk.
+    config.eager_load_paths << Rails.root.join("db/seed_fixtures")
   end
 end
