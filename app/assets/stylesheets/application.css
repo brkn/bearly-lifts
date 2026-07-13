@@ -30,6 +30,7 @@
 
   --fur: #c08a52;
   --shadow-deep: 0 22px 50px rgba(0, 0, 0, .5);
+  --nav-h: 76px;
 
   --disp: 'Space Grotesk', system-ui, sans-serif;
   --body: 'Space Grotesk', system-ui, sans-serif;
@@ -117,7 +118,7 @@ body {
   -webkit-font-smoothing: antialiased;
 
   @media (max-width: 640px) {
-    padding: 0 0 76px;
+    padding: 0 0 var(--nav-h);
   }
 }
 
@@ -146,6 +147,7 @@ h6 {
     border: none;
     border-radius: 0;
     min-height: 100dvh;
+    overflow: visible;
   }
 }
 
@@ -332,6 +334,13 @@ h6 {
     font-weight: 700;
     letter-spacing: -.6px;
   }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px 16px 14px;
+  }
 }
 
 .wiz-eyebrow {
@@ -404,6 +413,45 @@ ol.steps {
       }
     }
   }
+
+  @media (max-width: 640px) {
+    gap: 16px;
+
+    li {
+      gap: 6px;
+      padding: 0 0 5px;
+      border-radius: 0;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+
+      &::before {
+        width: auto;
+        height: auto;
+        border: none;
+      }
+
+      &[data-done]::before {
+        background-color: transparent;
+      }
+
+      &[aria-current="step"] {
+        background-color: transparent;
+        color: var(--acc);
+        border-bottom: 2px solid var(--acc);
+
+        &::before {
+          background-color: transparent;
+          color: var(--acc);
+        }
+      }
+
+      &.sep {
+        display: none;
+      }
+    }
+  }
 }
 
 .wiz-body {
@@ -412,6 +460,10 @@ ol.steps {
   display: flex;
   justify-content: center;
   overflow-y: auto;
+
+  @media (max-width: 640px) {
+    padding: 18px 16px;
+  }
 }
 
 .col {
@@ -480,6 +532,10 @@ ol.steps {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 9px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .opt {
@@ -566,6 +622,17 @@ ol.steps {
   gap: 12px;
   padding: 18px 40px;
   border-top: 1px solid var(--line);
+
+  @media (max-width: 640px) {
+    position: sticky;
+    bottom: var(--nav-h);
+    background-color: var(--bg);
+    padding: 14px 16px;
+
+    button.primary {
+      flex: 1;
+    }
+  }
 }
 
 button.ghost {
