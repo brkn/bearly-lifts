@@ -683,6 +683,7 @@ button.primary {
   }
 
   input[type="number"] {
+    appearance: textfield;
     width: 70px;
     background-color: var(--card);
     border: 1px solid var(--line2);
@@ -692,6 +693,12 @@ button.primary {
     font-size: 13px;
     padding: 7px 10px;
     text-align: center;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
+      margin: 0;
+    }
 
     &:focus {
       outline: none;
