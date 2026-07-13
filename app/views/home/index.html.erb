@@ -43,7 +43,7 @@
     .workouts .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
     .workouts .seeall { font-family: var(--mono); font-size: 11px; color: var(--acc); cursor: pointer; text-decoration: none; }
     .workouts .seeall:hover { text-decoration: underline; }
-    .slist { display: flex; flex-direction: column; }
+    .slist { display: flex; flex-direction: column; list-style: none; padding: 0; }
     .row { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid var(--line); cursor: pointer; color: inherit; text-decoration: none; transition: background .12s, padding-left .12s; }
     .row:hover { background: rgba(255,255,255,.035); padding-left: 12px; }
     .row .date { font-family: var(--mono); font-size: 11px; letter-spacing: .5px; color: var(--sub); width: 50px; flex-shrink: 0; }
@@ -107,10 +107,10 @@
           <span class="eyebrow">Recent workouts</span>
           <%= link_to "See all →", workouts_path, class: "seeall" %>
         </div>
-        <div class="slist">
+        <ul class="slist">
           <%# TODO: empty state when there are no workouts yet %>
           <%= render partial: "workouts/workout_row", collection: @workouts, as: :workout %>
-        </div>
+        </ul>
         <div class="foot">
           <span class="stat"><b><%= @total_count %></b> workouts logged · <b><%= @month_count %></b> this month</span>
         </div>

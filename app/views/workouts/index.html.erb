@@ -9,9 +9,10 @@
     .history-head .tally b { color: var(--ink); }
 
     .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 0 26px; }
+    .row-list { list-style: none; padding: 0; }
 
     .row { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); cursor: pointer; color: inherit; text-decoration: none; transition: padding-left .12s; }
-    .card > .row:first-child { border-top: none; }
+    .row-list li:first-child .row { border-top: none; }
     .row:hover { padding-left: 10px; }
     .row .date { font-family: var(--mono); font-size: 11px; letter-spacing: .5px; color: var(--sub); width: 50px; flex-shrink: 0; }
     .row .mid { flex: 1; min-width: 0; }
@@ -41,7 +42,9 @@
       <% if @workouts.empty? %>
         <div class="empty">NO WORKOUTS YET</div>
       <% else %>
-        <%= render partial: "workout_row", collection: @workouts, as: :workout %>
+        <ul class="row-list">
+          <%= render partial: "workout_row", collection: @workouts, as: :workout %>
+        </ul>
 
         <div class="card-foot">
           <span class="stat"><b><%= @total_count %></b> workouts logged &middot; <b><%= @month_count %></b> this month</span>

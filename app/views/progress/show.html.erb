@@ -8,7 +8,7 @@
 
     .combo-rail { flex: 0 0 316px; display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid var(--line); }
     .rail-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--sub); padding: 16px 22px 8px; }
-    .combo-rail .rows-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; }
+    .combo-rail .rows-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; list-style: none; padding: 0; }
     .combo-rail .rows-scroll::-webkit-scrollbar { width: 4px; }
     .combo-rail .rows-scroll::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
 
@@ -57,11 +57,11 @@
   <div class="combo-body">
     <aside class="combo-rail">
       <div class="rail-lbl">Lifts · <%= @lifts.size %></div>
-      <div class="rows-scroll">
+      <ol class="rows-scroll">
         <%= render partial: "lift_row",
                    collection: @lifts, as: :lift,
                    locals: { variant: :slim, selected_id: @lift.id } %>
-      </div>
+      </ol>
     </aside>
 
     <section class="combo-pane">

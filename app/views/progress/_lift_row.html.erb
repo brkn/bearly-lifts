@@ -1,23 +1,25 @@
 <% presenter = lift.presenter %>
-<%= link_to progress_lift_path(lift.id),
-            class: class_names("feed-row", variant, lift.tone, sel: local_assigns[:selected_id] == lift.id) do %>
-  <div class="fr-main">
-    <div class="fr-nameline">
-      <span class="fr-name"><%= lift.name %></span>
-      <span class="st <%= lift.tone %>"><%= presenter.badge_label %></span>
+<li>
+  <%= link_to progress_lift_path(lift.id),
+              class: class_names("feed-row", variant, lift.tone, sel: local_assigns[:selected_id] == lift.id) do %>
+    <div class="fr-main">
+      <div class="fr-nameline">
+        <span class="fr-name"><%= lift.name %></span>
+        <span class="st <%= lift.tone %>"><%= presenter.badge_label %></span>
+      </div>
+      <% if variant == :card %>
+        <div class="fr-muscle"><%= lift.muscle_name %></div>
+        <div class="fr-verdict-text"><%= lift.verdict %></div>
+      <% end %>
+    </div>
+    <div class="fr-spark-wrap">
+      <%= progress_chart(lift, variant: variant == :card ? :mini : :rail) %>
     </div>
     <% if variant == :card %>
-      <div class="fr-muscle"><%= lift.muscle_name %></div>
-      <div class="fr-verdict-text"><%= lift.verdict %></div>
+      <div class="fr-rec">
+        <div class="fr-rec-k">Reads as</div>
+        <div class="fr-rec-v <%= lift.tone %>"><%= presenter.reads_as %></div>
+      </div>
     <% end %>
-  </div>
-  <div class="fr-spark-wrap">
-    <%= progress_chart(lift, variant: variant == :card ? :mini : :rail) %>
-  </div>
-  <% if variant == :card %>
-    <div class="fr-rec">
-      <div class="fr-rec-k">Reads as</div>
-      <div class="fr-rec-v <%= lift.tone %>"><%= presenter.reads_as %></div>
-    </div>
   <% end %>
-<% end %>
+</li>

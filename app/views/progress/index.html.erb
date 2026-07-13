@@ -13,7 +13,7 @@
     .idx-sum .s { color: var(--warn); }
     .idx-verdict { font-size: 17px; font-weight: 500; letter-spacing: -.3px; line-height: 1.35; margin-top: 10px; max-width: 660px; }
 
-    .idx-body .rows-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 14px 0 24px; }
+    .idx-body .rows-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; list-style: none; padding: 14px 0 24px; }
     .idx-body .rows-scroll::-webkit-scrollbar { width: 4px; }
     .idx-body .rows-scroll::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
 
@@ -64,9 +64,9 @@
         <%= link_to "first workout", new_workout_path %>.
       </p>
     <% else %>
-      <div class="rows-scroll">
+      <ol class="rows-scroll">
         <%= render partial: "lift_row", collection: @lifts, as: :lift, locals: { variant: :card } %>
-      </div>
+      </ol>
     <% end %>
   </div>
 </main>
