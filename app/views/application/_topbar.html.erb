@@ -6,9 +6,17 @@
   <% end %>
 
   <nav class="nav">
-    <%= link_to "Plan", edit_plan_path, class: ("active" if active == :plan) %>
-    <%= link_to "History", workouts_path, class: ("active" if active == :history) %>
-    <%= link_to "Progress", progress_path, class: ("active" if active == :progress) %>
-    <span class="avatar">B</span>
+    <%= link_to root_path, class: ["home", ("active" if active == :home)] do %>
+      <%= render "nav_icon", icon: :home %><span>Home</span>
+    <% end %>
+    <%= link_to edit_plan_path, class: ("active" if active == :plan) do %>
+      <%= render "nav_icon", icon: :plan %><span>Plan</span>
+    <% end %>
+    <%= link_to workouts_path, class: ("active" if active == :history) do %>
+      <%= render "nav_icon", icon: :history %><span>History</span>
+    <% end %>
+    <%= link_to progress_path, class: ("active" if active == :progress) do %>
+      <%= render "nav_icon", icon: :progress %><span>Progress</span>
+    <% end %>
   </nav>
 </header>

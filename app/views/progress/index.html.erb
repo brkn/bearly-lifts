@@ -9,8 +9,8 @@
     .idx-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 3px; }
     .idx-h1 { font-size: 24px; font-weight: 700; letter-spacing: -.6px; }
     .idx-sum { font-family: var(--mono); font-size: 11px; color: var(--sub); }
-    .idx-sum .u { color: var(--fresh); }
-    .idx-sum .s { color: var(--amber); }
+    .idx-sum .u { color: var(--good); }
+    .idx-sum .s { color: var(--warn); }
     .idx-verdict { font-size: 17px; font-weight: 500; letter-spacing: -.3px; line-height: 1.35; margin-top: 10px; max-width: 660px; }
 
     .idx-body .rows-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 14px 0 24px; }
@@ -20,18 +20,18 @@
     .feed-row.card { padding: 15px 24px 15px 26px; margin: 0 24px 10px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
     .feed-row.card:hover { border-color: var(--line2); }
     .feed-row.card .fr-name { font-size: 14.5px; }
-    .fr-muscle { font-family: var(--mono); font-size: 9.5px; letter-spacing: .5px; text-transform: uppercase; color: var(--faint); margin-top: 4px; }
+    .fr-muscle { font-family: var(--mono); font-size: 9.5px; letter-spacing: .5px; text-transform: uppercase; color: var(--sub); margin-top: 4px; }
     .fr-verdict-text { font-size: 13px; color: var(--sub); margin-top: 6px; line-height: 1.4; }
     .fr-spark-wrap { width: 200px; flex-shrink: 0; display: flex; justify-content: flex-end; line-height: 0; }
     .fr-rec { width: 152px; flex-shrink: 0; text-align: right; }
-    .fr-rec-k { font-family: var(--mono); font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
+    .fr-rec-k { font-family: var(--mono); font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--sub); }
     .fr-rec-v { font-size: 14px; font-weight: 600; letter-spacing: -.3px; margin-top: 5px; white-space: nowrap; }
-    .fr-rec-v.up { color: var(--fresh); }
-    .fr-rec-v.stall { color: var(--amber); }
-    .fr-rec-v.cold { color: var(--ember); }
+    .fr-rec-v.up { color: var(--good); }
+    .fr-rec-v.stall { color: var(--warn); }
+    .fr-rec-v.cold { color: var(--acc); }
 
     .empty-state { padding: 60px 38px; color: var(--sub); font-size: 15px; }
-    .empty-state a { color: var(--ember); }
+    .empty-state a { color: var(--acc); }
 
     @media (max-width: 760px) {
       .fr-rec { display: none; }

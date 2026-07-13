@@ -1,0 +1,13 @@
+<%# locals: (icon:) %>
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+  <% case icon %>
+  <% when :home %>
+    <path d="M3.5 11.5 L12 4 L20.5 11.5"/><path d="M6 10 V19.5 H18 V10"/>
+  <% when :plan %>
+    <path d="M12 5.5 V18.5 M5.5 12 H18.5"/>
+  <% when :history %>
+    <circle cx="12" cy="12" r="8"/><path d="M12 7.5 V12 L15.6 13.9"/>
+  <% when :progress %>
+    <path d="M4 15.5 L9.5 10 L13 13.5 L20 6.5"/><path d="M14.6 6.5 H20 V11.9"/>
+  <% end %>
+</svg>

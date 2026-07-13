@@ -5,15 +5,44 @@ require "application_system_test_case"
 class NavigationTest < ApplicationSystemTestCase
   setup { sign_in_as(users(:one)) }
 
-  test "home shows the three nav items with none active" do
+  test "desktop hides home and shows no visible active tab on the root" do
     visit root_path
 
     within ".nav" do
       assert_link "Plan", href: "/plan/edit"
       assert_link "History", href: "/workouts"
       assert_link "Progress", href: "/progress"
+      assert_no_link "Home"
     end
-    assert_no_selector ".nav .active"
+    assert_no_selector ".nav a.active"
+  end
+
+  test "mobile shows all four tabs with home active on the root" do
+    in_mobile_window do
+      visit root_path
+
+      within ".nav" do
+        assert_link "Home", href: "/"
+        assert_link "Plan", href: "/plan/edit"
+        assert_link "History", href: "/workouts"
+        assert_link "Progress", href: "/progress"
+      end
+      assert_selector ".nav .active", count: 1, text: "Home"
+    end
+  end
+
+  test "mobile tabs navigate and move the active marker" do
+    in_mobile_window do
+      visit root_path
+      within(".nav") { click_link "Progress" }
+
+      assert_current_path "/progress"
+      assert_selector ".nav .active", count: 1, text: "Progress"
+
+      within(".nav") { click_link "Home" }
+      assert_current_path "/"
+      assert_selector ".nav .active", count: 1, text: "Home"
+    end
   end
 
   test "history is active on the workouts list, detail, and log screens" do
@@ -49,8 +78,17 @@ class NavigationTest < ApplicationSystemTestCase
 
   test "brand wordmark links back home" do
     visit workouts_path
-    click_link "Bearly Lifts"
+    find(".brand").click
 
     assert_current_path "/"
+  end
+
+  private
+
+  def in_mobile_window
+    page.current_window.resize_to(390, 844)
+    yield
+  ensure
+    page.current_window.resize_to(1400, 1400)
   end
 end

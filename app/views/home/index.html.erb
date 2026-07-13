@@ -16,23 +16,23 @@
     .cadence .head .num { display: flex; align-items: baseline; gap: 8px; }
     .cadence .head .num b { font-size: 22px; font-weight: 700; letter-spacing: -.5px; }
     .cadence .head .num .unit { font-family: var(--mono); font-size: 11px; color: var(--sub); }
-    .cadence .head .num .delta { font-family: var(--mono); font-size: 11px; color: var(--fresh); }
+    .cadence .head .num .delta { font-family: var(--mono); font-size: 11px; color: var(--good); }
     .verdict { font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 1.12; margin-top: 22px; }
-    .lede { font-size: 14px; color: var(--faint); margin-top: 12px; line-height: 1.45; max-width: 380px; }
+    .lede { font-size: 14px; color: var(--sub); margin-top: 12px; line-height: 1.45; max-width: 380px; }
     .spacer { flex: 1; min-height: 18px; }
 
     /* baseline cadence chart (placeholder this iteration) */
     .chart-wrap { max-width: 520px; }
-    .chart-placeholder { height: 150px; border: 1px dashed var(--line2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--faint); }
+    .chart-placeholder { height: 150px; border: 1px dashed var(--line2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--sub); }
     .axis { display: flex; justify-content: space-between; margin-top: 11px; }
     .axis span { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; }
-    .axis .a-old { color: var(--faint); }
-    .axis .a-new { color: var(--ember); }
+    .axis .a-old { color: var(--sub); }
+    .axis .a-new { color: var(--acc); }
 
     /* doors */
     .doors { display: flex; gap: 14px; align-items: center; }
     .btn { border-radius: 13px; font-family: var(--disp); font-weight: 600; letter-spacing: .2px; cursor: pointer; text-align: center; border: none; }
-    .btn.primary { flex: 1; font-size: 16px; padding: 17px 14px; background: var(--ember); color: #fff; box-shadow: 0 6px 16px rgba(255,90,44,.26); white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform .12s, box-shadow .12s; }
+    .btn.primary { flex: 1; font-size: 16px; padding: 17px 14px; background: var(--acc); color: var(--acc-ink); box-shadow: 0 6px 16px rgba(255,90,44,.26); white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform .12s, box-shadow .12s; }
     .btn.primary:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255,90,44,.34); }
     .btn.primary .arrow { font-family: var(--mono); font-weight: 400; }
     .btn.ghost { width: 210px; font-size: 15px; padding: 17px 14px; background: transparent; color: var(--ink); border: 1.5px solid var(--line2); transition: border-color .12s, color .12s; }
@@ -41,25 +41,25 @@
     /* right column — recent workouts */
     .workouts { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px 26px 14px; display: flex; flex-direction: column; min-height: 0; }
     .workouts .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-    .workouts .seeall { font-family: var(--mono); font-size: 11px; color: var(--ember); cursor: pointer; text-decoration: none; }
+    .workouts .seeall { font-family: var(--mono); font-size: 11px; color: var(--acc); cursor: pointer; text-decoration: none; }
     .workouts .seeall:hover { text-decoration: underline; }
     .slist { display: flex; flex-direction: column; }
     .row { display: flex; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid var(--line); cursor: pointer; color: inherit; text-decoration: none; transition: background .12s, padding-left .12s; }
     .row:hover { background: rgba(255,255,255,.035); padding-left: 12px; }
-    .row .date { font-family: var(--mono); font-size: 11px; letter-spacing: .5px; color: var(--faint); width: 50px; flex-shrink: 0; }
+    .row .date { font-family: var(--mono); font-size: 11px; letter-spacing: .5px; color: var(--sub); width: 50px; flex-shrink: 0; }
     .row .mid { flex: 1; min-width: 0; }
     .row .muscles { font-size: 15px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .row .meta { font-family: var(--mono); font-size: 10.5px; color: var(--sub); margin-top: 4px; }
-    .row .chev { font-family: var(--mono); font-size: 15px; color: var(--faint); flex-shrink: 0; transition: color .12s, transform .12s; }
-    .row:hover .chev { color: var(--ember); transform: translateX(2px); }
+    .row .chev { font-family: var(--mono); font-size: 15px; color: var(--sub); flex-shrink: 0; transition: color .12s, transform .12s; }
+    .row:hover .chev { color: var(--acc); transform: translateX(2px); }
     .workouts .foot { display: flex; align-items: center; gap: 8px; padding: 12px 0 6px; border-top: 1px solid var(--line); margin-top: auto; }
-    .workouts .foot .stat { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+    .workouts .foot .stat { font-family: var(--mono); font-size: 10.5px; color: var(--sub); }
     .workouts .foot .stat b { color: var(--ink); font-weight: 700; }
   </style>
 <% end %>
 
 <main class="app">
-  <%= render "topbar" %>
+  <%= render "topbar", active: :home %>
 
   <div class="body">
     <div class="greeting">
@@ -72,7 +72,7 @@
         <div class="cadence">
           <div class="head">
             <div class="label">
-              <span class="diamond fresh"></span>
+              <span class="diamond up"></span>
               <span class="eyebrow">Cadence</span>
             </div>
             <div class="num">
