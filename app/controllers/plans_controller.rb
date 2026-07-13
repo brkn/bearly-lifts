@@ -22,15 +22,16 @@ class PlansController < ApplicationController
     # Move this invariant into the model (e.g. a Plan.replace! that owns the transaction).
     # Defered until we introduce the user model
     Plan.transaction do
-      Current.user.plans.destroy_all
+      # TODO: the has_one includes scope eager-loads plan_exercises/variations here
+      # just to destroy them (~2 wasted queries). Fine on this infrequent action.
+      Current.user.plan&.destroy
 
       # TODO: N+1 — variation.suggestion queries workouts/sets per variation.
       # Preload the workout associations so suggestion reads them in memory.
       ordered_exercise_variations = ExerciseVariation.in_order_of(:id, exercise_variation_ids)
 
       Current.user
-             .plans
-             .create!
+             .create_plan!
              .create_plan_exercises!(ordered_exercise_variations)
     end
 

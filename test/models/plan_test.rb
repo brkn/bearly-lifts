@@ -21,7 +21,8 @@ class PlanTest < ActiveSupport::TestCase
       exercise_variations(:lat_pulldown_default),
     ]
 
-    plan = @main_user.plans.create!
+    @main_user.plan&.destroy
+    plan = @main_user.create_plan!
     plan.create_plan_exercises!(variations)
 
     created_plan_exercise_positions = plan.plan_exercises.map { |pe| [pe.exercise_variation_id, pe.position] }
