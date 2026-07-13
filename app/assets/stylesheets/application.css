@@ -733,33 +733,10 @@ button.primary {
   display: flex;
   align-items: center;
   gap: 18px;
-  position: relative;
   overflow: hidden;
   cursor: pointer;
   text-decoration: none;
   color: inherit;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background-color: var(--sub);
-  }
-
-  &.up::before {
-    background-color: var(--good);
-  }
-
-  &.stall::before {
-    background-color: var(--warn);
-  }
-
-  &.cold::before {
-    background-color: var(--cold);
-  }
 }
 
 .fr-main {

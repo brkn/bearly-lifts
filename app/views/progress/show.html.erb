@@ -12,11 +12,10 @@
     .combo-rail .rows-scroll::-webkit-scrollbar { width: 4px; }
     .combo-rail .rows-scroll::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
 
-    .feed-row.slim { padding: 10px 16px 10px 22px; }
+    .feed-row.slim { padding: 10px 22px; }
     .feed-row.slim:hover { background: rgba(255,255,255,.03); }
     .feed-row.slim .fr-name { font-size: 13px; color: var(--sub); }
-    .feed-row.slim.sel { background: var(--card); }
-    .feed-row.slim.sel::before { background: var(--acc); }
+    .feed-row.slim.sel { background: var(--card); border-left: 2px solid var(--acc); padding-left: 20px; }
     .feed-row.slim.sel .fr-name { color: var(--ink); }
     .feed-row.slim .fr-spark-wrap { width: 88px; flex-shrink: 0; display: flex; justify-content: flex-end; line-height: 0; }
 
