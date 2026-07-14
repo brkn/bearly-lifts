@@ -1,7 +1,7 @@
 <% presenter = @lift.presenter %>
 <% content_for :head do %>
   <meta name="view-transition" content="same-origin">
-  <style>
+  <style data-turbo-track="dynamic">
     /* page-unique wrapper: Turbo Drive keeps old per-page <style> tags in the head,
        so generic selectors like .body leak across pages */
     .combo-body { flex: 1; display: flex; overflow: hidden; min-height: 0; }
