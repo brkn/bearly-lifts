@@ -118,7 +118,7 @@ body {
   -webkit-font-smoothing: antialiased;
 
   @media (max-width: 640px) {
-    padding: 0 0 var(--nav-h);
+    padding: 0;
   }
 }
 
@@ -146,7 +146,9 @@ h6 {
   @media (max-width: 640px) {
     border: none;
     border-radius: 0;
+    min-height: 100vh;
     min-height: 100dvh;
+    padding-bottom: var(--nav-h);
     overflow: visible;
   }
 }
@@ -275,6 +277,8 @@ h6 {
     right: 0;
     z-index: 10;
     gap: 0;
+    /* TODO: standalone iOS safe area — needs viewport-fit=cover in the meta
+       viewport plus env(safe-area-inset-bottom) added to this padding */
     padding: 8px 10px 12px;
     background-color: var(--card);
     border-top: 1px solid var(--line);
