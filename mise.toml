@@ -1,0 +1,4 @@
+# mise version manager configuration (https://mise.jdx.dev)
+# Keep the Ruby version in sync with .ruby-version, which CI's ruby/setup-ruby reads.
+[tools]
+ruby = "3.4.7"
