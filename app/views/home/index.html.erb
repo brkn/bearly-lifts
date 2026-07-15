@@ -17,13 +17,24 @@
     .cadence .head .num b { font-size: 22px; font-weight: 700; letter-spacing: -.5px; }
     .cadence .head .num .unit { font-family: var(--mono); font-size: 11px; color: var(--sub); }
     .cadence .head .num .delta { font-family: var(--mono); font-size: 11px; color: var(--good); }
+    .cadence .head .num .delta.down { color: var(--warn); }
+    .cadence .head .num .delta.flat { color: var(--sub); }
     .verdict { font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 1.12; margin-top: 22px; }
     .lede { font-size: 14px; color: var(--sub); margin-top: 12px; line-height: 1.45; max-width: 380px; }
     .spacer { flex: 1; min-height: 18px; }
 
-    /* baseline cadence chart (placeholder this iteration) */
-    .chart-wrap { max-width: 520px; }
-    .chart-placeholder { height: 150px; border: 1px dashed var(--line2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--sub); }
+    /* baseline cadence chart */
+    .chart-wrap { max-width: 520px; padding-top: 22px; }
+    .chart { position: relative; height: 150px; display: flex; align-items: flex-end; gap: 10px; }
+    .bar { flex: 1; border-radius: 8px 8px 2px 2px; }
+    .bar.old { background: var(--raise); }
+    .bar.new { background: rgba(255, 90, 44, .32); }
+    .avg-line { position: absolute; width: calc(50% - 5px); }
+    .avg-line.old { left: 0; height: 1px; background: var(--line2); }
+    .avg-line.new { right: 0; height: 2px; background: var(--acc); box-shadow: 0 0 12px rgba(255, 90, 44, .55); }
+    .avg-label { position: absolute; bottom: 6px; font-family: var(--mono); font-size: 10px; letter-spacing: .5px; }
+    .avg-line.old .avg-label { left: 0; color: var(--sub); }
+    .avg-line.new .avg-label { right: 0; color: var(--acc); }
     .axis { display: flex; justify-content: space-between; margin-top: 11px; }
     .axis span { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; }
     .axis .a-old { color: var(--sub); }
@@ -72,23 +83,34 @@
         <div class="cadence">
           <div class="head">
             <div class="label">
-              <span class="diamond up"></span>
+              <span class="diamond <%= @cadence.trend %>"></span>
               <span class="eyebrow">Cadence</span>
             </div>
             <div class="num">
-              <b>2.7</b>
+              <b><%= @cadence.recent_average %></b>
               <span class="unit">/wk</span>
-              <span class="delta">↑ from 2.1</span>
+              <span class="delta <%= @cadence.trend %>"><%= @cadence.delta %></span>
             </div>
           </div>
 
-          <div class="verdict">Showing up more<br>over the last month</div>
-          <p class="lede">Your last 4 weeks are running ahead of your 8-week average — no streak to keep, just the trend.</p>
+          <div class="verdict"><%= @cadence.verdict %></div>
+          <p class="lede"><%= @cadence.lede %></p>
 
           <div class="spacer"></div>
 
           <div class="chart-wrap">
-            <div class="chart-placeholder">CADENCE CHART</div>
+            <div class="chart">
+              <% @cadence.weeks.each do |cadence_week| %>
+                <span class="bar <%= cadence_week.recent ? "new" : "old" %>"
+                     style="height: <%= cadence_week.height %>%"></span>
+              <% end %>
+              <div class="avg-line old" style="bottom: <%= @cadence.height_for_average %>%">
+                <span class="avg-label"><%= @cadence.average %></span>
+              </div>
+              <div class="avg-line new" style="bottom: <%= @cadence.height_for_recent_average %>%">
+                <span class="avg-label"><%= @cadence.recent_average %></span>
+              </div>
+            </div>
             <div class="axis">
               <span class="a-old">8-WK AVG</span>
               <span class="a-new">LAST 4 WKS</span>

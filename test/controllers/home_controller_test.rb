@@ -3,6 +3,9 @@
 require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
+  # Frozen so the four May fixtures land in the 8-week cadence window as [0, 0, 2, 1, 1, 0, 0, 0].
+  CADENCE_NOW = Time.zone.local(2026, 6, 17, 12)
+
   setup do
     @main_user = users(:one)
     @other_user = users(:two)
@@ -75,6 +78,53 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "Back"
   end
 
+  test "index cadence reads down when the last four weeks fall behind" do
+    travel_to CADENCE_NOW do
+      get root_path
+
+      assert_select ".cadence .num b", "0.3"
+      assert_select ".cadence .num .delta.down", "↓ from 0.5"
+      assert_select ".cadence .label .diamond.down"
+      assert_select ".verdict", /Showing up less/
+    end
+  end
+
+  test "index cadence reads up when the last four weeks run ahead" do
+    travel_to CADENCE_NOW do
+      log_workouts_on(%w[2026-06-08 2026-06-09 2026-06-15 2026-06-16])
+
+      get root_path
+
+      assert_select ".cadence .num b", "1.3"
+      assert_select ".cadence .num .delta.up", "↑ from 1.0"
+      assert_select ".cadence .label .diamond.up"
+      assert_select ".verdict", /Showing up more/
+      assert_select ".lede", /running ahead of your 8-week average/
+    end
+  end
+
+  test "index cadence reads flat when the last four weeks match the average" do
+    travel_to CADENCE_NOW do
+      log_workouts_on(%w[2026-06-15 2026-06-16])
+
+      get root_path
+
+      assert_select ".cadence .num b", "0.8"
+      assert_select ".cadence .num .delta.flat", "steady"
+      assert_select ".cadence .label .diamond.flat"
+      assert_select ".verdict", /Holding steady/
+    end
+  end
+
+  test "index cadence chart draws a bar per week with the last four weeks highlighted" do
+    travel_to CADENCE_NOW do
+      get root_path
+
+      assert_select ".chart .bar", 8
+      assert_select ".chart .bar.new", 4
+    end
+  end
+
   test "index footer shows total and month workout counts" do
     # Frozen so the fixtures (May 2026) never drift into the current month.
     travel_to Time.zone.local(2026, 6, 15, 12) do
@@ -85,5 +135,13 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
       assert_select ".foot b", "5"
       assert_select ".foot b", "1"
     end
+  end
+
+  private
+
+  def log_workouts_on(days)
+    attributes = days.map { |day| { date: Time.zone.parse("#{day} 12:00"), rpe: 7 } }
+
+    @main_user.workouts.create!(attributes)
   end
 end

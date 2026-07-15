@@ -175,10 +175,23 @@ h6 {
   flex-shrink: 0;
   display: inline-block;
 
-  &.up {
-    background-color: var(--good);
+  &.up,
+  &.down,
+  &.flat {
     width: 7px;
     height: 7px;
+  }
+
+  &.up {
+    background-color: var(--good);
+  }
+
+  &.down {
+    background-color: var(--warn);
+  }
+
+  &.flat {
+    background-color: var(--sub);
   }
 }
 
@@ -277,7 +290,7 @@ h6 {
     right: 0;
     z-index: 10;
     gap: 0;
-    /* TODO: standalone iOS safe area — needs viewport-fit=cover in the meta
+    /* TODO: standalone iOS safe area: needs viewport-fit=cover in the meta
        viewport plus env(safe-area-inset-bottom) added to this padding */
     padding: 8px 10px 12px;
     background-color: var(--card);
