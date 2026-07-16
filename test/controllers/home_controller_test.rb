@@ -88,7 +88,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
   test "index cadence reads up when the last four weeks run ahead" do
     travel_to CADENCE_DATE do
-      log_workouts_on(%w[2026-06-08 2026-06-09 2026-06-15 2026-06-16])
+      log_workouts_on(%w[2026-06-08 2026-06-09 2026-06-15 2026-06-16], user: @main_user)
 
       get root_path
 
@@ -102,7 +102,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
   test "index cadence reads flat when the last four weeks match the average" do
     travel_to CADENCE_DATE do
-      log_workouts_on(%w[2026-06-15 2026-06-16])
+      log_workouts_on(%w[2026-06-15 2026-06-16], user: @main_user)
 
       get root_path
 
@@ -132,13 +132,5 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
       assert_select ".foot b", "5"
       assert_select ".foot b", "1"
     end
-  end
-
-  private
-
-  def log_workouts_on(days)
-    attributes = days.map { |day| { date: Time.zone.parse("#{day} 12:00"), rpe: 7 } }
-
-    @main_user.workouts.create!(attributes)
   end
 end

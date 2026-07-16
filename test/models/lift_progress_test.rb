@@ -18,8 +18,8 @@ class LiftProgressTest < ActiveSupport::TestCase
   end
 
   test "points pick the heaviest set per workout, oldest workout first" do
-    log_workout(@variation, on: @june20, sets: [[15, 10, 1], [17.5, 6, 0], [17.5, 8, 0]])
-    log_workout(@variation, on: @june10, sets: [[15, 8, 2]])
+    log_workout(@variation, date: @june20, sets: [[15, 10, 1], [17.5, 6, 0], [17.5, 8, 0]], user: @main_user)
+    log_workout(@variation, date: @june10, sets: [[15, 8, 2]], user: @main_user)
 
     points = lift_for(@variation).points
 
@@ -30,9 +30,9 @@ class LiftProgressTest < ActiveSupport::TestCase
   end
 
   test "derives current, top, delta and idle stats from the history" do
-    log_workout(@variation, on: Date.new(2026, 5, 1), sets: [[10, 8, 2]])
-    log_workout(@variation, on: Date.new(2026, 6, 1), sets: [[20, 8, 1]])
-    log_workout(@variation, on: Date.new(2026, 6, 21), sets: [[17.5, 9, 1]])
+    log_workout(@variation, date: Date.new(2026, 5, 1), sets: [[10, 8, 2]], user: @main_user)
+    log_workout(@variation, date: Date.new(2026, 6, 1), sets: [[20, 8, 1]], user: @main_user)
+    log_workout(@variation, date: Date.new(2026, 6, 21), sets: [[17.5, 9, 1]], user: @main_user)
 
     lift = lift_for(@variation)
 
@@ -47,7 +47,7 @@ class LiftProgressTest < ActiveSupport::TestCase
   end
 
   test "suggestion comes from the last workout's sets" do
-    log_workout(@variation, on: TODAY - 5, sets: [[40, 8, 2], [40, 7, 2]])
+    log_workout(@variation, date: TODAY - 5, sets: [[40, 8, 2], [40, 7, 2]], user: @main_user)
 
     suggestion = lift_for(@variation).suggestion
 
@@ -60,9 +60,9 @@ class LiftProgressTest < ActiveSupport::TestCase
     climbing = create_variation(name: "Climbing")
     idle = create_variation(name: "Idle")
 
-    log_workout(climbing, on: TODAY - 5, sets: [[40, 8, 2]])
-    log_workout(stalled, on: TODAY - 5, sets: [[40, 8, 0]])
-    log_workout(idle, on: TODAY - 40, sets: [[40, 8, 2]])
+    log_workout(climbing, date: TODAY - 5, sets: [[40, 8, 2]], user: @main_user)
+    log_workout(stalled, date: TODAY - 5, sets: [[40, 8, 0]], user: @main_user)
+    log_workout(idle, date: TODAY - 40, sets: [[40, 8, 2]], user: @main_user)
 
     assert_equal "up", lift_for(climbing).tone
     assert_equal "stall", lift_for(stalled).tone
@@ -70,7 +70,7 @@ class LiftProgressTest < ActiveSupport::TestCase
   end
 
   test "a single-workout lift has a zero delta and one point" do
-    log_workout(@variation, on: TODAY - 3, sets: [[30, 10, 2]])
+    log_workout(@variation, date: TODAY - 3, sets: [[30, 10, 2]], user: @main_user)
 
     lift = lift_for(@variation)
 
@@ -82,7 +82,7 @@ class LiftProgressTest < ActiveSupport::TestCase
     logged = create_variation(name: "Logged")
     unlogged = create_variation(name: "Unlogged")
 
-    log_workout(logged, on: TODAY - 2, sets: [[30, 10, 2]])
+    log_workout(logged, date: TODAY - 2, sets: [[30, 10, 2]], user: @main_user)
 
     ids = LiftProgress.for_all(@main_user).map(&:id)
 
@@ -94,8 +94,8 @@ class LiftProgressTest < ActiveSupport::TestCase
     mine = create_variation(name: "Mine")
     theirs = create_variation(name: "Theirs")
 
-    log_workout(mine, on: TODAY - 5, sets: [[40, 8, 2]])
-    log_workout(theirs, on: TODAY - 5, sets: [[50, 8, 2]], user: @other_user)
+    log_workout(mine, date: TODAY - 5, sets: [[40, 8, 2]], user: @main_user)
+    log_workout(theirs, date: TODAY - 5, sets: [[50, 8, 2]], user: @other_user)
 
     ids = LiftProgress.for_all(@main_user).map(&:id)
 
@@ -105,8 +105,8 @@ class LiftProgressTest < ActiveSupport::TestCase
 
   test "for_all reflects only the given user's sets for a shared variation" do
     shared = create_variation(name: "Shared")
-    log_workout(shared, on: TODAY - 5, sets: [[40, 8, 2]])
-    log_workout(shared, on: TODAY - 2, sets: [[100, 8, 2]], user: @other_user)
+    log_workout(shared, date: TODAY - 5, sets: [[40, 8, 2]], user: @main_user)
+    log_workout(shared, date: TODAY - 2, sets: [[100, 8, 2]], user: @other_user)
 
     lift = LiftProgress.for_all(@main_user).find { |candidate| candidate.id == shared.id }
 
@@ -127,14 +127,6 @@ class LiftProgressTest < ActiveSupport::TestCase
 
   def create_variation(name: "Test Press")
     Exercise.create!(name: name).exercise_variations.create!(name: "#{name} (Dumbbell)")
-  end
-
-  def log_workout(variation, on:, sets:, user: @main_user)
-    workout = user.workouts.create!(date: on, rpe: 7)
-    workout_exercise = workout.workout_exercises.create!(exercise_variation: variation, position: 1)
-
-    sets.each_with_index.map { |(weight, reps, rir), index| { weight:, reps:, rir:, position: index + 1 } }
-                        .then { workout_exercise.workout_exercise_sets.create!(it) }
   end
 
   def lift_for(variation)

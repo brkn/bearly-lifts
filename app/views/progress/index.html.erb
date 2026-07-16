@@ -1,8 +1,6 @@
 <% content_for :head do %>
   <meta name="view-transition" content="same-origin">
   <style data-turbo-track="dynamic">
-    /* page-unique wrapper: Turbo Drive keeps old per-page <style> tags in the head,
-       so generic selectors like .body leak across pages */
     .idx-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
 
     .idx-head { padding: 24px 38px 0; flex-shrink: 0; }

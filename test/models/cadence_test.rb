@@ -73,8 +73,7 @@ class CadenceTest < ActiveSupport::TestCase
   private
 
   def cadence_for(days)
-    attributes = days.map { |day| { date: Time.zone.parse("#{day} 12:00"), rpe: 7 } }
-    @main_user.workouts.create!(attributes)
+    log_workouts_on(days, user: @main_user)
 
     Cadence.new(@main_user.workouts)
   end

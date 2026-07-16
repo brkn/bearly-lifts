@@ -18,8 +18,7 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
 
   test "new does not leak another user's training recency" do
     variation = exercise_variations(:lat_pulldown_default)
-    other_workout = @main_user.workouts.create!(date: Date.new(2026, 6, 17), rpe: 7)
-    other_workout.workout_exercises.create!(exercise_variation: variation, position: 1)
+    log_workout(variation, date: Date.new(2026, 6, 17), user: @main_user)
 
     sign_in_as(@other_user)
     get new_plan_path

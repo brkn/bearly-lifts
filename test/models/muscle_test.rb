@@ -40,8 +40,7 @@ class MuscleTest < ActiveSupport::TestCase
 
   test "gap_ranked only counts the given user's workouts" do
     variation = exercise_variations(:lat_pulldown_default)
-    main_workout = @main_user.workouts.create!(date: Date.new(2026, 6, 17), rpe: 7)
-    main_workout.workout_exercises.create!(exercise_variation: variation, position: 1)
+    main_workout = log_workout(variation, date: Date.new(2026, 6, 17), user: @main_user)
 
     ranked = Muscle.gap_ranked(@other_user, today: @today)
     last_trained_dates = ranked.map(&:last_trained_on)
