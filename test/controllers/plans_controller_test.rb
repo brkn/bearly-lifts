@@ -52,13 +52,26 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, @main_user.plan.plan_exercises.count
   end
 
-  test "create overwrites an existing plan" do
+  test "create makes a first plan for a user with no plan" do
+    Plan.destroy_all
     lat_id = exercise_variations(:lat_pulldown_default).id
 
     post plan_path, params: { exercise_variation_ids: [lat_id] }
+
+    assert_redirected_to edit_plan_path
+    assert_equal 1, @main_user.plan.plan_exercises.count
+  end
+
+  test "create overwrites an existing plan" do
+    lat_id = exercise_variations(:lat_pulldown_default).id
+    row_id = exercise_variations(:seated_cable_rows_default).id
+
     post plan_path, params: { exercise_variation_ids: [lat_id] }
+    post plan_path, params: { exercise_variation_ids: [row_id] }
+    created_plan = @main_user.plan
 
     assert_equal 1, Plan.count
+    assert_equal row_id, created_plan.plan_exercises.first.exercise_variation_id
   end
 
   test "create with no exercises selected saves an empty plan and redirects to edit" do

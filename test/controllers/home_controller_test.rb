@@ -4,11 +4,12 @@ require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
   # Frozen so the four May fixtures land in the 8-week cadence window as [0, 0, 2, 1, 1, 0, 0, 0].
-  CADENCE_NOW = Time.zone.local(2026, 6, 17, 12)
+  CADENCE_DATE = Time.zone.local(2026, 6, 17, 12)
 
   setup do
     @main_user = users(:one)
     @other_user = users(:two)
+    @main_user_workouts = [workouts(:may12), workouts(:may16), workouts(:may21), workouts(:may28)]
 
     sign_in_as(@main_user)
   end
@@ -39,12 +40,8 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
     get root_path
 
-    workout_paths = [workouts(:may12), workouts(:may16), workouts(:may21), workouts(:may28)].map do |workout|
-      workout_path(workout)
-    end
-
     assert_select ".row", 4
-    workout_paths.each { |workout_path| assert_select "a.row[href=?]", workout_path }
+    @main_user_workouts.each { |workout| assert_select "a.row[href=?]", workout_path(workout) }
   end
 
   test "index links the History nav item to the workouts page" do
@@ -79,7 +76,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index cadence reads down when the last four weeks fall behind" do
-    travel_to CADENCE_NOW do
+    travel_to CADENCE_DATE do
       get root_path
 
       assert_select ".cadence .num b", "0.3"
@@ -90,7 +87,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index cadence reads up when the last four weeks run ahead" do
-    travel_to CADENCE_NOW do
+    travel_to CADENCE_DATE do
       log_workouts_on(%w[2026-06-08 2026-06-09 2026-06-15 2026-06-16])
 
       get root_path
@@ -104,7 +101,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index cadence reads flat when the last four weeks match the average" do
-    travel_to CADENCE_NOW do
+    travel_to CADENCE_DATE do
       log_workouts_on(%w[2026-06-15 2026-06-16])
 
       get root_path
@@ -117,7 +114,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index cadence chart draws a bar per week with the last four weeks highlighted" do
-    travel_to CADENCE_NOW do
+    travel_to CADENCE_DATE do
       get root_path
 
       assert_select ".chart .bar", 8
