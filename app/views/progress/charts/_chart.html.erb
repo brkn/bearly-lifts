@@ -1,0 +1,4 @@
+<svg viewBox="0 0 <%= chart.width %> <%= chart.height %>" width="<%= chart.width %>" height="<%= chart.height %>" class="chart-svg <%= chart.css_class %> <%= chart.tone %>">
+  <%= render "progress/charts/series", chart: chart %>
+  <%= render "progress/charts/current_dot", chart: chart %>
+</svg>

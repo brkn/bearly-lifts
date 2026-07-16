@@ -1,0 +1,15 @@
+<svg viewBox="0 0 <%= chart.width %> <%= chart.height %>" class="chart-svg <%= chart.css_class %> <%= chart.tone %>" style="width:100%;height:auto;">
+  <% chart.grid_rows.each do |row| %>
+    <line x1="<%= chart.left %>" y1="<%= row.y %>" x2="<%= chart.right %>" y2="<%= row.y %>" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+    <text x="<%= chart.axis_label_x %>" y="<%= row.label_y %>" text-anchor="end" class="chart-axis"><%= row.label %></text>
+  <% end %>
+  <% chart.date_labels.each do |label| %>
+    <text x="<%= label.x %>" y="<%= chart.date_label_y %>" text-anchor="<%= label.anchor %>" class="chart-axis"><%= label.text %></text>
+  <% end %>
+  <%= render "progress/charts/series", chart: chart %>
+  <% chart.history_points.each do |point| %>
+    <circle cx="<%= point.x %>" cy="<%= point.y %>" r="2.6" class="chart-dot" stroke="currentColor" stroke-width="1.6"/>
+  <% end %>
+  <circle cx="<%= chart.current_point.x %>" cy="<%= chart.current_point.y %>" r="<%= chart.halo_radius %>" class="chart-halo" fill-opacity="0.16"/>
+  <%= render "progress/charts/current_dot", chart: chart %>
+</svg>
