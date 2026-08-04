@@ -11,6 +11,7 @@ class WorkoutFormsTest < ApplicationSystemTestCase
     assert_no_selector ".tree .lift"
 
     find("[data-workout-form-target='query']").set("row")
+
     assert_selector ".picker .results .result", text: "Seated Cable Rows"
     first(".picker .results .result").click
 
@@ -38,6 +39,7 @@ class WorkoutFormsTest < ApplicationSystemTestCase
 
   test "add and remove sets and exercises in the browser" do
     visit new_workout_path
+
     assert_no_selector ".tree .lift"
 
     add_exercise "row"
@@ -46,14 +48,17 @@ class WorkoutFormsTest < ApplicationSystemTestCase
     assert_selector ".tree .sets .grid", count: 1
 
     click_button "+ set"
+
     assert_selector ".tree .sets .grid", count: 2
 
     first(".tree .sets .grid button.x.sm").click
+
     assert_selector ".tree .sets .grid", count: 1
 
     within ".tree .lift-head" do
       click_button
     end
+
     assert_no_selector ".tree .lift"
   end
 
@@ -63,6 +68,7 @@ class WorkoutFormsTest < ApplicationSystemTestCase
 
     click_button "+ set"
     click_button "+ set"
+
     assert_equal %w[1 2 3], all(".tree .sets .grid .idx").map(&:text)
 
     all(".tree .sets .grid button.x.sm")[1].click
@@ -73,45 +79,53 @@ class WorkoutFormsTest < ApplicationSystemTestCase
 
   test "the footer tally tracks sets and exercises live" do
     visit new_workout_path
+
     assert_selector ".tally", text: "writes 0 sets across 0 exercises"
 
     add_exercise "row"
+
     assert_selector ".tally", text: "writes 1 sets across 1 exercises"
 
     click_button "+ set"
+
     assert_selector ".tally", text: "writes 2 sets across 1 exercises"
 
     add_exercise "row"
+
     assert_selector ".tally", text: "writes 3 sets across 2 exercises"
 
     first(".tree .sets .grid button.x.sm").click
+
     assert_selector ".tally", text: "writes 2 sets across 2 exercises"
 
     within first(".tree .lift-head") do
       click_button
     end
+
     assert_selector ".tally", text: "writes 1 sets across 1 exercises"
   end
 
   test "the source bar expands to a notes textarea for pasting raw notes" do
     visit new_workout_path
+
     assert_no_selector "textarea[name='workout[notes]']"
 
     find("summary", text: "Paste raw notes").click
 
     notes = "smith squat bar+17.5/side\nleg press 120  10 10 12"
     fill_in "workout[notes]", with: notes
+
     assert_field "workout[notes]", with: notes
   end
 
   test "the footer rpe gauge defaults to 7 and selection follows taps" do
     visit new_workout_path
 
-    assert find("input[name='workout[rpe]'][value='7']", visible: false).checked?
+    assert_predicate find("input[name='workout[rpe]'][value='7']", visible: false), :checked?
 
     choose "workout_rpe_9", allow_label_click: true
 
-    assert find("input[name='workout[rpe]'][value='9']", visible: false).checked?
+    assert_predicate find("input[name='workout[rpe]'][value='9']", visible: false), :checked?
     assert_not find("input[name='workout[rpe]'][value='7']", visible: false).checked?
   end
 
@@ -123,6 +137,7 @@ class WorkoutFormsTest < ApplicationSystemTestCase
   def add_exercise(query)
     field = find("[data-workout-form-target='query']")
     field.set(query)
+
     assert_selector ".picker .results .result"
     field.send_keys(:return)
   end

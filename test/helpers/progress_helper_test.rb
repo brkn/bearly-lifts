@@ -33,6 +33,7 @@ class ProgressHelperTest < ActionView::TestCase
 
     assert_equal 5, svg.css("line").size
     labels = svg.css("text").map(&:text)
+
     assert_includes labels, "Jun 1"
     assert_includes labels, "Jun 21"
     assert_includes labels, "20"

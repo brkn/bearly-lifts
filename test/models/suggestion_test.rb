@@ -12,7 +12,7 @@ class SuggestionTest < ActiveSupport::TestCase
     s = Suggestion.new(trend: :progress, weight: 42.5, sets: 3, reps: 8)
 
     assert_equal :progress, s.trend
-    assert_equal 42.5, s.weight
+    assert_in_delta(42.5, s.weight)
     assert_equal 3, s.sets
     assert_equal 8, s.reps
   end
@@ -39,7 +39,7 @@ class SuggestionTest < ActiveSupport::TestCase
     s = Suggestion.from(sets, performed_on: @date1, today: @today)
 
     assert_equal :progress, s.trend
-    assert_equal 42.5, s.weight
+    assert_in_delta(42.5, s.weight)
     assert_equal 2, s.sets
     assert_equal 8, s.reps
   end

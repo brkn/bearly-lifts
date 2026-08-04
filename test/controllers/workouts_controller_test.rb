@@ -23,8 +23,8 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "Arms"
     assert_includes response.body, "Back"
 
-    assert response.body.index("MAY 28") < response.body.index("MAY 12"),
-           "expected the newer workout (MAY 28) to appear before the older workout (MAY 12)"
+    assert_operator response.body.index("MAY 28"), :<, response.body.index("MAY 12"),
+                    "expected the newer workout (MAY 28) to appear before the older workout (MAY 12)"
   end
 
   test "show renders the workout header, stats, worked muscles, and exercises in position order" do
@@ -46,8 +46,8 @@ class WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
     assert_select ".muscle-group", false
 
-    assert response.body.index("Tricep Overhead Cable Extension") < response.body.index("Lat Pulldown (Close V-Grip)"),
-           "expected exercises to render in position order"
+    assert_operator response.body.index("Tricep Overhead Cable Extension"), :<,
+                    response.body.index("Lat Pulldown (Close V-Grip)"), "expected exercises to render in position order"
   end
 
   test "show omits the duration from the stats line when duration_minutes is blank" do

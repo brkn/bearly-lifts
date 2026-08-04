@@ -28,13 +28,13 @@ class CadenceTest < ActiveSupport::TestCase
   test "average rounds the eight-week mean to one decimal" do
     cadence = cadence_for(%w[2026-07-27 2026-08-10 2026-08-14 2026-08-24 2026-09-14])
 
-    assert_equal 0.6, cadence.average
+    assert_in_delta(0.6, cadence.average)
   end
 
   test "recent_average rounds the mean of the last four weeks to one decimal" do
     cadence = cadence_for(%w[2026-07-27 2026-08-10 2026-08-14 2026-08-24 2026-09-14])
 
-    assert_equal 0.5, cadence.recent_average
+    assert_in_delta(0.5, cadence.recent_average)
   end
 
   test "trend is up when the last four weeks beat the eight-week average" do
@@ -65,8 +65,8 @@ class CadenceTest < ActiveSupport::TestCase
   test "empty history averages zero and reads flat" do
     cadence = cadence_for([])
 
-    assert_equal 0.0, cadence.average
-    assert_equal 0.0, cadence.recent_average
+    assert_in_delta(0.0, cadence.average)
+    assert_in_delta(0.0, cadence.recent_average)
     assert_equal :flat, cadence.trend
   end
 

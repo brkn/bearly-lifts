@@ -31,8 +31,8 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   test "index orders workouts newest first" do
     get root_path
 
-    assert response.body.index("MAY 28") < response.body.index("MAY 12"),
-           "expected the newer workout (MAY 28) to appear before the older workout (MAY 12)"
+    assert_operator response.body.index("MAY 28"), :<, response.body.index("MAY 12"),
+                    "expected the newer workout (MAY 28) to appear before the older workout (MAY 12)"
   end
 
   test "index links each workout row to its show page" do

@@ -12,7 +12,7 @@ class ProgressChartRailTest < ActiveSupport::TestCase
     assert_equal 88, chart.width
     assert_equal 30, chart.height
     assert_equal "chart-rail", chart.css_class
-    assert_equal 2.6, chart.dot_radius
-    assert_equal 1.8, chart.stroke_width
+    assert_in_delta(2.6, chart.dot_radius)
+    assert_in_delta(1.8, chart.stroke_width)
   end
 end

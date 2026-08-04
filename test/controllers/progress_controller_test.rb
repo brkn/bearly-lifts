@@ -16,6 +16,7 @@ class ProgressControllerTest < ActionDispatch::IntegrationTest
     get progress_path
 
     lat = exercise_variations(:lat_pulldown_default)
+
     assert_select "a.feed-row[href=?]", progress_lift_path(lat.id)
   end
 

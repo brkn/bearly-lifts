@@ -12,7 +12,7 @@ class ProgressChartMiniTest < ActiveSupport::TestCase
     assert_equal 200, chart.width
     assert_equal 62, chart.height
     assert_equal "chart-mini", chart.css_class
-    assert_equal 3.2, chart.dot_radius
-    assert_equal 2.4, chart.stroke_width
+    assert_in_delta(3.2, chart.dot_radius)
+    assert_in_delta(2.4, chart.stroke_width)
   end
 end

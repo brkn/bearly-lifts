@@ -34,7 +34,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
     suggestion = travel_to(@date2) { variation.suggestion(@main_user) }
 
     assert_equal :progress, suggestion.trend
-    assert_equal 42.5, suggestion.weight
+    assert_in_delta(42.5, suggestion.weight)
     assert_equal 3, suggestion.sets
     assert_equal 8, suggestion.reps
   end
@@ -66,7 +66,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
 
     suggestion = travel_to(@date2) { variation.suggestion(@main_user) }
 
-    assert_equal 42.5, suggestion.weight
+    assert_in_delta(42.5, suggestion.weight)
   end
 
   test "is invalid when a second default variation is added for the same exercise" do
@@ -76,7 +76,7 @@ class ExerciseVariationTest < ActiveSupport::TestCase
       is_default_variation: true,
     )
 
-    assert duplicate.invalid?
+    assert_predicate duplicate, :invalid?
   end
 
   test "suggestion re-bases with no target weight when the exercise has no history" do

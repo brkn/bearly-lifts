@@ -36,10 +36,10 @@ class LiftProgressTest < ActiveSupport::TestCase
 
     lift = lift_for(@variation)
 
-    assert_equal 17.5, lift.current_weight
+    assert_in_delta(17.5, lift.current_weight)
     assert_equal 9, lift.current_reps
     assert_equal 20, lift.top_weight
-    assert_equal 7.5, lift.delta_weight
+    assert_in_delta(7.5, lift.delta_weight)
     assert_equal 3, lift.workouts_count
     assert_equal Date.new(2026, 5, 1), lift.first_date
     assert_equal Date.new(2026, 6, 21), lift.last_date
@@ -52,7 +52,7 @@ class LiftProgressTest < ActiveSupport::TestCase
     suggestion = lift_for(@variation).suggestion
 
     assert_equal :progress, suggestion.trend
-    assert_equal 42.5, suggestion.weight
+    assert_in_delta(42.5, suggestion.weight)
   end
 
   test "maps suggestion trends onto tones" do

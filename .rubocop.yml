@@ -2,6 +2,7 @@ plugins:
   - rubocop-rails
   - rubocop-performance
   - rubocop-capybara
+  - rubocop-minitest
 
 Style/Documentation:
   Enabled: false
@@ -59,6 +60,9 @@ Metrics/ClassLength:
 Metrics/AbcSize:
   Max: 20
   AllowedMethods: setup
+
+Minitest/MultipleAssertions:
+  Enabled: false
 
 AllCops:
   NewCops: enable

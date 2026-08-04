@@ -29,7 +29,7 @@ class WorkoutsControllerCreateTest < ActionDispatch::IntegrationTest
     expected_workout_attributes = { rpe: 8, notes: "felt strong" }
 
     assert_equal expected_workout_attributes, workout.attributes.symbolize_keys.slice(:rpe, :notes)
-    assert workout.date.present?, "expected the DB default to fill date"
+    assert_predicate workout.date, :present?, "expected the DB default to fill date"
     assert_equal [[1, @incline.id], [2, @rows.id]], positions
   end
 

@@ -44,9 +44,9 @@ group :development, :test do
   gem "brakeman", require: false
 
   gem "rubocop", "~> 1.88", require: false
+  gem "rubocop-minitest", ">= 0.40.0", require: false
   gem "rubocop-performance", "~> 1.25", require: false
   gem "rubocop-rails", "~> 2.31", require: false
-  gem "rubocop-rspec", "~> 3.10", require: false # TODO: replace with rubocop minitest
 
   gem "rubocop-capybara", require: false
 end

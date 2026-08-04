@@ -47,8 +47,8 @@ class CadencePresenterTest < ActiveSupport::TestCase
   test "average line heights scale against the busiest week" do
     cadence_presenter = presenter(average: 1.0, recent_average: 0.8)
 
-    assert_equal 33.3, cadence_presenter.height_for_average
-    assert_equal 26.7, cadence_presenter.height_for_recent_average
+    assert_in_delta(33.3, cadence_presenter.height_for_average)
+    assert_in_delta(26.7, cadence_presenter.height_for_recent_average)
   end
 
   private

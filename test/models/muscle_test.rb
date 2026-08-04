@@ -30,12 +30,12 @@ class MuscleTest < ActiveSupport::TestCase
   test "a muscle is overdue once its gap exceeds the cadence, or it was never trained" do
     ranked = Muscle.gap_ranked(@main_user, today: @today).index_by(&:name)
 
-    assert ranked["Back"].overdue?
+    assert_predicate ranked["Back"], :overdue?
 
     never_trained = Muscle.new
     never_trained.record_gap(nil, @today)
 
-    assert never_trained.overdue?
+    assert_predicate never_trained, :overdue?
   end
 
   test "gap_ranked only counts the given user's workouts" do

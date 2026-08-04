@@ -11,10 +11,12 @@ class ProgressChartHeroTest < ActiveSupport::TestCase
 
     expected_ys = [22.0, 84.0, 146.0, 208.0, 270.0]
     actual_ys = rows.map(&:y)
+
     assert_equal expected_ys, actual_ys
 
     expected_labels = %w[30 25 20 15 10]
     actual_labels = rows.map(&:label)
+
     assert_equal expected_labels, actual_labels
   end
 

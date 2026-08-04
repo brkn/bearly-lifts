@@ -40,6 +40,7 @@ class NavigationTest < ApplicationSystemTestCase
       assert_selector ".nav .active", count: 1, text: "Progress"
 
       within(".nav") { click_link "Home" }
+
       assert_current_path "/"
       assert_selector ".nav .active", count: 1, text: "Home"
     end
@@ -53,9 +54,11 @@ class NavigationTest < ApplicationSystemTestCase
     assert_selector ".nav .active", count: 1, text: "History"
 
     visit workout_path(workouts(:may12))
+
     assert_selector ".nav .active", count: 1, text: "History"
 
     visit new_workout_path
+
     assert_selector ".nav .active", count: 1, text: "History"
     within(".nav") { assert_no_text "Today" }
   end
