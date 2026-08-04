@@ -6,7 +6,7 @@ class ProgressTest < ApplicationSystemTestCase
   setup { sign_in_as(users(:one)) }
 
   test "index page loads" do
-    visit progress_path
+    visit progress_index_path
 
     assert_selector "h1", text: "Progress"
   end
@@ -14,13 +14,13 @@ class ProgressTest < ApplicationSystemTestCase
   test "show page loads" do
     lat = exercise_variations(:lat_pulldown_default)
 
-    visit progress_lift_path(lat.id)
+    visit progress_path(lat.id)
 
     assert_selector ".cp-name", text: lat.name
   end
 
   test "index lists every logged lift with badge and sparkline" do
-    visit progress_path
+    visit progress_index_path
 
     assert_selector ".idx-h1", text: "Progress"
     assert_selector ".feed-row", count: 15
@@ -36,7 +36,7 @@ class ProgressTest < ApplicationSystemTestCase
   test "detail shows the rail, hero chart, stats and set history" do
     lat = exercise_variations(:lat_pulldown_default)
 
-    visit progress_path
+    visit progress_index_path
     find(".feed-row", text: lat.name).click
 
     assert_selector ".cp-name", text: lat.name

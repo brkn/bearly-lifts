@@ -15,7 +15,7 @@
     <%= link_to workouts_path, class: ("active" if active == :history) do %>
       <%= render "nav_icon", icon: :history %><span>History</span>
     <% end %>
-    <%= link_to progress_path, class: ("active" if active == :progress) do %>
+    <%= link_to progress_index_path, class: ("active" if active == :progress) do %>
       <%= render "nav_icon", icon: :progress %><span>Progress</span>
     <% end %>
   </nav>

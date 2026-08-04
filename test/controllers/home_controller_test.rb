@@ -59,7 +59,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   test "index links the Progress nav item to the progress page" do
     get root_path
 
-    assert_select "nav.nav a[href=?]", progress_path, text: "Progress"
+    assert_select "nav.nav a[href=?]", progress_index_path, text: "Progress"
   end
 
   test "index links the Plan a workout button to the plan page" do

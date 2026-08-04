@@ -1,6 +1,6 @@
 <% presenter = lift.presenter %>
 <li>
-  <%= link_to progress_lift_path(lift.id),
+  <%= link_to progress_path(lift.id),
               class: class_names("feed-row", variant, lift.tone, sel: local_assigns[:selected_id] == lift.id) do %>
     <div class="fr-main">
       <div class="fr-nameline">

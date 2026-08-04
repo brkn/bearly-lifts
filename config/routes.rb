@@ -18,11 +18,7 @@ Rails.application.routes.draw do
 
   resources :exercise_variations, only: [:index]
 
-  get "progress", to: "progress#index", as: :progress
-  get "progress/:id", to: "progress#show", as: :progress_lift
-
-  # TODO: do
-  # resource :progress, only: [:index, :show]
+  resources :progress, only: [:index, :show]
 
   resource :plan, only: [:new, :create, :edit, :update] do
     collection do
