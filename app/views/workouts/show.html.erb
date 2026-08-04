@@ -43,7 +43,7 @@
           ].compact.join(" · ") %>
     </p>
 
-    <p class="worked"><%= @workout.muscles.map(&:name).uniq.sort.join(" · ") %></p>
+    <p class="worked"><%= @workout.muscles.map(&:label).uniq.sort.join(" · ") %></p>
 
     <% if @workout.notes.present? %>
       <p class="lede"><%= @workout.notes %></p>

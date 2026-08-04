@@ -11,7 +11,7 @@ class ExerciseVariationsController < ApplicationController
                                     {
                                       id: variation.id,
                                       name: variation.name,
-                                      muscle: variation.primary_muscle&.name,
+                                      muscle: variation.primary_muscle&.label,
                                       weight_scheme: variation.weight_scheme,
                                     }
                                   end

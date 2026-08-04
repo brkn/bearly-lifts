@@ -1,17 +1,17 @@
 shoulders:
-  name: Shoulders
+  name: shoulders
 
 arms:
-  name: Arms
+  name: arms
 
 back:
-  name: Back
+  name: back
 
 legs:
-  name: Legs
+  name: legs
 
 chest:
-  name: Chest
+  name: chest
 
 posterior_chain:
-  name: Posterior Chain
+  name: posterior chain

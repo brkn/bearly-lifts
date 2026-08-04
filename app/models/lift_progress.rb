@@ -25,7 +25,7 @@ class LiftProgress
   delegate :id, :name, :weight_scheme, to: :variation
 
   def muscle_name
-    variation.primary_muscle.name
+    variation.primary_muscle.label
   end
 
   def points

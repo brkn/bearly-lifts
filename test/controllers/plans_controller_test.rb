@@ -27,18 +27,31 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     assert_select ".meta", text: "never trained", count: 6
   end
 
-  test "exercises renders a section per selected muscle" do
-    get exercises_plan_path, params: { muscle_ids: [muscles(:back).id] }
+  test "exercises renders a section per selected muscle with its exercise variations" do
+    get exercises_plan_path, params: { muscles: "back" }
 
     assert_response :success
     assert_select ".group", 1
-    assert_includes response.body, muscles(:back).name
+    assert_select ".group h2", text: "Back"
+    assert_includes response.body, exercise_variations(:lat_pulldown_default).name
   end
 
-  test "exercises renders exercise variation names" do
-    get exercises_plan_path, params: { muscle_ids: [muscles(:back).id] }
+  test "exercises renders known muscles in the submitted order and drops the rest" do
+    get exercises_plan_path, params: { muscles: "legs,gills,back" }
 
-    assert_includes response.body, exercise_variations(:lat_pulldown_default).name
+    rendered_muscles = css_select(".group h2").map(&:text)
+    expected_muscles = %w[Legs Back]
+
+    assert_equal expected_muscles, rendered_muscles
+  end
+
+  test "exercises matches muscles regardless of case, spacing, or param shape" do
+    get exercises_plan_path, params: { muscles: ["LEGS", "Posterior Chain"] }
+
+    rendered_muscles = css_select(".group h2").map(&:text)
+    expected_muscles = ["Legs", "Posterior Chain"]
+
+    assert_equal expected_muscles, rendered_muscles
   end
 
   test "create saves a plan and redirects to edit" do

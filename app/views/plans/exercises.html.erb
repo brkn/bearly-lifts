@@ -24,7 +24,7 @@
           <section class="group">
             <div class="group-head">
               <span class="dot<%= " hot" if muscle.overdue? %>"></span>
-              <h2><%= muscle.name %></h2>
+              <h2><%= muscle.label %></h2>
             </div>
             <div class="opts">
               <% variations.each_with_index do |variation, idx| %>

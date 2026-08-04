@@ -10,27 +10,41 @@ class MuscleTest < ActiveSupport::TestCase
     @today = Date.new(2026, 6, 18)
   end
 
+  test "name is stored squished and lowercase" do
+    muscle = Muscle.create!(name: "  Posterior  DELTS ")
+
+    assert_equal "posterior delts", muscle.name
+  end
+
+  test "muscles are found whatever case the name is given in" do
+    assert_equal muscles(:back), Muscle.find_by(name: "BACK")
+  end
+
+  test "label restores the display casing of a stored name" do
+    assert_equal "Posterior Chain", muscles(:posterior_chain).label
+  end
+
   test "gap_ranked lists muscles by longest-since-trained first" do
     ranked = Muscle.gap_ranked(@main_user, today: @today)
 
-    assert_equal ["Legs", "Posterior Chain", "Chest", "Arms", "Back", "Shoulders"],
+    assert_equal ["legs", "posterior chain", "chest", "arms", "back", "shoulders"],
                  ranked.map(&:name)
   end
 
   test "gap_ranked annotates each muscle with last_trained_on and days_since" do
     ranked = Muscle.gap_ranked(@main_user, today: @today).index_by(&:name)
 
-    assert_equal Date.new(2026, 5, 28), ranked["Back"].last_trained_on
-    assert_equal 21, ranked["Back"].days_since
+    assert_equal Date.new(2026, 5, 28), ranked["back"].last_trained_on
+    assert_equal 21, ranked["back"].days_since
 
-    assert_equal Date.new(2026, 5, 12), ranked["Legs"].last_trained_on
-    assert_equal 37, ranked["Legs"].days_since
+    assert_equal Date.new(2026, 5, 12), ranked["legs"].last_trained_on
+    assert_equal 37, ranked["legs"].days_since
   end
 
   test "a muscle is overdue once its gap exceeds the cadence, or it was never trained" do
     ranked = Muscle.gap_ranked(@main_user, today: @today).index_by(&:name)
 
-    assert_predicate ranked["Back"], :overdue?
+    assert_predicate ranked["back"], :overdue?
 
     never_trained = Muscle.new
     never_trained.record_gap(nil, @today)

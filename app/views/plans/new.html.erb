@@ -15,16 +15,18 @@
     </ol>
   </div>
 
-  <%= form_with url: exercises_plan_path, method: :get do %>
+  <%= form_with url: exercises_plan_path, method: :get,
+                data: { controller: "muscle-picker", action: "submit->muscle-picker#submit" } do %>
     <div class="wiz-body">
       <div class="col">
         <p class="lead">Select the muscles you want to train. Overdue ones are shown first.</p>
         <div class="opts">
           <% @muscles.each do |muscle| %>
             <label class="opt">
-              <%= check_box_tag "muscle_ids[]", muscle.id, muscle.overdue? %>
+              <%= check_box_tag "muscles[]", muscle.slug, muscle.overdue?,
+                                data: { muscle_picker_target: "muscle" } %>
               <span class="grow">
-                <span class="name"><%= muscle.name %></span>
+                <span class="name"><%= muscle.label %></span>
                 <p class="meta">
                   <% if muscle.last_trained_on %>
                     <%= muscle.days_since %>d ago
@@ -41,7 +43,7 @@
     </div>
 
     <footer class="wiz-footer">
-      <%= button_tag "Next: Exercises →", class: "primary" %>
+      <%= button_tag "Next: Exercises →", class: "primary", name: nil %>
     </footer>
   <% end %>
 </main>

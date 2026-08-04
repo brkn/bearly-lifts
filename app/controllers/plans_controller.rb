@@ -8,11 +8,10 @@ class PlansController < ApplicationController
   end
 
   def exercises
-    # TODO: use muscle names instead. Url bar is gnarly with many long uuidv7 strings.
-    muscle_ids = Array(params[:muscle_ids])
-
-    @muscle_groups = ordered_by_ids(muscle_ids, Current.user.gap_ranked_muscles)
-                     .map { |muscle| [muscle, muscle.exercise_variations.to_a] }
+    @muscle_groups = Current.user
+                            .gap_ranked_muscles
+                            .in_order_of(:slug, muscle_slugs)
+                            .map { |muscle| [muscle, muscle.exercise_variations.to_a] }
   end
 
   def edit; end
@@ -61,11 +60,9 @@ class PlansController < ApplicationController
     redirect_to new_plan_path unless @plan
   end
 
-  # TODO: delete this method infavor of using `#in_order_of` method.
-  # # `Current.user.gap_ranked_muscles.in_order_of(:id, muscle_ids)`
-  def ordered_by_ids(ids, records)
-    by_id = records.index_by(&:id)
-    ids.filter_map { |id| by_id[id] }
+  def muscle_slugs
+    Array(params[:muscles]).flat_map { |value| value.split(",") }
+                           .map(&:parameterize)
   end
 
   def exercise_variation_ids

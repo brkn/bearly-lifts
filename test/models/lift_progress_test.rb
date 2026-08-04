@@ -120,7 +120,7 @@ class LiftProgressTest < ActiveSupport::TestCase
     lift = lift_for(variation)
 
     assert_equal variation.name, lift.name
-    assert_equal variation.primary_muscle.name, lift.muscle_name
+    assert_equal "Back", lift.muscle_name
   end
 
   private

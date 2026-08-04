@@ -2,7 +2,7 @@
   <%= link_to workout_path(workout), class: "row" do %>
     <span class="date"><%= workout.date.strftime("%b %-d").upcase %></span>
     <div class="mid">
-      <div class="muscles"><%= workout.muscles.map(&:name).uniq.sort.join(" · ") %></div>
+      <div class="muscles"><%= workout.muscles.map(&:label).uniq.sort.join(" · ") %></div>
       <div class="meta">
         <%= [
               (workout.duration_minutes && "#{workout.duration_minutes} min"),

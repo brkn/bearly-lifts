@@ -6,7 +6,9 @@ class Muscle < ApplicationRecord
   has_many :exercise_muscles, dependent: :destroy
   has_many :exercise_variations, through: :exercise_muscles
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
+
+  normalizes :name, with: ->(name) { name.squish.downcase }
 
   attr_accessor :last_trained_on, :days_since
 
@@ -20,6 +22,10 @@ class Muscle < ApplicationRecord
     ranked.each { |muscle| muscle.record_gap(last_trained[muscle.id], today) }
     ranked.sort_by { |muscle| [-(muscle.days_since || Float::INFINITY), muscle.name] }
   end
+
+  def slug = name.parameterize
+
+  def label = name.titleize
 
   def record_gap(last_trained_on, today)
     self.last_trained_on = last_trained_on&.to_date
